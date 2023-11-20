@@ -10,9 +10,11 @@ tags: []
 
 Hello, welcome to my blog! This is the first post of a series of posts about VR development with Unity. I am currently a student at Telecom Paris and writing this blog is part of our assignment. I will try to keep things as simple as possible so that everyone can follow along.
 
+For this first part, I will only cover the setup part of our development environment with Unity. If you already have Unity installed and know how to use it, you can skip this part.
+
 ## What is VR?
 
-VR stands for Virtual Reality. It is a technology that allows you to immerse yourself in a virtual world. It is usually achieved by wearing a headset that will immerse you in the virtual world and track your head movements so that you can look around in the virtual world and interact with it.
+VR stands for Virtual Reality. It is a technology that allows you to immerse yourself in a virtual world. It is usually achieved by wearing a headset that will display avirtual world before your eyes and track your head movements so that you can look around in the virtual world and interact with it.
 
 ## What is Unity?
 
