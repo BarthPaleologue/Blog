@@ -1,4 +1,4 @@
-baseurl = "https://barthpaleologue.github.io"
+baseurl = "https://barthpaleologue.github.io/Blog"
 DefaultContentLanguage = "en"
 title = "Barth's den"
 # Using theme as git submodule 
