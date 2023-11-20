@@ -1,6 +1,6 @@
 baseurl = "https://barthpaleologue.github.io/Blog"
 DefaultContentLanguage = "en"
-title = "Barth's den"
+title = "Barth Cave"
 # Using theme as git submodule 
 theme = "beautifulhugo"
 # Or when using theme as hugo module
@@ -14,8 +14,10 @@ pygmentsCodefencesGuessSyntax = true
 #disqusShortname = "XXX"
 #googleAnalytics = "XXX"
 
+staticDir = ["static"]
+
 [Params]
-  homeTitle = "Barth's den" # Set a different text for the header on the home page
+  homeTitle = "Barth Cave" # Set a different text for the header on the home page
   subtitle = "Articles where I explain crazy computer graphics stuff"
   mainSections = ["post","posts"]
   logo = "img/avatar-icon.png" # Expecting square dimensions
@@ -50,36 +52,17 @@ pygmentsCodefencesGuessSyntax = true
   # Set only your "username" for default hosts and full URLs otherwise (e.g., "https://MyGitLab.org/username")
   name = "Barthélemy Paléologue"
   website = "barth.paleologue.fr"
-  email = "youremail@domain.com"
-  facebook = "username"
-  github = "username"
-  gitlab = "username"
-  bitbucket = "username"
-  twitter = "username"
-  reddit = "username"
-  linkedin = "username"
-  xing = "username"
-  stackoverflow = "users/XXXXXXX/username"
-  snapchat = "username"
-  instagram = "username"
-  youtube = "user/username" # or channel/channelname
-  soundcloud = "username"
-  spotify = "username"
-  bandcamp = "username"
-  itchio = "username"
-  vk = "username"
-  paypal = "username"
-  telegram = "username"
-  500px = "username"
-  codepen = "username"
-  mastodon = "url"
-  kaggle = "username"
-  weibo = "username"
-  slack = "username"
-  medium = "username"
-  discord = "invite code (https://discord.gg/XXXXXXX)"
-  strava = "userid"
-
+  email = "barth@paleologue.fr"
+  github = "BarthPaleologue"
+  #gitlab = "username"
+  #linkedin = "username"
+  #stackoverflow = "users/XXXXXXX/username"
+  youtube = "channel/UCJIpGVX-iL59o-Rpxom2_aA"
+  #mastodon = "url"
+  #kaggle = "username"
+  #slack = "username"
+  medium = "barth_29567"
+  
 [[menu.main]]
     name = "Blog"
     url = ""
@@ -88,29 +71,6 @@ pygmentsCodefencesGuessSyntax = true
 [[menu.main]]
     name = "About"
     url = "page/about/"
-    weight = 3
-
-[[menu.main]]
-    identifier = "samples"
-    name = "Samples"
-    weight = 2
-
-[[menu.main]]
-    parent = "samples"
-    name = "Big Image Sample"
-    url = "post/2017-03-07-bigimg-sample"
-    weight = 1
-
-[[menu.main]]
-    parent = "samples"
-    name = "Math Sample"
-    url = "post/2017-03-05-math-sample"
-    weight = 2
-
-[[menu.main]]
-    parent = "samples"
-    name = "Code Sample"
-    url = "post/2016-03-08-code-sample"
     weight = 3
 
 [[menu.main]]
