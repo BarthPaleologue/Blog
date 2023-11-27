@@ -1,6 +1,6 @@
 ---
 title: "VR With Unity #1: Setup"
-author: ""
+author: "Barthélemy Paléologue"
 type: ""
 date: 2023-11-20T13:56:01+01:00
 subtitle: ""
