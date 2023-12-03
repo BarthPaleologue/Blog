@@ -280,6 +280,18 @@ Now let's press the run button (The triangle next to the floppy disk icon) and s
 
 It worked! We indeed got the addition of the 2 arrays from the GPU. You can try changing the values of the arrays and see that the result changes accordingly.
 
+### More on workgroups
+
+Even though we won't be diving in the details of workgroups today, I want to point out a little something.
+
+The `dispatchWhenReady` function takes 3 parameters that you may (or may not) recognize from the shader code:
+
+```wgsl
+@compute @workgroup_size(1, 1, 1)
+```
+
+They are actualy related! When calling `dispatchWhenReady(firstArray.length, 1, 1)`, we are telling the GPU to dispatch `firstArray.length * 1 * 1` threads. And each thread will have a unique `global_id` with an `x` component ranging from `0` to `firstArray.length - 1` and `y` and `z` components equal to `0`. This is what enables us to have one thread per element of the array, and using the `x` component of the `global_id` as the index of the element.
+
 ## Checkpoint 2
 
 You can find the complete code for the tutorial [here](https://playground.babylonjs.com/#JF2J4P#4)
