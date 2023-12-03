@@ -5,7 +5,7 @@ type: ""
 date: 2023-11-26T20:59:27+01:00
 subtitle: "" 
 image: ""
-tags: []
+tags: ["Compute Shaders", "WebGPU", "BabylonJS"]
 ---
 
 ![Cover image](cover.png)
