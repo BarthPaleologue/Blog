@@ -1,9 +1,9 @@
 ---
-title: "VR With Unity #2: Rolling a ball"
+title: "VR With Unity #2"
 author: "Barthélemy Paléologue"
 type: ""
 date: 2023-11-27T10:38:00+01:00
-subtitle: ""
+subtitle: "Rolling a ball"
 image: ""
 tags: ["VR", "Unity"]
 ---

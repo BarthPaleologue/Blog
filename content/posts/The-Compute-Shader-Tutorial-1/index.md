@@ -3,7 +3,7 @@ title: "The Compute Shader Tutorial #1"
 author: "Barthélemy Paléologue"
 type: ""
 date: 2023-11-26T20:59:27+01:00
-subtitle: "" 
+subtitle: "Let's start from the beginning" 
 image: ""
 tags: ["Compute Shaders", "WebGPU", "BabylonJS"]
 ---
@@ -47,6 +47,8 @@ So you have it, a compute shader is a program that runs on the GPU and can do pa
 As I mentionned at the beginning, we will be using WebGPU to write our compute shaders. WebGPU is a new graphics API that is currently being developed by the W3C. Its main strength is that it aims to be cross-platform, targeting native applications and also the web!
 
 We will develop right in the browser, using BabylonJS, a 3D engine that supports WebGPU. By doing that, we don't need to install any code editor or compiler.
+
+Moreover, BabylonJS has a [strong commitment to backward compatibility](https://babylonjs.medium.com/there-and-back-again-a-tale-of-backwards-compatibility-in-babylon-js-47ffc4f7ed6f), so you can be sure that your code (and also this tutorial) will still work in the future as the WebGPU API evolves.
 
 ### Requirements
 
@@ -120,14 +122,16 @@ Now we will specify what goes in and what goes out of our compute shader. We wil
 WebGPU shaders are written in the new WGSL language (WebGPU Shader Language). Its syntax is very strict as we must specify an id for every input and output:
 
 ```wgsl
-@group(0) @binding(0) var<storage,read_write> firstArray: array<f32>;
-@group(0) @binding(1) var<storage,read_write> secondArray: array<f32>;
+@group(0) @binding(0) var<storage,read> firstArray: array<f32>;
+@group(0) @binding(1) var<storage,read> secondArray: array<f32>;
 @group(0) @binding(2) var<storage,read_write> resultArray: array<f32>;
 ```
 
 These ids will be super important when we will be binding our data to the shader.
 
-Groups are used to group variables that are related to each other. In our case, all the arrays are related to each other, so we put them in the same group. Generally, we don't need to use more than one group if we are not doing some crazy optimization.
+Groups are used to group variables (water is wet I know) that are related to each other. In our case, all the arrays are related to each other, so we put them in the same group. Generally, we don't need to use more than one group if we are not doing some crazy optimization.
+
+You may also notice that we declare the access mode of each input/output variable. The firstArray and secondArray are declared as `read` only, because we will only read from them. Storage buffers do not support the `write` access mode, so we have to use `read_write` instead for the resultArray.
 
 ### The main function
 
@@ -148,7 +152,7 @@ The `@workgroup_size(1, 1, 1)` part tells the compiler that we will be using 1 t
 
 Basically if you want to perform 1000 operations in parallel, you could dispatch one group of 1000 threads, or 10 groups of 100 threads, or 100 groups of 10 threads, etc. The number of threads per group is up to you, it really depends on the problem you are trying to solve.
 
-Here we are only using the simplest configuration, one thread per group.
+Here we are only using the simplest configuration, one thread per group. If you don't really understand workgroups just yet, don't worry, we will see more about that later. This is not important for this tutorial.
 
 Then, we declare the main function using `fn main(@builtin(global_invocation_id) global_id: vec3<u32>)`. 
 
@@ -175,8 +179,8 @@ resultArray[index] = firstArray[index] + secondArray[index];
 At the end, our shader looks like this:
 
 ```wgsl
-@group(0) @binding(0) var<storage,read_write> firstArray: array<f32>;
-@group(0) @binding(1) var<storage,read_write> secondArray: array<f32>;
+@group(0) @binding(0) var<storage,read> firstArray: array<f32>;
+@group(0) @binding(1) var<storage,read> secondArray: array<f32>;
 @group(0) @binding(2) var<storage,read_write> resultArray: array<f32>;
 
 @compute @workgroup_size(1, 1, 1)
@@ -185,6 +189,8 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
     resultArray[index] = firstArray[index] + secondArray[index];
 }
 ```
+
+## Checkpoint 1
 
 You can compare your code with [my own playground](https://playground.babylonjs.com/#JF2J4P) to see if you did it right.
 
@@ -274,6 +280,14 @@ Now let's press the run button (The triangle next to the floppy disk icon) and s
 
 It worked! We indeed got the addition of the 2 arrays from the GPU. You can try changing the values of the arrays and see that the result changes accordingly.
 
-You can find the complete code for the tutorial [here](https://playground.babylonjs.com/#JF2J4P#3)
+## Checkpoint 2
 
-In the next tutorial, we will learn how to send more complex data to the GPU and how to use it in our shader. After that, we will see how to use compute shaders to generate terrain and render grass.
+You can find the complete code for the tutorial [here](https://playground.babylonjs.com/#JF2J4P#4)
+
+## Conclusion
+
+You now know how to write a simple compute shader and run it using BabylonJS! I hope you liked the tutorial.
+
+This is only the beginning, as said in the intro the goal is to use compute shaders for procedural generation of terrain and rendering of grass.
+
+In the next tutorial, we will learn about uniform buffers that allow us to tweak the behavior of the shader without touching the WGSL code.
