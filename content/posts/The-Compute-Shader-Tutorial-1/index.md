@@ -274,6 +274,6 @@ Now let's press the run button (The triangle next to the floppy disk icon) and s
 
 It worked! We indeed got the addition of the 2 arrays from the GPU. You can try changing the values of the arrays and see that the result changes accordingly.
 
-You can find the complete code for the tutorial [here](https://playground.babylonjs.com/#JF2J4P#2)
+You can find the complete code for the tutorial [here](https://playground.babylonjs.com/#JF2J4P#3)
 
 In the next tutorial, we will learn how to send more complex data to the GPU and how to use it in our shader. After that, we will see how to use compute shaders to generate terrain and render grass.
