@@ -59,3 +59,11 @@ We will choose the `3D` template for this series, choose a name you like and the
 If everything went well, Unity will open your project and you should see something like this:
 
 ![Success !](unity-editor.png)
+
+## Conclusion
+
+Congratulations, you have successfully installed Unity and created your first project.
+
+Next week, we will create a basic scene and I will guide you through Unity if you are not familiar with it.
+
+Part 2: [VR With Unity #2: Rolling a ball](../VR-with-Unity-2/)
