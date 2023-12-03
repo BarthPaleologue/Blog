@@ -1,10 +1,9 @@
 ---
 title: About me
-subtitle: Why you'd want to go on a date with me
-comments: false
+subtitle: Who is this guy?
+comments: true
 ---
 
-Who am I?
+Hello, my name is Barthélemy Paléologue and I am a student at Telecom Paris. I am currently in my last year of engineering school and I like sharing my passion for Computer Graphics.
 
-### my history
-
+I write blogs about the stuff I make, and I am building [CosmosJourneyer](https://cosmosjourneyer.com) in my free time.
