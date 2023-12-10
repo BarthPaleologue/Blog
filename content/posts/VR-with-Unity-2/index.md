@@ -16,7 +16,7 @@ If you already know how to use Unity, you can go crazy and expend on `Roll a Bal
 
 ## Creating a new project
 
-We saw last week how to create and setup a new unity project. If you don't know how to proceed, please refer to the [first part of the series](https://barthpaleologue.github.io/Blog/posts/VR-with-Unity-1/).
+We saw last week how to create and setup a new unity project. If you don't know how to proceed, please refer to the [first part of the series](https://barthpaleologue.github.io/Blog/posts/vr-with-unity-1/).
 
 ## Create a new scene
 
