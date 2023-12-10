@@ -2,7 +2,7 @@ baseurl = "https://barthpaleologue.github.io/Blog"
 DefaultContentLanguage = "en"
 title = "Barth Cave"
 # Using theme as git submodule 
-theme = "beautifulhugo"
+theme = ["hugo-video", "beautifulhugo"]
 # Or when using theme as hugo module
 # theme = "github.com/halogenica/beautifulhugo"
 #pygmentsStyle = "trac"

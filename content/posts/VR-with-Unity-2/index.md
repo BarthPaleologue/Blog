@@ -5,7 +5,7 @@ type: ""
 date: 2023-11-27T10:38:00+01:00
 subtitle: "Rolling a ball"
 image: ""
-tags: ["VR", "Unity"]
+tags: ["VR", "Unity", "C#"]
 ---
 
 This blog post is the 2nd in the VR with Unity series.
@@ -613,4 +613,8 @@ Once that's done, Unity will build the game and launch it. You can now share the
 
 Voilà! Now we have a working little game.
 
+All projects files are available on Github under a free license at https://github.com/BarthPaleologue/UnityVR
+
 We will start true VR development next week, building on what we did today. Stay tuned!
+
+You can find the next part [here](https://barthpaleologue.github.io/Blog/posts/vr-with-unity-1/)
