@@ -5,7 +5,7 @@ type: ""
 date: 2023-11-27T10:38:00+01:00
 subtitle: "Rolling a ball"
 image: ""
-tags: ["VR", "Unity", "C#"]
+tags: ["VR", "Unity", "C#", "IGD301"]
 ---
 
 This blog post is the 2nd in the VR with Unity series.

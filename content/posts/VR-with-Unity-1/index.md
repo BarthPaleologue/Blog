@@ -5,7 +5,7 @@ type: ""
 date: 2023-11-20T13:56:01+01:00
 subtitle: "Setup"
 image: ""
-tags: ["VR", "Unity"]
+tags: ["VR", "Unity", "IGD301"]
 ---
 
 Hello, welcome to my blog! This is the first post of a series of posts about VR development with Unity. I am currently a student at Telecom Paris and writing this blog is part of our assignment. I will try to keep things as simple as possible so that everyone can follow along.

@@ -5,7 +5,7 @@ type: ""
 date: 2023-12-10T16:22:21+01:00
 subtitle: "Your first VR game on Oculus Quest"
 image: ""
-tags: ["VR", "Unity", "C#"]
+tags: ["VR", "Unity", "C#", "IGD301"]
 ---
 
 Let's do some real VR development! The school lent me an Oculus Quest, so I will be doing the next tutorials with it.
