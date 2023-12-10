@@ -10,9 +10,9 @@ tags: ["VR", "Unity", "C#"]
 
 This blog post is the 2nd in the VR with Unity series.
 
-This week, we are setting a small scene in Unity to get familiar with the editor. This is essentially the [Roll a Ball tutorial](https://learn.unity.com/project/roll-a-ball) from Unity, but with a few changes.
+This week, we are setting a small scene in Unity to get familiar with the editor and have something to work with in VR next week. This is essentially the [Roll a Ball tutorial](https://learn.unity.com/project/roll-a-ball) from Unity, but with a few changes.
 
-If you already know how to use Unity, you can skip this part and go to [part 3 of the VR with Unity series](https://barthpaleologue.github.io/Blog/posts/VR-with-Unity-3/).
+If you already know how to use Unity, you can go crazy and expend on `Roll a Ball` as long as the core mechanic is the same (we will need it next week).
 
 ## Creating a new project
 
@@ -617,4 +617,4 @@ All projects files are available on Github under a free license at https://githu
 
 We will start true VR development next week, building on what we did today. Stay tuned!
 
-You can find the next part [here](https://barthpaleologue.github.io/Blog/posts/vr-with-unity-1/)
+You can find the next part [here](https://barthpaleologue.github.io/Blog/posts/vr-with-unity-3/)
