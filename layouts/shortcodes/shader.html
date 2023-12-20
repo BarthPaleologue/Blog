@@ -1,0 +1,14 @@
+<!-- A Hugo Shortcode that can embed a Shadertoy shader -->
+{{ with .Get "id" }}
+    <iframe
+        src="//www.shadertoy.com/embed/{{ . }}"
+        title="ShaderToy Shader"
+        height="500"
+        frameborder="0"
+        marginwidth="0"
+        marginheight="0"
+        scrolling="no"
+        style="margin-bottom: 10px; margin-top: 10px; width: 100%;"
+        allowfullscreen="true">
+    </iframe>
+{{ end }}
