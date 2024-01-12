@@ -1,5 +1,5 @@
 ---
-title: "Non Euclidean Blackholes"
+title: "Non Euclidean Black holes"
 author: "Barthélémy Paléologue"
 type: ""
 date: 2024-01-12T09:03:04+01:00
@@ -8,17 +8,17 @@ image: ""
 tags: ["CosmosJourneyer", "Shaders"]
 ---
 
-Okay, I know what you are thinking: "Non Euclidean Blackholes? What is this guy talking about?". I know, I told myself so at first, but bear with me, it is actually fun!
+Okay, I know what you are thinking: "Non Euclidean Black holes? What is this guy talking about?". I know, I told myself so at first, but bear with me, it is actually fun!
 
-## What is a blackhole?
+## What is a black hole?
 
-A blackhole is a region of space where the gravitational field get so strong the bending of spacetime becomes very noticable (and deadly, mom's spaghetti). It becomes so strong that scientists predict the bending becomes infinite at its center at what is called a singularity. This is where the laws of physics breaks down and we don't know what happens.
+A black hole is a region of space where the gravitational field get so strong the bending of spacetime becomes very noticable (and deadly, mom's spaghetti). It becomes so strong that scientists predict the bending becomes infinite at its center at what is called a singularity. This is where the laws of physics breaks down and we don't know what happens.
 
-## Simulating a blackhole
+## Simulating a black hole
 
-Thankfully for us, we don't care about the laws of physics at the center to be able to render a blackhole. We only need to simulate the bending of spacetime around it. 
+Thankfully for us, we don't care about the laws of physics at the center to be able to render a black hole. We only need to simulate the bending of spacetime around it. 
 
-Basically, we discretize the path light takes from the observer to the blackhole. At first, it will travel in a straight line, and for each step, we will bend the direction of the lightray a little bit towards the blackhole depending on the distance to it. (The closer the light ray is to the blackhole, the more it will bend towards it). This technique is called raymarching.
+Basically, we discretize the path light takes from the observer to the black hole. At first, it will travel in a straight line, and for each step, we will bend the direction of the lightray a little bit towards the black hole depending on the distance to it. (The closer the light ray is to the black hole, the more it will bend towards it). This technique is called raymarching.
 
 This can done by in realtime by using a raymarching shader! Even though we do a lot of approximations, the result can be quite good. This is CosmosJourneyer's version:
 
@@ -28,7 +28,7 @@ For anyone wondering, I used this shader from shadertoy as a base:
 
 {{< shader id="tsBXW3" >}}
 
-My version basically makes the simulation works inside BabylonJS and is more accurate (I get the ~2x factor for the shadow of the blackhole relative to its radius, which is the predicted value for a non rotating blackhole).
+My version basically makes the simulation works inside BabylonJS and is more accurate (I get the ~2x factor for the shadow of the black hole relative to its radius, which is the predicted value for a non rotating black hole).
 
 I will release the code of CosmosJourneyer around March 2024, so if you are reading this after that date, you can check it out here:
 
@@ -42,9 +42,9 @@ To change the parameters, press `U` on your keyboard and click on `blackhole` in
 
 ## Non Euclidean Blackholes
 
-So now that we know what we are talking about, what is a non euclidean blackhole?
+So now that we know what we are talking about, what is a non euclidean black hole?
 
-Earlier, I said that for each step of our lightray simulation, we bend it towards the blackhole depending on the distance.
+Earlier, I said that for each step of our lightray simulation, we bend it towards the black hole depending on the distance.
 
 Usually when we say "distance", what we really mean is "euclidean distance", the distance we learn in schools. 
 
@@ -64,9 +64,9 @@ $$
 d(x, y) = \sqrt[p]{\sum_{i=1}^n |x_i - y_i|^p}
 $$
 
-Not a lot has changed, we replaced the 2s by ps essentially. But this is enough to change the shape of our blackhole!
+Not a lot has changed, we replaced the 2s by ps essentially. But this is enough to change the shape of our black hole!
 
-Here is a blackhole with a p-distance of 1 (Manhattan distance):
+Here is a black hole with a p-distance of 1 (Manhattan distance):
 
 ![p=1](screenshot_24-1-12_9-02.png)
 
@@ -100,7 +100,7 @@ That's pretty cool, can we find other distances that give us other shapes?
 
 ### Signed distance fields
 
-Yeeees! Signed distance fields are functions that give the distance to a certain shape. For example, using the SDF of a capsule, we can bend the rays in a wonky way to get a blackhole with a capsule event horizon!
+Yeeees! Signed distance fields are functions that give the distance to a certain shape. For example, using the SDF of a capsule, we can bend the rays in a wonky way to get a black hole with a capsule event horizon!
 
 ![Wtf am I doing](screenshot_24-1-12_10-13.png)
 
@@ -118,7 +118,7 @@ Just for fun, here the result with the SDF of a pyramid:
 
 ![Big forehead](screenshot_24-1-12_10-21.png)
 
-You probably never thought about a blackhole with a huge forehead, but here we are.
+You probably never thought about a black hole with a huge forehead, but here we are.
 
 For reference I used the SDFs from this shadertoy:
 
@@ -128,7 +128,7 @@ For reference I used the SDFs from this shadertoy:
 
 As we see, we can always get interesting results when we question the assumptions we make (here the definition of the distance). It is a good way to get something that look realistic, and yet feels new and interesting.
 
-There are probably ways to get more definite shapes for the event horizon, and if I have a good idea I will post a follow up to this article. Maybe we can get a mandelbulb blackhole? That would be awesome!
+There are probably ways to get more definite shapes for the event horizon, and if I have a good idea I will post a follow up to this article. Maybe we can get a mandelbulb black hole? That would be awesome!
 
 That will be all for now, I hope you enjoyed this article! Thanks for reading!
 
