@@ -1,5 +1,5 @@
 ---
-title: "VR With Unity #2"
+title: "VR with Unity #2"
 author: "Barthélemy Paléologue"
 type: ""
 date: 2023-11-27T10:38:00+01:00
