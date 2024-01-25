@@ -15,171 +15,185 @@ The idea is to implement one of the selection techniques of last time and test i
 
 ## The selection technique
 
-As a refresher, I am going to implement the grabbable shelves idea. Here is a small video of a prototype I made reusing the code from `Roll a ball VR`:
+As a refresher, I am going to implement grabbable shelves. The user should be able to select a shelf using raycast and have it fly in its hand where manipulation and picking with the other hand will be much easier. Here is a small video of a prototype I made reusing the code from `Roll a ball VR`:
 
 {{< video src="intuition" >}}
 
-The user can use its hands to rotate the shelves in whatever fashion they want. This solves the issue of objects being occluded by other objects. The user can simply change the perspective to have a clear line of sight to the object they want to select.
+As the user can use its hand to rotate the shelves in whatever fashion they want, it solves the issue of objects being occluded by other objects. The user can simply change the perspective to have a clear line of sight to the object they want to select.
 
-## The implementation
+In this blog post I will cover the implementation of the technique inside Unity. It will be divided into sections:
+
+- Shelf highlighting
+- Attaching items to shelves
+- Item highlighting
+- Shelf manipulation
+- Item picking
+- Teleportation
+
+The evaluation of the technique will be done in the next blog post (spoilers, it is really good).
 
 All of my implementation is available in [this repo](https://github.com/BarthPaleologue/SupermarketProject2) which is fork from our teacher's own repo.
 
 For the project, we have access to the paid [Hyper Casual Supermaket](https://assetstore.unity.com/packages/3d/props/hyper-casual-supermarket-177794) assets from the Unity Asset Store. The repo is public so I don't know about the legality of all of this (don't sue me please), but we are using it anyway.
 
-### Attaching items to the shelves
+## Shelf highlighting
 
-The first step to implement the selection technique is to attach the items to the shelves so that we can grab the shelf with the items on it.
+First, we have to take care of our shelves to make them compatible with the technique. We want a simpler collider so that items can be automatically attached to their shelf using a downward raycast that filters only shelves. For that we will create a layer called `Shelves` (for me it is layer 8).
 
-To achieve this, we will create a grocery item script that will shoot a raycast downwards to find the shelf below it. If it finds one, it will attach itself to it.
+There are a lot of shelves though, we aren't doing this by hand right?
 
-Wait the shelves don't have colliders?
+Normally, we would be able to do it using scripts but the shelves do not have a script attached to them at the moment... Bummer!
 
-![Alt text](blinking-eyes-white-guy.gif)
-
-Oh boy, well let's add some then.
+Oh boy, well let's select them all by hand then.
 
 ![One hour later](image.png)
 
-Thankfully, we can add colliders to multiple shelves at once! The only difficulty was to select all shelves without selecting any walls but it was decently fast.
+Okay so now that we have everything selected, we can add a box collider to all of them at once, assign them to the `Shelves` layer and finally attach a `Shelf` script to them.
 
-I noticed that the `SelectableObject` script was automatically added to grocery items when starting the game. Therefore we can inject our attachment logic in there. Here is what I added to the `Start` method:
+Now we are pretty much free to do whatever we please! We will start by adding a transparent box around the shelves that will help the user to select them later on.
+
+To make the highlighting work, we will create a new box that we will scale so that in covers the shelf horizontally and englobes the items vertically. We will make it transparent and allow to change the color when the shelf is set to highlighted.
+
+We also need to create another layer just for theses highlights as they will play the role of a large bounding box for the shelf. I called it `ShelvesHighlights` and is my 3rd layer.
 
 ```csharp
-// raycast downward to set parent to the shelf below
+GameObject highlightBox;
+private Color originalHighlightColor = new Color(1, 1, 1, 0.1f);
+private Color selectedHighlightColor = new Color(0, 1, 0, 0.5f);    
+[SerializeField] private bool isHighlighted = false;
+
+void Start() {
+    // get the size of the shelf
+    Vector3 shelfSize = this.GetComponent<Renderer>().bounds.size;
+
+    // create a new box
+    GameObject box = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+    // set layer of box to "ShelvesHighlights" (layer 3)
+    box.layer = 3;
+
+    // position the box at the same position as the shelf
+    box.transform.position = this.transform.position;
+
+    // set the height of the box
+    float boxHeight = 2.25f;
+    Vector3 boxSize = new Vector3(shelfSize.x, boxHeight, shelfSize.z) + new Vector3(0.01f, 0.01f, 0.01f);
+    box.transform.localScale = boxSize;
+
+    // move the box up by half its height
+    box.transform.position = new Vector3(box.transform.position.x, box.transform.position.y + boxHeight / 2 - shelfSize.y / 2, box.transform.position.z);
+
+    // set the material of the box to be transparent
+    material = new Material(Shader.Find("Transparent/Diffuse"));
+
+    // change the color of the box
+    material.color = originalHighlightColor;
+
+    // set the material of the box
+    box.GetComponent<Renderer>().material = material;
+
+    // make the box a child of the shelf
+    box.transform.parent = this.transform;
+
+    this.highlightBox = box;
+}
+
+public void SetHighlighted(bool highlighted) {
+    isHighlighted = highlighted;
+}
+
+void Update() {
+    // change the color of the box based on the highlighted state
+    if(isHighlighted) {
+        material.color = selectedHighlightColor;
+    } else {
+        material.color = originalHighlightColor;
+    }
+}
+```
+
+Now we get the following result:
+
+![Shelf highlighting](image-4.png)
+
+You can increase the opacity of the highlights as you wish, but in VR I found this to be enough to tell the boundaries of the shelf.
+
+## Attaching items to the shelves
+
+Next we want to items to stick to their shelf to allow fine manipulation. We will achieve that by using parenting at startup.
+
+All items have attached the `SelectableObject` script that we are going to modify to add the parenting logic.
+
+The idea is that for each object, we shoot a ray downward and filter only the shelves. This should give us the nearest shelf below each object. Then we can simply set the parent of the item to the shelf and we should be good.
+
+```csharp
+// raycast downward to set parent to the shelf below (layer 8)
 RaycastHit hit;
 float distance = 2.0f;
 Vector3 dir = Vector3.down;
-if (Physics.Raycast(transform.position, dir, out hit, distance))
+if (Physics.Raycast(transform.position, dir, out hit, distance, 1 << 8))
 {
     transform.parent = hit.transform;
 }
 ```
 
-Simple enough! Now when we start the game in Unity and we edit the scene, we get the desired result:
+It is important that you choose the right layer! Mine is 8 but yours could be different.
+
+Now when we start the game in Unity and we edit the position of one shelf, we get the desired result:
 
 {{< video src="parenting" >}}
 
-### Adding highlight to shelves
+## Item highlighting
 
-Okay now I want to add a transparent box around the shelves that can be used to select the shelf and that can light up when the user is hovering over it.
+In the very same fashion as we did for the shelves, we will create a highlight box for the items. This is necessary because the selection technique will not use the exact geometry of the items, so it could be disturbing for the user.
 
-For this we will need to add a `Shelf` script to every shelf. Do we have to select again every shelf one by one? 
+More importantly, there is the sandwich problem.
 
-Well yes, but I don't want to talk about it.
+![SCARY SANDWICHES](image-5.png)
 
-Once that's done we can write the code to create a box highlight in the `Shelf` script:
+You are scared right? No? You should be!
+
+This is a tricky edge case of box colliders, here both sandwich have a box collider that englobes the whole sandwich. Yet, as they are placed in this fashion, their bounding boxes are almost entirely overlapping. This means that one of the 2 sandwiches will be extremy hard to select as the raycast will hit the other one first.
+
+Of solution could be to use a finer collider, but that would increase the complexity of calculations on the CPU and the original Quest doesn't have a lot of lee-way for this supermarket scene.
+
+Instead we will use a highlight so that the user knows which objects he is about to select. This feedback mechanism will help reducing the error rate dramatically.
+
+We will write the highlight logic inside the `SelectableObject` script. As the item already has a box collider, we will need to disable the additional box collider provided by the highlight box.
 
 ```csharp
-Vector3 shelfSize = this.GetComponent<Renderer>().bounds.size;
-
-// create a new box
+// create a new box to representing the box collider (same scale and orientation as the object, with bounds of the box collider)
 GameObject box = GameObject.CreatePrimitive(PrimitiveType.Cube);
+box.transform.localScale = this.GetComponent<BoxCollider>().size + new Vector3(0.01f, 0.01f, 0.01f);
+box.transform.rotation = this.transform.rotation;
+box.transform.position = this.transform.position + this.GetComponent<BoxCollider>().center;
 
-// add tag to box
-box.tag = "shelfHighlight";
-
-// position the box at the same position as the shelf
-box.transform.position = this.transform.position;
-
-// set the height of the box
-float boxHeight = 2.2f;
-Vector3 boxSize = new Vector3(shelfSize.x, boxHeight, shelfSize.z);
-box.transform.localScale = boxSize;
-
-// move the box up by half its height
-box.transform.position = new Vector3(box.transform.position.x, box.transform.position.y + boxHeight / 2, box.transform.position.z);
-
-// change the color of the box
-box.GetComponent<Renderer>().material.color = new Color(1, 0, 0, 0.2f);
-
-// make the box a child of the shelf
+// set the box to be a child of the object
 box.transform.parent = this.transform;
-```
 
-(Don't forget to create the tag `shelfHighlight` in the Unity editor, it's not done automatically)
+// remove the box collider from the box
+Destroy(box.GetComponent<BoxCollider>());
 
-Which gives us this awesome result:
-
-![Shelf boxes](image-1.png)
-
-Yeah I forgot about the transparency part I know. Let's fix it!
-
-We simply have to add this line before setting the color of the box:
-
-```csharp
 // set the material of the box to be transparent
-box.GetComponent<Renderer>().material = new Material(Shader.Find("Transparent/Diffuse"));
-```
+Material material = new Material(Shader.Find("Transparent/Diffuse"));
+material.color = new Color(1, 1, 1, 0.3f);
+box.GetComponent<Renderer>().material = material;
+box.SetActive(false);
 
-![Shelf transparent boxes](image-2.png)
+this.boundingBoxHelper = box;
 
-That's better.
-
-Now we will simply add a boolean member to the `Shelf` script to indicate if the user is hovering over the shelf or not. We will then use this boolean to change the color of the box in the `Update` method:
-
-```csharp
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class shelf : MonoBehaviour
-{
-    public bool isSelected = false;
-
-    public Material material;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Vector3 shelfSize = this.GetComponent<Renderer>().bounds.size;
-
-        // create a new box
-        GameObject box = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
-        // add tag to box
-        box.tag = "shelfHighlight";
-        
-        // position the box at the same position as the shelf
-        box.transform.position = this.transform.position;
-
-        // set the height of the box
-        float boxHeight = 2.2f;
-        Vector3 boxSize = new Vector3(shelfSize.x, boxHeight, shelfSize.z);
-        box.transform.localScale = boxSize;
-
-        // move the box up by half its height
-        box.transform.position = new Vector3(box.transform.position.x, box.transform.position.y + boxHeight / 2, box.transform.position.z);
-
-        // set the material of the box to be transparent
-        material = new Material(Shader.Find("Transparent/Diffuse"));
-
-        // change the color of the box
-        material.color = new Color(1, 0, 0, 0.5f);
-
-        // set the material of the box
-        box.GetComponent<Renderer>().material = material;
-
-        // make the box a child of the shelf
-        box.transform.parent = this.transform;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isSelected)
-        {
-            material.color = new Color(0, 1, 0, 0.5f);
-        }
-        else
-        {
-            material.color = new Color(1, 1, 1, 0.2f);
-        }
-    }
+public void DisplayBoundingBox(bool display) {
+    this.boundingBoxHelper.SetActive(display);
 }
 ```
 
-![Result](image-3.png)
+We get the desired result:
+
+![Item bounding box](image-6.png)
+
+And now we can tell apart the sandwiches!
+
+![The sandwich problem, solved!](image-7.png)
 
 ## Selecting the shelves with raycasts
 
@@ -254,6 +268,8 @@ That's much better:
 
 {{< video src="shelfSelection2" >}}
 
+We can do the same with the left controller by duplicating the raycast code and adding the controller prefab to the left anchor of the `OVRCameraRig` game object.
+
 ## Shelf manipulation
 
 Now that we have everything in place, we can start manipulating the shelves. When the shelf is hovered and the user presses the trigger, we want the shelf to follow the user's hand.
@@ -261,3 +277,13 @@ Now that we have everything in place, we can start manipulating the shelves. Whe
 This means we will also need to save the shelf original position and rotation to put it back when the user releases the trigger.
 
 {{< video src="shelfManipulation1" >}}
+
+{{< video src="shelfManipulation2" >}}
+
+## Item picking
+
+Now that we can handle shelves with one hand, we will use the other hand to pick the wanted item from the shelf. We will use raycasting again to select the item.
+
+One issue is that we want the other hand to be able to select both items on the current shelf or other shelves to change the current shelf.
+
+What we will do is first make a raycast for all shelves highlights. If we hit the one that is currently manipulated, we will then make a raycast for all items on the shelf. If we hit one, we will select it.
