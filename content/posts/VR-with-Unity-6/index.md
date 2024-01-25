@@ -137,6 +137,13 @@ if (Physics.Raycast(transform.position, dir, out hit, distance, 1 << 8))
 }
 ```
 
+We will also assign a new `GroceryItems` layer to all items for later raycasting purposes:
+
+```csharp
+// set layer to "GroceryItems" (layer 6)
+this.gameObject.layer = 6;
+```
+
 It is important that you choose the right layer! Mine is 8 but yours could be different.
 
 Now when we start the game in Unity and we edit the position of one shelf, we get the desired result:
@@ -195,95 +202,317 @@ And now we can tell apart the sandwiches!
 
 ![The sandwich problem, solved!](image-7.png)
 
-## Selecting the shelves with raycasts
+## Shelf manipulation
 
-We are now entering the core of the project. We want the user to select the shelf using a raycast.
+That we will want to select shelves using our VR controllers and have them fly to our hands. The first step is to add the controller prefab to the left hand in the `OVRCameraRig` game object. I simply took the one from the right hand and duplicated it and set it as a child of the left anchor.
 
-Thankfully, the raycast selection is already implemented in the `RaycastTechnique.cs` file. We will simply copy its content inside `MyTechnique.cs` and modify it to our needs. 
+This way we can see both of our controllers in VR!
 
-To make the project use our technique instead of the raycast technique, we will simply change the `Interaction Type` of the `TaskManager` game object to `MyTechnique` in the Unity editor.
+We will inspire from the existing Raycast technique to perform one raycast for each controller.
 
-We will start easy by highlighting the shelf when clicking on it to check everything is working fine.
+### Highlighting
 
-Basically, we will check the tag of the raycasted object. If we hit a `shelfHighlight`, then we know its parent gameobject is a shelf. We will then set the `isSelected` boolean of the shelf to `true` to highlight it.
+If a ray intersects a shelf, we will highlight it. We will handle the trigger press later.
+
+Here is the code for the right hand, the left hand is just a matter of duplicating the logic. (I know this is not the cleanest way to do it, but I don't have infinite time for this project).
 
 ```csharp
-// Creating a raycast and storing the first hit if existing
-RaycastHit hit;
-bool hasHit = Physics.Raycast(rightControllerTransform.position, rightControllerTransform.forward, out hit, Mathf.Infinity);
+[SerializeField] private GameObject rightController;
+private Shelf rightHoveredShelf = null;
 
-// Checking that the user pushed the trigger
-if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.1f && hasHit)
-{
-    GameObject hitObject = hit.collider.gameObject;
+private void HandleRightShelfSelection() {
+    // Creating a raycast and storing the first hit if existing
+    RaycastHit rightHit;
+    bool hasRightHit = Physics.Raycast(rightController.transform.position, rightController.transform.forward, out rightHit, Mathf.Infinity);
 
-    // if hit object has tag "shelfHighlight" then its parent has a Shelf component and must be selected
-    if (hitObject.tag == "shelfHighlight")
+    if (!hasRightHit)
     {
-        GameObject shelf = hitObject.transform.parent.gameObject;
-        shelf.GetComponent<Shelf>().isSelected = true;
+        // if we are not hitting anything, we should unhighlight the shelf we were hovering over
+        if (rightHoveredShelf != null)
+        {
+            rightHoveredShelf.SetHighlighted(false);
+            rightHoveredShelf = null;
+        }
+
+        return;
     }
 
-    // Sending the selected object hit by the raycast
-    // currentSelectedObject = hitObject;
+    // if we are hitting something, we should highlight the shelf we are hovering over
+    GameObject hitObject = rightHit.collider.gameObject;
+    if (hitObject.tag == "shelfHighlight")
+    {
+        GameObject shelfObject = hitObject.transform.parent.gameObject;
+        Shelf shelf = shelfObject.GetComponent<Shelf>();
+
+        if (rightHoveredShelf != null && rightHoveredShelf != shelf)
+        {
+            rightHoveredShelf.SetHighlighted(false);
+        }
+        rightHoveredShelf = shelf;
+        rightHoveredShelf.SetHighlighted(true);
+
+        rightHandLineRenderer.SetPosition(1, rightHit.point);
+    }
 }
 ```
 
 We can test it and see the following result:
 
-{{< video src="shelfSelection1" >}}
+{{< video src="shelfSelection2" >}}
 
-Now let's go further and make it highlight the shelf only when the user is hovering over it.
+### Shelf selection
 
-We need another variable to keep track of the currently hovered shelf so that we can disable the shelf highlight when the user is not hovering over it anymore.
+Now that we can highlight hovered shelves, what happens when we press the trigger? We want the shelf to fly to our hand!
+
+To achieve this, we will define the target position and rotation of the shelf to those of the controller. We can then interpolate between the original position and target position to make a smooth flying animation.
+
+First, we have to detect single trigger presses.
+
+Ideally, we would be using the `OVRInput.GetDown` function, but this is not working for me for some reasons. No worries, we can easily code the single press logic using `OVRInput.Get` instead.
 
 ```csharp
-if(!hasHit) {
-    // if we are not hitting anything, we should unselect the shelf we were hovering over
-    if(hoveredShelf != null) {
-        hoveredShelf.isSelected = false;
-        hoveredShelf = null;
-    }
-} else {
-    // if we are hitting something, we should select the shelf we are hovering over
-    GameObject hitObject = hit.collider.gameObject;
-    if(hitObject.tag == "shelfHighlight") {
-        GameObject shelf = hitObject.transform.parent.gameObject;
-        if(hoveredShelf != null && hoveredShelf != shelf) {
-            hoveredShelf.isSelected = false;
-        }
-        hoveredShelf = shelf.GetComponent<Shelf>();
-        hoveredShelf.isSelected = true;
+private bool isLeftTriggerPressed = false;
+private bool isLeftTriggerPressedOnce = false;
 
-        // Checking that the user pushed the trigger
-        if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.1f)
-        {
-            // we will do something here later
-        }
+private bool isRightTriggerPressed = false;
+private bool isRightTriggerPressedOnce = false;
+
+private void UpdateInputState()
+{
+    // Manage trigger press from left controller
+    if (OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) > 0.1f) {
+        if (!isLeftTriggerPressed) isLeftTriggerPressedOnce = true;
+        else isLeftTriggerPressedOnce = false;
+
+        isLeftTriggerPressed = true;
+    } else {
+        isLeftTriggerPressed = false;
+        isLeftTriggerPressedOnce = false;
+    }
+
+    // Manage trigger press from right controller
+    if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) > 0.1f) {
+        if (!isRightTriggerPressed) isRightTriggerPressedOnce = true;
+        else isRightTriggerPressedOnce = false;
+
+        isRightTriggerPressed = true;
+    } else {
+        isRightTriggerPressed = false;
+        isRightTriggerPressedOnce = false;
     }
 }
 ```
 
-That's much better:
+We simply call it at the start of the `Update` function, and we can use the `isRightTriggerPressedOnce` and `isLeftTriggerPressedOnce` variables to detect single presses.
 
-{{< video src="shelfSelection2" >}}
+Now back to the part of the code where we highlight the hovered shelf, we can add a button check and a variable to store the shelf that we will manipulate (i called it `manipulatedShelf`).
 
-We can do the same with the left controller by duplicating the raycast code and adding the controller prefab to the left anchor of the `OVRCameraRig` game object.
+As I want the user to only be able to manipulate one shelf at a time, we don't need to have a right and left version of this variable. Here is what we are going to do (there are methods that don't exist yet but don't worry, we dealing with them next).
 
-## Shelf manipulation
+```csharp
+// Checking that the user pushed the trigger
+if (this.isRightTriggerPressedOnce) {
+    if (rightHoveredShelf != manipulatedShelf) {
+        // if we are already manipulating a shelf, we should release it
+        if (manipulatedShelf != null) manipulatedShelf.Release();
 
-Now that we have everything in place, we can start manipulating the shelves. When the shelf is hovered and the user presses the trigger, we want the shelf to follow the user's hand.
+        manipulatedShelf = rightHoveredShelf;
+        rightHoveredShelf.FlyToHand(rightController.transform, Hand.Right);
 
-This means we will also need to save the shelf original position and rotation to put it back when the user releases the trigger.
+        state = State.ManipulatingRight;
+    }
+}
+```
 
-{{< video src="shelfManipulation1" >}}
+I am also introducing a state variable that help us track the state of the technique. It is a simple enum with 3 values: `Idle`, `ManipulatingLeft` and `ManipulatingRight`. I also have another enum for the hands: `Left` and `Right`.
 
-{{< video src="shelfManipulation2" >}}
+Don't forget to implement this behavior for the left hand as well!
+
+### Flying animation
+
+I called two methods: `Release` and `FlyToHand` that do not exist. Let's fix that in the `Shelf` script.
+
+We will want to store the original position, rotation and scaling of the shelf so that we can interpolate and go back to the original state. We will also have a state enum to track the state of the shelf (`Idle`, `FlyingToHand`, `Manipulating` and `Releasing`).
+
+In the start method, we store the original transform state:
+
+```csharp
+originalPosition = this.transform.position;
+originalRotation = this.transform.rotation;
+originalScale = this.transform.localScale;
+```
+
+In the fly function, we will set the target position, rotation and scaling to those of the hand. We will also set the state to `FlyingToHand` and store the hand that we are flying to.
+
+For animating purposes, we use a `timer` variable that we reset to 0 when we start flying. We will use it to interpolate between the original transform and the target transform in the `Update` function.
+
+```csharp
+public void FlyToHand(Transform hand, Hand rightLeft) {
+    state = ShelfState.FlyingToHand;
+    this.targetParentHand = hand;
+
+    if(rightLeft == Hand.Left) {
+        xOffset = 0.3f;
+    } else {
+        xOffset = -0.3f;
+    }
+
+    float distance = (hand.position - this.transform.position).magnitude;
+    flySpeed = distance / 10;
+
+    this.transform.localScale = this.targetScale;
+
+    timer = 0.0f;
+
+    // for every child that has layer "GroceryItems" (layer 6), set it to layer "SelectedGroceryItems" (layer 7)
+    foreach (Transform child in this.transform)
+    {
+        if (child.gameObject.layer == 6)
+        {
+            child.gameObject.layer = 7;
+        }
+    }
+
+    // disable the highlight box
+    this.highlightBox.SetActive(false);
+}
+```
+
+You can notice that we also use another layer (`SelectedGroceryItems`) that is used to filter only the items that are on the currently manipulated shelf. We also disable the hilight box of the shelf to not occlude vision when the shelf is pretty close to the eyes of the user.
+
+The target scale is fixed to `0.1f` as I found it was quite a good size for the items to be manipulated.
+
+You might ask what is this `xOffset` i am using here that changes in function of the hand. Without an xOffset, the shelf would be centered on the controller, which is good but not perfect. We want the shelf to be closer to the center of the view like this:
+
+![xOffset](image-8.png)
+
+Here the shelf is held by the right hand, but is translated on the controller x axis by some offset to make it closer to the center of the view.
+
+This helps a lot to reduce the amount of arm movement to have a good line of sight of the desired object.
+
+In the same fashion, we have a `Release` method that does the converse to restore the original state of the shelf.
+
+```csharp
+public void Release() {
+    state = ShelfState.Releasing;
+    this.transform.parent = null;
+    this.targetParentHand = null;
+
+    timer = 0.0f;
+
+    // for every child that has layer "SelectedGroceryItems" (layer 7), set it to layer "GroceryItems" (layer 6)
+    foreach (Transform child in this.transform)
+    {
+        if (child.gameObject.layer == 7)
+        {
+            child.gameObject.layer = 6;
+        }
+    }
+
+    // show the highlight box
+    this.highlightBox.SetActive(true);
+}
+```
+
+Let's animate it now! We will use our `timer` variable to interpolate between the original transform and the target transform. We will use the `Lerp` function to do so.
+
+```csharp
+if(state == ShelfState.FlyingToHand) {
+    timer += Time.deltaTime;
+
+    float t = timer / animationDuration;
+    float easeInOutT = 0.5f * (Mathf.Sin((t - 0.5f) * Mathf.PI) + 1);
+
+    Vector3 targetPosition = this.targetParentHand.position;
+    // move the shelf in the forward direction of the hand and a little bit in the up direction of the hand
+    targetPosition += this.targetParentHand.forward * 0.2f;
+    targetPosition += this.targetParentHand.up * 0.1f;
+    // move the shelf in the direction of the offset
+    targetPosition += this.targetParentHand.right * xOffset;
+
+    Quaternion targetRotation = this.targetParentHand.rotation;
+    // rotate the shelf 90 degrees around the y axis
+    targetRotation *= Quaternion.Euler(0, 90, 0);
+
+    this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, easeInOutT);
+    this.transform.rotation = Quaternion.Lerp(this.transform.rotation, targetRotation, easeInOutT);
+    //this.transform.localScale = Vector3.MoveTowards(this.transform.localScale, this.targetScale, this.scaleSpeed);
+
+    // when the shelf is close enough to the hand, we can stop the animation
+    if(this.transform.position == targetPosition && this.transform.rotation == targetRotation && this.transform.localScale == this.targetScale) {
+        state = ShelfState.Manipulating;
+        this.transform.parent = targetParentHand;
+    }
+}
+
+// The shelf is flying away
+if(state == ShelfState.Releasing) {
+    timer += Time.deltaTime;
+
+    float t = timer / animationDuration;
+    float easeInOutT = 0.5f * (Mathf.Sin((t - 0.5f) * Mathf.PI) + 1);
+
+    this.transform.position = Vector3.Lerp(this.transform.position, originalPosition, easeInOutT);
+    this.transform.rotation = Quaternion.Lerp(this.transform.rotation, originalRotation, easeInOutT);
+    this.transform.localScale = Vector3.Lerp(this.transform.localScale, originalScale, easeInOutT);
+
+    // when the shelf is close enough to the original position, we can stop the animation
+    if(this.transform.position == originalPosition && this.transform.rotation == originalRotation && this.transform.localScale == originalScale) {
+        state = ShelfState.Idle;
+    }
+}
+```
+
+We are almost there! The last steps are to select items on the manipulated shelf using the other hand and giving the user some teleportation capabilities.
 
 ## Item picking
 
-Now that we can handle shelves with one hand, we will use the other hand to pick the wanted item from the shelf. We will use raycasting again to select the item.
+We are already making raycasts with our other hand so we will have to modify this part a bit.
 
-One issue is that we want the other hand to be able to select both items on the current shelf or other shelves to change the current shelf.
+Basically, if the selection ray intersects a manipulated item, we will highlight it and if the trigger is pressed we will actually select it.
 
-What we will do is first make a raycast for all shelves highlights. If we hit the one that is currently manipulated, we will then make a raycast for all items on the shelf. If we hit one, we will select it.
+If the ray does not intersect an item, we will perform the usual shelf highlighting so that the user can select another shelf if he wants to.
+
+As we have created a `SelectableGroceryItems` layer, we can use it to filter only the items that are on the manipulated shelf.
+
+Here is the code for the right hand:
+
+```csharp
+bool isRightShelfSelectionNeeded = true;
+
+if (state == State.ManipulatingLeft)
+{
+    // We perform a raycast from the right controller on the layer "SelectableGroceryItems" (layer 7)
+    RaycastHit itemHit;
+    bool hasItemHit = Physics.Raycast(rightController.transform.position, rightController.transform.forward, out itemHit, Mathf.Infinity, 1 << 7);
+    if (hasItemHit)
+    {
+        GameObject item = itemHit.collider.gameObject;
+
+        SelectableObject selectableObject = item.GetComponent<SelectableObject>();
+
+        this.SetHoveredSelectableObject(selectableObject);
+
+        if (selectableObject != null)
+        {
+            if (this.isRightTriggerPressedOnce)
+            {
+                this.currentSelectedObject = item;
+            }
+        }
+
+        rightHandLineRenderer.SetPosition(1, itemHit.point);
+        isRightShelfSelectionNeeded = false;
+
+        if (rightHoveredShelf != null)
+        {
+            rightHoveredShelf.SetHighlighted(false);
+            rightHoveredShelf = null;
+        }
+    }
+}
+
+if (isRightShelfSelectionNeeded) HandleRightShelfSelection();
+```
+
+## Teleportation
