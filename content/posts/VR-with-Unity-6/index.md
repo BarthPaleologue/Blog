@@ -6,12 +6,11 @@ date: 2024-01-21T15:35:05+01:00
 subtitle: "The final project"
 image: ""
 tags: ["IGD301", "VR", "Unity", "C#"]
-draft: true
 ---
 
 Okay the course is coming to a close and now we have to make a final project. The task is quite straightforward: select grocery items in a supermarket.
 
-The idea is to implement one of the selection techniques of last time and test it against simple raycasting selection.
+The idea is to implement one of the selection techniques of last time and evaluate it along a few metric such as accuracy, speed, user satisfaction, etc. This blog post will cover the implementation of the technique and the next one will cover the evaluation.
 
 ## The selection technique
 
@@ -50,9 +49,7 @@ Oh boy, well let's select them all by hand then.
 
 Okay so now that we have everything selected, we can add a box collider to all of them at once, assign them to the `Shelves` layer and finally attach a `Shelf` script to them.
 
-Now we are pretty much free to do whatever we please! We will start by adding a transparent box around the shelves that will help the user to select them later on.
-
-To make the highlighting work, we will create a new box that we will scale so that in covers the shelf horizontally and englobes the items vertically. We will make it transparent and allow to change the color when the shelf is set to highlighted.
+Now we are pretty much free to do whatever we please! Using the script, we will add a transparent box around the shelves and their items that will help the user to select them later on.
 
 We also need to create another layer just for theses highlights as they will play the role of a large bounding box for the shelf. I called it `ShelvesHighlights` and is my 3rd layer.
 
@@ -152,7 +149,7 @@ Now when we start the game in Unity and we edit the position of one shelf, we ge
 
 ## Item highlighting
 
-In the very same fashion as we did for the shelves, we will create a highlight box for the items. This is necessary because the selection technique will not use the exact geometry of the items, so it could be disturbing for the user.
+In the very same fashion as we did for the shelves, we will create a highlight box for the items. This is necessary because the selection technique will not use the exact geometry of the items, so it could be disturbing for the user if their raycast is occluded by an invisible box.
 
 More importantly, there is the sandwich problem.
 
@@ -204,7 +201,7 @@ And now we can tell apart the sandwiches!
 
 ## Shelf manipulation
 
-That we will want to select shelves using our VR controllers and have them fly to our hands. The first step is to add the controller prefab to the left hand in the `OVRCameraRig` game object. I simply took the one from the right hand and duplicated it and set it as a child of the left anchor.
+Now we will want to select shelves using our VR controllers and have them fly to our hands. The first step is to add the controller prefab to the left hand in the `OVRCameraRig` game object. I simply took the one from the right hand and duplicated it and set it as a child of the left anchor.
 
 This way we can see both of our controllers in VR!
 
@@ -378,7 +375,7 @@ public void FlyToHand(Transform hand, Hand rightLeft) {
 }
 ```
 
-You can notice that we also use another layer (`SelectedGroceryItems`) that is used to filter only the items that are on the currently manipulated shelf. We also disable the hilight box of the shelf to not occlude vision when the shelf is pretty close to the eyes of the user.
+You can notice that we also use another layer (`SelectedGroceryItems`) that is used to filter only the items that are on the currently manipulated shelf. We also disable the highlight box of the shelf to not occlude vision when the shelf is pretty close to the eyes of the user.
 
 The target scale is fixed to `0.1f` as I found it was quite a good size for the items to be manipulated.
 
@@ -497,6 +494,7 @@ if (state == State.ManipulatingLeft)
         {
             if (this.isRightTriggerPressedOnce)
             {
+                // The important line: we tell the system that we selected an item
                 this.currentSelectedObject = item;
             }
         }
@@ -516,3 +514,52 @@ if (isRightShelfSelectionNeeded) HandleRightShelfSelection();
 ```
 
 ## Teleportation
+
+Now we only need a way to move through the supermarket. I thought about something complicated at first where the shelves would be scrolling around the player, but simple teleportation felt just right. Why make it complicated when it can be simple?
+
+We already have all the raycasting ready for us. We will create a tag called `Ground` that we attach on the ground mesh of the scene.
+
+Now it is only a matter of displaying a sphere where the ray intersects the ground if it is not intersecting anything more interesting like a shelf or an item on the manipulated shelf.
+
+We will need a teleport method:
+
+```csharp
+private void Teleport(Vector3 target)
+{
+    // clamp z to avoid teleporting through the wall
+    float z = Mathf.Clamp(target.z, -2.0f, 2.0f);
+    OVRCameraRig.transform.position = new Vector3(target.x, OVRCameraRig.transform.position.y, z);
+    rightTeleportTarget.SetActive(false);
+    leftTeleportTarget.SetActive(false);
+
+    if (manipulatedShelf != null)
+    {
+        manipulatedShelf.Release();
+        manipulatedShelf = null;
+    }
+}
+```
+
+I decided that teleportation should release the manipulated shelf if there is one. Teleportation is usualy done once the item has finished manipulating the shelf, so it made sense to make it automatic rather than overloading the cognitive space of our user.
+
+Moreover, i don't want the user to get to close to the shelves (or clip through them for that matter), because it becomes harder to select shelves. This is why I am clamping the z axis of the teleportation target.
+
+We just have to call the `Teleport` method if the raycast hit intersects a mesh with the `Ground` tag.
+
+The end result for the teleportation looks like this:
+
+{{< video src="teleportation" muted="true" >}}
+
+## Conclusion
+
+Alright, we are done! Here is a full recording of an example run:
+
+{{< video src="finalRun" >}}
+
+I am very happy with the results even if some aspects could be improved (always). I think the release mechanism of the shelf is not super intuitive, but for the rest I think it is pretty good.
+
+I was able to select items that were occluded by other items, and the sandwich problem was solved. I was also able to select items that were far away from me without having to move my arm too much.
+
+The entire project is available [here](https://github.com/BarthPaleologue/SupermarketProject2).
+
+I will evaluate the technique with a few users in the next blog post so stay tuned!
