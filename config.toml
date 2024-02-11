@@ -31,6 +31,7 @@ staticDir = ["static"]
   #useHLJS = true
   socialShare = true
   delayDisqus = true
+  cusdisID = "aa8809a3-6443-4dd7-9a05-3d224862aea3"
   showRelatedPosts = true
 #  hideAuthor = true
 #  gcse = "012345678901234567890:abcdefghijk" # Get your code from google.com/cse. Make sure to go to "Look and Feel" and change Layout to "Full Width" and Theme to "Classic"
