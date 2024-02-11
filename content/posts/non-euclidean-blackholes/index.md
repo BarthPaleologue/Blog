@@ -6,6 +6,7 @@ date: 2024-01-12T09:03:04+01:00
 subtitle: "Because why not?"
 image: ""
 tags: ["CosmosJourneyer", "Shaders"]
+bigimg: [{src: "screenshot_24-1-12_9-07.png", desc: "Black hole"}]
 ---
 
 Okay, I know what you are thinking: "Non Euclidean Black holes? What is this guy talking about?". I know, I told myself so at first, but bear with me, it is actually fun!
