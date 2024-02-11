@@ -6,26 +6,63 @@ date: 2024-02-10T22:00:16+01:00
 subtitle: "HPBD meets XPBD for real-time simulations"
 image: ""
 tags: ["IMA904", "IG3DA", "Simulation", "XPBD", "HPBD", "Physics", "C++"]
-draft: true
 ---
 
 I have been making a soft body simulation in C++ for my IMA904/IG3DA class at Telecom Paris, and I thought I could share my project report here! This one is quite light on the implementation details and is more focused on the high level ideas.
+
+I added many example videos from the original report to make it more interesting to read!
+
+Anyway, here is what you can expect from this article:
+
+{{< youtube JaQAZ1Kaw9I >}}
 
 The full source code is as always available under a public license on Github (see the link at the end of the article).
 
 I hope you will enjoy it!
 
-{{< youtube JaQAZ1Kaw9I >}}
-
 ## Abstract
 
-Soft bodies are a notoriously challenging field of computer simulations. Making it real-time brings additional constraints, requiring trade offs between performance and accuracy. Since more than a decade, the Position Based Dynamics family of simulation methods have been very successful at making good looking soft bodies in real-time. From the original PBD [Tsai 2017] method came improvements to stability and convergence speed with Hierarchical Position Based Dynamics (HPBD) [Müller 2008] and eXtended Position Based Dynamics (XPBD) [Macklin et al. 2016]. 
+Soft bodies are a notoriously challenging field of computer simulations. Making it real-time brings additional constraints (very funny PBD joke haha), requiring trade offs between performance and accuracy. Since more than a decade, the Position Based Dynamics (PBD) family of simulation methods have been very successful at making good looking soft bodies in real-time. From the original PBD [Tsai 2017] method came improvements to stability and convergence speed with Hierarchical Position Based Dynamics (HPBD) [Müller 2008] and eXtended Position Based Dynamics (XPBD) [Macklin et al. 2016]. 
 
 Although my initial goal was to implement HPBD, combining it with XPBD felt very natural and yield powerful results.
 
 ![Result](<Capture d’écran du 2024-02-07 20-44-49.png>)
 
-## Introduction
+## Introduction to PBD
+
+Just for starters, I will briefly describe the core concepts of PBD, and how it differs from classic rigid body simulations.
+
+### Particles vs Rigid bodies
+
+In rigid body physics, the object is often represented as one single entity. This is not enough to simulate soft bodies, as we need to make local changes to the object (stretching, bending...).
+
+In PBD, every object is represented by a set of particles (usually the vertices of the triangle mesh), allowing the PBD solver to manipulate them separately, creating deformations.
+
+### Forces vs Constraints
+
+In rigid body physics, forces are simulated to make the object move in a realistic way, with some variations including impulses to modify the velocity of the object in the case of collisions.
+
+PBD uses a totally different approach. Instead of simulating forces, PBD directly modifies the positions of the particles! (Hence Position in Position based dynamics).
+
+How does it work? The particles are linked together by constraints, that must be satisfied at every frame. Constraints can be of many types: 2 particles must keep the same distance, 4 particles must keep a constant volume, a particle must stay at a fixed position, etc.
+
+If you have a flat piece of cloth for example, you can create distance constraints between every pair of neighboring vertices, and then add a fixed constraint to the 4 corners of the cloth to make a deformable kind of trampoline.
+
+The constraints can be hard, meaning for the distance constraint that the distance between the 2 particles must be exactly the same as the initial distance, or soft, meaning that the distance can vary a little bit. The stiffness of the constraint will determine how much the distance can vary.
+
+Here is a visual example of decreasing the stiffness of the distance and bending constraints:
+
+{{< video src="stiffness" >}}
+
+For the piece of cloth example, we would want the distance constraints to be soft, and the fixed constraints to be hard, so that the cloth can stretch, while the corners stay in place.
+
+At every frame, the PBD solver will take the constraints of all particles and move the particles in order to satisfy the constraints!
+
+To perform collisions, constraints are created every frame between the particles from one body and the triangles (3 particles) of another body, pulling them apart to prevent penetration.
+
+If you want to read the paper to have a more detailled explanation, you can get the paper [here](https://matthias-research.github.io/pages/publications/posBasedDyn.pdf) [Müller et al. 2007].
+
+## Motivation
 
 Even though Position Based Dynamics comes in different flavors, they are all based on the same fundamental concepts. Each object
 is represented as a set of particles, whose positions change based on constraints (distance, volume, collision...) instead of simulating forces like in classic rigid body simulations.
@@ -71,6 +108,10 @@ be useful for the collision part, stay tuned for that!
 PBD is all about the constraints you can simulate. The more diverse the constraints, the more complex scenarios can be simulated.
 However, deriving the gradients of the constraints is a lot of math, thankfully the papers provided good starting points and I could find
 the gradient formulas on internet.
+
+If you want a taste of the gradient derivation, you can check out blackedout01’s awesome video featuring the gradient of the dihedral constraint:
+
+{{< youtube id="B-Bakl-VPpg?start=437" >}}
 
 ### Distance Constraint
 
@@ -225,12 +266,19 @@ A better solution was then to shoot a ray from the particle itself in the direct
 the flat cloth better as well because the ray from the center of mass to the particle would actually be completely wrong as well in the
 case of a flat piece of clothing.
 
+Finally we can get clean, 2-way collisions between dynamic soft bodies!
+
+{{< video src="collisions" >}}
+
 ## Surface friction
 
 Now that the collision finally works, I want to fix the cringe sliding effect that the mesh tend to have while sitting on the ground. Objects
-in real life have surface friction that prevent this.
+in real life have surface friction that prevent this. 
 
-//TODO: add a video of the sliding effect 
+Here is an example of cube sliding like they were on ice:
+
+{{< video src="sliding" >}}
+
 My solution for that is a bit hacky in my opinion but it works.
 Basically at the end of a simulation sub-step, I check every particles of every object and check if there is a collision constraint that utilizes
 it.
@@ -241,7 +289,8 @@ Then I can take the current particle’s velocity and subtract the normal compon
 
 I then add back this dampened tangential velocity to the normal component of the particle velocity, and the result is quite convincing!
 
-//TODO: add a video of the friction effect 
+{{< video src="friction" >}}
+
 It stopped the sliding effect.
 A possible extension could be to define the friction coefficient per body, and not globally like it is the case currently.
 
@@ -259,16 +308,22 @@ Thankfully we already built a hierarchy with approximations of the original mesh
 
 Therefore, I only needed to check the collisions against the hierarchy level I wanted. For now it is user defined and highly depends on the geometry of the clothing, but automatic estimation of the
 right level to use can probably be found.
-Using the right level of collision allows for a nice speed up for complex meshes (from 30 to 60fps on my demo scene with the
-complex piece of clothing).
+Using the right level of collision allows for a nice speed up for complex meshes. 
 
-//TODO: add a video of the performance improvement 
+In this video, the framerate goes from 30 fps on using the entire geometry to 60 fps using the first level of the hierarchy of the cloth:
+
+{{< video src="hpbdcollision" >}}
+
 ### Making the most of XPBD
 
 Reflecting on the whole project, implementing XPBD was probably not necessary to make the collisions work properly. So how can we
 make the most of it? 
 XPBD is a modification of the PBD solver by changing solver iterations by solver sub-steps: the collisions are only solved once
 per subset instead of multiple time per step.
+
+To upgrade from simple PBD to XPBD, I found the video from Matthias Müller, one of the original author of the paper, to be very straightforward and helpful:
+
+{{< youtube RhEkKDEQEYM >}}
 
 This is a surprisingly simple and yet powerful change that make the convergence rate of PBD much faster. One of the original author
 even describes it as rendering obsolete the old HPBD method.
@@ -283,8 +338,11 @@ of cloth).
 ## CPU PICKING
 
 The last big feature I implemented for this project is CPU picking.
-It is not my original idea, I was inspired again by [this awesome video from blackedout01](https://www.youtube.com/watch?v=J1nojsTnw_M&t=287s) [blackedout01 2023]
-that was helpful for validating my implementation and featured the awesome ability to grab an object with the mouse and move it
+I was heavily inspired by this awesome video from blackedout01:
+
+{{< youtube id="J1nojsTnw_M?start=287" >}}
+
+It was very helpful for validating my implementation and featured the awesome ability to grab an object with the mouse and move it
 around (and make it wobble).
 
 ### Getting a ray from the mouse
@@ -292,7 +350,8 @@ around (and make it wobble).
 The CPU picking is done by performing a ray-cast from the camera.
 The first step is then to get a ray from the camera, going through the mouse clip position.
 
-//TODO: add link to stackoverflow post 
+I based my implementation on [this post from stackoverflow](https://stackoverflow.com/questions/2093096/implementing-ray-picking) that was very helpful.
+
 Basically, we convert the mouse position to a [0;1] 2D vector by dividing its coordinates by the dimensions of the window.
 
 We then create the clip space position by converting these coordinates to the [-1;1] range, and specifying 0 and 1 for the z and w homogeneous coordinates.
@@ -327,13 +386,18 @@ The last issue I had to address is that the object could tend to come toward the
 distance to the camera.
 
 {{< video src="bodydrag" >}} 
+
 ## Conclusion
 
 In the end, we have a really solid soft body simulation that runs very fast with interacting soft bodies. Merging HPBD with XPBD resulted in a very powerful combination that enabled faster collisions and greater convergence speed overall.
 
 There are still many avenues of improvements for future work! Choosing the right level of hierarchy for the collisions could be automated using some kind of vertex density threshold. The solver could also be parallelized using multi-threading or even a compute
-shader, which would make an enormous difference in performance!  Another possible area of improvement that actually has some basic implementation in my code is cloth tearing by discarding the
-edges that violate the distance constraints by a too large amount. I already got the edge removing process working, but sadly I could not make the system to remove dynamically the distance constraints.
+shader, which would make an enormous difference in performance!  
+
+Another possible area of improvement that actually has some basic implementation in my code is cloth tearing by discarding the
+edges that violate the distance constraints by a too large amount. I already got the edge removing process working, but sadly I did not have time to make the system to remove dynamically the distance constraints:
+
+{{< video src="tearing" >}}
 
 Moreover, more constraints could be implemented such as the Isometric Bending Constraint, and the very hard Self Collision Constraint.
 
