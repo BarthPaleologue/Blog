@@ -6,6 +6,7 @@ date: 2023-12-18T18:48:24+01:00
 subtitle: "Planetary rings"
 image: ""
 tags: ["CosmosJourneyer", "Shaders", "BabylonJS"]
+bigimg: [{src: "rings.png", desc: "Planetary rings"}]
 ---
 
 Realtime shader programming is challenging. Although the GPU is very fast, when adding more and more shaders, you always reach a point where your GPU is no longer fast enough. This is where optimization comes into play.
