@@ -6,6 +6,7 @@ date: 2024-02-10T22:00:16+01:00
 subtitle: "HPBD meets XPBD for real-time simulations"
 image: ""
 tags: ["IMA904", "IG3DA", "Simulation", "XPBD", "HPBD", "Physics", "C++"]
+bigimg: [{src: "banner.png", desc: "Result of the simulation"}]
 ---
 
 I have been making a soft body simulation in C++ for my IMA904/IG3DA class at Telecom Paris, and I thought I could share my project report here! This one is quite light on the implementation details and is more focused on the high level ideas.
