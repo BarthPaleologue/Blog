@@ -19,7 +19,7 @@ staticDir = ["static"]
 [Params]
   homeTitle = "Barth Cave" # Set a different text for the header on the home page
   subtitle = "Articles where I explain crazy computer graphics stuff"
-  mainSections = ["post","posts"]
+  mainSections = ["posts"]
   logo = "img/pp.jpg" # Expecting square dimensions
   favicon = "img/favicon.ico"
   dateFormat = "January 2, 2006"
@@ -58,7 +58,7 @@ staticDir = ["static"]
   #gitlab = "username"
   #linkedin = "username"
   #stackoverflow = "users/XXXXXXX/username"
-  youtube = "channel/UCJIpGVX-iL59o-Rpxom2_aA"
+  youtube = "@barthpaleologue"
   #mastodon = "url"
   #kaggle = "username"
   #slack = "username"
