@@ -13,7 +13,7 @@ Realtime shader programming is challenging. Although the GPU is very fast, when 
 
 Shaders can be optimized in 2 ways: improve the shader code itself, which can give decent improvements, and precomputing data, which can make the difference between 20fps and 500fps.
 
-In this blog post series, I will be presenting how I optimized the shaders of [CosmosJourneyer](https://cosmosjourneyer.com): a procedural universe running in the web browser.
+In this blog post series, I will be presenting how I optimized the shaders of [Cosmos Journeyer](https://cosmosjourneyer.com): a procedural universe running in the web browser.
 
 ## Noise is expensive
 

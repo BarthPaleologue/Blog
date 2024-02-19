@@ -21,7 +21,7 @@ Thankfully for us, we don't care about the laws of physics at the center to be a
 
 Basically, we discretize the path light takes from the observer to the black hole. At first, it will travel in a straight line, and for each step, we will bend the direction of the lightray a little bit towards the black hole depending on the distance to it. (The closer the light ray is to the black hole, the more it will bend towards it). This technique is called raymarching.
 
-This can done by in realtime by using a raymarching shader! Even though we do a lot of approximations, the result can be quite good. This is [CosmosJourneyer's](https://cosmosjourneyer.com) version:
+This can done by in realtime by using a raymarching shader! Even though we do a lot of approximations, the result can be quite good. This is [Cosmos Journeyer's](https://cosmosjourneyer.com) version:
 
 ![Alt text](screenshot_24-1-12_9-07.png)
 
@@ -31,7 +31,7 @@ For anyone wondering, I used this shader from shadertoy as a base:
 
 My version basically makes the simulation works inside BabylonJS and is more accurate (I get the ~2x factor for the shadow of the black hole relative to its radius, which is the predicted value for a non rotating black hole).
 
-I will release the code of CosmosJourneyer around March 2024, so if you are reading this after that date, you can check it out here:
+I will release the code of Cosmos Journeyer around March 2024, so if you are reading this after that date, you can check it out here:
 
 https://github.com/BarthPaleologue/CosmosJourneyer/blob/main/src/shaders/blackhole.glsl
 
