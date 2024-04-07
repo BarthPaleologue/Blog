@@ -5,7 +5,7 @@ type: ""
 date: 2024-01-12T09:03:04+01:00
 subtitle: "Because why not?"
 image: ""
-tags: ["CosmosJourneyer", "Shaders"]
+tags: ["Cosmos Journeyer", "Shaders"]
 bigimg: [{src: "screenshot_24-1-12_9-07.png", desc: "Black hole"}]
 ---
 

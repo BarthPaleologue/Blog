@@ -5,7 +5,7 @@ type: ""
 date: 2024-03-20T15:44:02+01:00
 subtitle: "Jerry Tessendorf's ocean simulation meets Tri-planar mapping"
 image: ""
-tags: ["WebGPU", "Simulation", "BabylonJS", "INF585", "Real-time", "Compute shaders", "CosmosJourneyer", "Shaders"]
+tags: ["WebGPU", "Simulation", "BabylonJS", "INF585", "Real-time", "Compute shaders", "Cosmos Journeyer", "Shaders"]
 bigimg: [{src: "cover.png", desc: "Ocean Simulation with Webgpu"}]
 ---
 
