@@ -103,4 +103,10 @@ $$
 E_{\text{ISS}} = \Phi_{\text{ISS}} S_{\text{ISS}}
 $$
 
-The resulting energy is about 3,400kw for 2,500 m² of solar panels. This gives us an efficiency of about 7%.
+The resulting energy is about 3,400kw for 2,500 m² of solar panels. This gives us an efficiency of about 7%. As the ISS spends half of the time in the shadow of the Earth, we will divide the energy produced by 2:
+
+$$
+E_{\text{ISS}} = \frac{\Phi_{\text{ISS}} S_{\text{ISS}} \eta_{\text{ISS}}}{2}
+$$
+
+where eta is the efficiency of the ISS solar panels.
