@@ -7,10 +7,11 @@ subtitle: "Modelling solar panel surface from energy requirements"
 image: ""
 tags: ["Cosmos Journeyer", "Space station"]
 bigimg: [{src: "banner.png", desc: "The International Space Station and its 8 solar arrays"}]
-draft: true
 ---
 
-How can we create realistic looking space stations? How to make them feel grounded and functional? That's what I want to explore it this series of blog posts while developping the new space stations for [Cosmos Journeyer](https://cosmosjourneyer.com).
+How can we create realistic looking space stations? How to make them feel grounded and functional? That's what I want to explore it this series of blog posts while developping the new space stations for [Cosmos Journeyer](https://cosmosjourneyer.com). Here is a sneak peak:
+
+![View from Cosmos Journeyer's space station](cosmos.png)
 
 In this first one, we will talk about solar panels. They are an iconic part of the look of space stations: from Mir to the ISS, and Tiangong to the updoming Lunar Gateway, they all have them! So it's only natural that my procedural space stations will have them too.
 
@@ -34,7 +35,7 @@ When considering larger stations that would work more like cities, we might cons
 
 ## Energy efficiency
 
-The next important parameter is the energy efficiency. Solar panels will reach about 40% efficiency in the near future, so we will use that for Cosmos Journeyer, but the ISS is much older, so the efficiency we need for our compution will be lower.
+The next important parameter is the energy efficiency. It is defined as the ratio of the energy produced by the panels vs the total energy recieved from the sun. Solar panels will reach about 40% efficiency in the near future, so we will use that for Cosmos Journeyer. However, the ISS is much older, so the efficiency we need for our computation will be lower. Let's calculate it to understand how it works!
 
 ### Efficiency of the ISS solar panels
 
@@ -43,6 +44,8 @@ According to https://www.edn.com/international-space-station-iss-power-system/, 
 ### Solar energy received
 
 This is the part with some math, but I will try to make it as painless as possible.
+
+![Thermodynamics](thermo.gif)
 
 The energy we recieve from the sun depends on multiple factors:
 
@@ -71,7 +74,9 @@ $$
 S = 4 \pi R^2
 $$
 
-where R is the radius of the sun, which is about 696,340 km = 696,340,000 m.
+where R is the radius of the sun, which is about 696,340 km = 696,340,000 m. Just for comparison, Earth is only 6,371 km = 6,371,000 m.
+
+![It's big. src: https://www.universetoday.com/wp-content/uploads/2010/05/sunearthcompared.jpg](image-1.png)
 
 We get the following formula for the total energy radiated by the sun:
 
@@ -79,7 +84,11 @@ $$
 E = \Phi S = 4 \pi \sigma T^4 R^2
 $$
 
-But we want to know the energy recieved by the ISS, which accounts for the distance to the sun. As we get further away, the energy of the sun gets spread out over a larger area (think about a pebble thrown in a pond: the wave will start strong but fade away the further it goes because of the energy spread). If we stand at distance D from the sun, the total energy emitted by the sun will be spread over a sphere of radius D. Therefore we can compute the energy flux recieved by the ISS as:
+But we want to know the energy recieved by the ISS, which accounts for the distance to the sun. As we get further away, the energy of the sun gets spread out over a larger area (think about a pebble thrown in a pond: the wave will start strong but fade away the further it goes because of the energy spread). 
+
+![What an awesome illustration!](./flux.png)
+
+If we stand at distance D from the sun, the total energy emitted by the sun will be spread over a sphere of radius D. Therefore we can compute the energy flux recieved by the ISS as:
 
 $$
 \Phi_{\text{ISS}} = \frac{E}{4 \pi D^2}
@@ -103,10 +112,56 @@ $$
 E_{\text{ISS}} = \Phi_{\text{ISS}} S_{\text{ISS}}
 $$
 
-The resulting energy is about 3,400kw for 2,500 m² of solar panels. This gives us an efficiency of about 7%. As the ISS spends half of the time in the shadow of the Earth, we will divide the energy produced by 2:
+The resulting energy is about 3,400kw for 2,500 m² of solar panels. This gives us an efficiency of about 7%. But that's considering the solar panels are always lit by the sun. The situation is more like this:
+
+![ISS orbiting the Earth](./shadow.png)
+
+As the ISS spends half of the time in the shadow of the Earth, we will divide the energy produced by 2:
 
 $$
 E_{\text{ISS}} = \frac{\Phi_{\text{ISS}} S_{\text{ISS}} \eta_{\text{ISS}}}{2}
 $$
 
 where eta is the efficiency of the ISS solar panels.
+
+## Find the solar panel surface of the ISS
+
+Now we can check if this equation gives us back a coherent value for the surface are of the ISS' solar panels. We can rewrite the equation to isolate the surface as follows:
+
+$$
+S_{\text{ISS}} = \frac{2 E_{\text{ISS}}}{\Phi_{\text{ISS}} \eta_{\text{ISS}}}
+$$
+
+As a refresher, we have the following values:
+
+- required energy: 90,000 W
+- energy flux from the sun: 1,360 W/m²
+- efficiency of the ISS solar panels: 7%
+
+Which gives us 1,890m² of solar panels. We are in the same range! But the result is not exact, why is that? Well, the ISS does not produces exactly the amount of energy necessary to sustain itself. It generates a bit more to recharge batteries and to have some margin in case of emergency. The energy produced is more like 120kW. Plugging this in our equation, we get back 2,521m², which is very close to the actual value of 2,500m².
+
+![Great success! src: https://1.bp.blogspot.com/_5PFJfNCAwkM/TGXdmJm5toI/AAAAAAAABHY/zDGeu9CnjH0/s1600/borat_great_success-450x337.jpg](image-2.png)
+
+This little exercise demonstrates that our model is coherent with the data we have on the ISS. We will now use it to generalize to Cosmos Journeyer's space stations.
+
+## Putting Nantes into space
+
+For Cosmos Journeyer, I see space stations being analog to our cities on Earth. This gives us a rough number of people that should be sustained on board. I will take Nantes as an example, as it is the city I spent most of my childhood in. Moreover, there is a huge debate to know if Nantes is part of Bretagne or not, so we will just put it into space to piss off everybody.
+
+![Nantes in space](nantes.png)
+
+Our population increases dramatically: from 7 crew members, we go to about 323,000 people. The energy consumption is also not the same, as this is no longer a scientific space station but a space city. In France, the energy consumption per capita is about 40,000 kwh per year, so about 4.5kW per person. This gives us a total energy consumption of about 1.45GW. The ISS uses one more third of the energy used to recharge batteries, so we can also account for that and get a total energy production of about 1.9GW.
+
+For the solar panel efficiency, we will use 40% as it is a realistic value for the near future.
+
+Finally, for the star parameters, we will use the values of our sun for this exercise, but our formula works for any kind of star at any distance, so tweaking it is easy.
+
+Running the numbers, we get about 7km² of solar panels. That's a huge surface, but there is plenty of space out there in space!
+
+## Conclusion
+
+We now have a robust model to compute the solar panel surface required to power any space station. We have validated it with the ISS and used it to compute the solar panel surface for a space city the size of Nantes.
+
+If you want to play with the model, I have put it in a Jupyter notebook that you can find [here](https://github.com/BarthPaleologue/CosmosJourneyer/blob/927fc2aad24245d3c56e9eed8311884f2a6c4451/research/solarPanels/solarPanels.ipynb).
+
+The next step will be to design believable habitats for our space city and explore artificial gravity. Stay tuned!
