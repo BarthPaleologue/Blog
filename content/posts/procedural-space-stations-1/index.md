@@ -23,7 +23,7 @@ Before anything else, why do we need solar panels for? This might sound trivial 
 
 The first reason is that solar energy is freely available in space, with a greater efficiency than on the ground since you don't have the atmosphere acting like a filter.
 
-But they take a lot of space, why not use some kind of small modular nuclear reactor (SMR) instead? Well we still have to consider heat management. For most of history, manking has always been using heat to boil up some water to then rotate a turbine to generate electricity. Those are complex thermodynamic systems that need cooling, especially in space where you can lose enery only with radiation.
+But they take a lot of space, why not use some kind of small modular nuclear reactor (SMR) instead? Well we still have to consider heat management. For most of history, mankind has always been using heat to boil up some water to then rotate a turbine to generate electricity. Those are complex thermodynamic systems that need cooling, especially in space where you can lose enegry only with radiation.
 
 On the other hand, solar panels do not rely on the heating water trick. They use the photoelectric effect to directly generate electricity. This make solar panels ideal because they don't create as much heat and have a much simpler design (when not taking folding into account).
 
@@ -164,4 +164,4 @@ We now have a robust model to compute the solar panel surface required to power 
 
 If you want to play with the model, I have put it in a Jupyter notebook that you can find [here](https://github.com/BarthPaleologue/CosmosJourneyer/blob/927fc2aad24245d3c56e9eed8311884f2a6c4451/research/solarPanels/solarPanels.ipynb).
 
-The next step will be to design believable habitats for our space city and explore artificial gravity. Stay tuned!
+The next step will be to design believable habitats for our space city and explore artificial gravity. Stay tuned!  
