@@ -41,6 +41,8 @@ The next important parameter is the energy efficiency. It is defined as the rati
 
 According to https://www.edn.com/international-space-station-iss-power-system/, the ISS solar panel surface is about 2,500 m² and produces 120kW of power. To get the efficiency, we must first compute how much energy is recieved from the sun. You might find weird that we use the surface of solar panels of the ISS to compute the solar panel efficiency in order to compute the solar panel surface. This is only because I want to check our model gives plausible results, and to prove I'm not cheating.
 
+![Trust me bro](image.png)
+
 ### Solar energy received
 
 This is the part with some math, but I will try to make it as painless as possible.
