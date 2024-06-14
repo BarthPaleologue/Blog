@@ -15,11 +15,11 @@ It's been a few month since I started pondering making a better ocean for [Cosmo
 
 Coincidentally, I was also taking a course on computer animation (INF585) at Ecole Polytechnique, and I had the opportunity to choose my final project. Long stroy short, I decided to implement [Jerry Tessendorf's FFT-based ocean simulation](https://people.computing.clemson.edu/~jtessen/reports/papers_files/coursenotes2004.pdf) on WebGPU, and this is my project report.
 
-I came accross many different techniques to simulate an ocean during my investigation, but I was definitely seduced by the realism of the FFT ocean simulation, and the fact that it is actually real-time. 
+I came across many different techniques to simulate an ocean during my investigation, but I was definitely seduced by the realism of the FFT ocean simulation, and the fact that it is actually real-time. 
 
 I was also inspired by existing work on the subject by [Popov72](https://github.com/Popov72/OceanDemo) and [Acerola](https://www.youtube.com/watch?v=yPfagLeUa7k) that made the math behind the ocean simulation less intimidating.
 
-FFT-based ocean simulations are quite popular and you came accross one if you ever watched Titanic:
+FFT-based ocean simulations are quite popular and you came across one if you ever watched Titanic:
 
 ![Titanic Ocean](image-12.png)
 
@@ -53,7 +53,7 @@ Okay, so we need a wave spectrum: a representation of the amplitude and phase of
 
 Ideally we would have some kind of wind blowing over the ocean in a certain direction, and it would make sense to have more waves in the direction of the wind, and less waves in the orthogonal direction.
 
-The oceanographic litterature provides many models to express the wave spectrum with more or less control of the final result. Tessendorf's original paper uses the Phillips spectrum, which is as follows.
+The oceanographic literature provides many models to express the wave spectrum with more or less control of the final result. Tessendorf's original paper uses the Phillips spectrum, which is as follows.
 
 Given a wave, with a given direction and a given frequency, we can create a wave vector:
 
@@ -167,9 +167,9 @@ After IFFT, we get this:
 
 We clearly see the pattern of waves in the gradient map. The red channel is the x component of the gradient, and the green channel is the z component.
 
-You may notice the visual artefacts in the corners of the gradient map. This is likely caused by the Phillips Spectrum, choosing another spectrum such as JONSWAP could help reduce these artefacts. They also disappear with time, so starting the simulation at t=60s is also a solution.
+You may notice the visual artifacts in the corners of the gradient map. This is likely caused by the Phillips Spectrum, choosing another spectrum such as JONSWAP could help reduce these artifacts. They also disappear with time, so starting the simulation at t=60s is also a solution.
 
-Choosing L=10m and a texture size of 256x256 with a simple phong lighting model gives the following result:
+Choosing L=10m and a texture size of 256x256 with a simple Phong lighting model gives the following result:
 
 {{< video src="waterWithNormals.mp4" >}}
 
@@ -223,7 +223,7 @@ The waves are looking quite good now, but you may notice we don't see sharp peak
 
 The issue is that for now we only translate our vertices vertically, but in reality the waves should also move horizontally, combining to create a circular motion.
 
-Once again, Tessendorf's paper comes to the rescue with nice mathematicals derivations to achieve the choppy waves effect.
+Once again, Tessendorf's paper comes to the rescue with nice mathematical derivations to achieve the choppy waves effect.
 
 $$
 D(x, t) = \sum_{k} -i \frac{k}{|k|} \tilde{h}(k, t) \exp(i k \cdot x)
@@ -271,13 +271,13 @@ This is a great feature for texture mapping a flat terrain for example. But as s
 
 We are not exactly doing texture mapping, but all of our ocean data is stored in textures that are used to deform the vertices of our plane, so we will have the same issue.
 
-One solution to avoid those warping artefacts on non-flat terrain is called "tri-planar mapping". The idea is to project the texture on the terrain from 3 different directions and blend the results:
+One solution to avoid those warping artifacts on non-flat terrain is called "tri-planar mapping". The idea is to project the texture on the terrain from 3 different directions and blend the results:
 
 [![Triplanar Terrain Shaders](image-11.png)](https://forum.unity.com/threads/free-triplanar-terrain-shaders.367992/)
 
 If you want to know more about it, I recommend [Catlike Coding's tutorial](https://catlikecoding.com/unity/tutorials/advanced-rendering/triplanar-mapping/).
 
-Tri-planar mapping is very versatile and can be used for more than 2D terrain. It can also be used to map a tileable texture on a any kind of geometry with defined normals and positions. This includes spheres among other things (like cubes, donuts, the only limit is your imagination).
+Tri-planar mapping is very versatile and can be used for more than 2D terrain. It can also be used to map a tillable texture on a any kind of geometry with defined normals and positions. This includes spheres among other things (like cubes, donuts, the only limit is your imagination).
 
 To achieve this, we need to go in our vertex shader and change the sample coordinates for our height-map, gradient-map and displacement-map. Instead of using the uv coordinates, we will use the position of the vertices in sphere space to sample each texture 3 times and blend the results using the normals of the vertices.
 
@@ -307,7 +307,7 @@ The next step will be to integrate it into Cosmos Journeyer, and I will keep you
 
 ## Conclusion
 
-20 years after Tessendorf's paper, the FFT ocean simulation is still a great way to generate realistic oceans. With the power of modern GPUs, the FFT has become really cheap to compute, and we can now simulate detailled oceans in realt-time.
+20 years after Tessendorf's paper, the FFT ocean simulation is still a great way to generate realistic oceans. With the power of modern GPUs, the FFT has become really cheap to compute, and we can now simulate detailed oceans in real-time.
 
 There are many extensions possible to this project: foam generation, refraction, underwater caustics, more spectrums like JONSWAP, etc. I didn't have the time to implement them all, but it was nonetheless a great and fun learning experience.
 

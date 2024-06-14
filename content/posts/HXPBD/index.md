@@ -61,7 +61,7 @@ At every frame, the PBD solver will take the constraints of all particles and mo
 
 To perform collisions, constraints are created every frame between the particles from one body and the triangles (3 particles) of another body, pulling them apart to prevent penetration.
 
-If you want to read the paper to have a more detailled explanation, you can get the paper [here](https://matthias-research.github.io/pages/publications/posBasedDyn.pdf) [Müller et al. 2007].
+If you want to read the paper to have a more detailed explanation, you can get the paper [here](https://matthias-research.github.io/pages/publications/posBasedDyn.pdf) [Müller et al. 2007].
 
 ## Motivation
 
@@ -142,7 +142,7 @@ Although we studied the dihedral constraint in class, I did not implement it at 
 It’s main advantage is that by targeting the angle between the triangles, the
 constraint becomes independent from stretching created by classic distance constraint.
 
-The main drawbacks are that the gradient derivation is horrendous, and is quite slow and unstable because of arcos function calls. You will get a lot of NaNs if you are not careful! 
+The main drawbacks are that the gradient derivation is horrendous, and is quite slow and unstable because of acos function calls. You will get a lot of NaNs if you are not careful! 
 
 I ended up implementing it anyway as an attempt to solve the collision issues that I will cover later. It did not change anything,
 but it is still a nice addition to the constraint bestiary.
