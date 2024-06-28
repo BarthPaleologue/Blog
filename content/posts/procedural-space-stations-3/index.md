@@ -1,21 +1,55 @@
 ---
-title: "Procedural Space Stations 3"
-author: ""
+title: "Procedural Space Stations #3"
+author: "Barthélemy Paléologue"
 type: ""
 date: 2024-06-14T15:18:33+02:00
-subtitle: ""
+subtitle: "Housing and food for everyone!"
 image: ""
-tags: []
+tags: ["Cosmos Journeyer", "Space station"]
 draft: true
 bigimg: [{src: "verticrop.jpg", desc: "Lettuce in a vertical farm"}]
 ---
 
 
-In the [previous blog post](https://barthpaleologue.github.io/Blog/posts/procedural-space-stations-2/), we found the ideal size for our habitats in order to produce comfortable artificial gravity.
+In the [previous blog post](https://barthpaleologue.github.io/Blog/posts/procedural-space-stations-2/), we found the ideal radius for our spinning habitats in order to produce comfortable artificial gravity.
 
-To finalize our size requirements, we now need to estimate the surface needed to sustain a given population. The energy requirements have already been settled in the [first post of this series](https://barthpaleologue.github.io/Blog/posts/procedural-space-stations-1/), and now is the time for food production!
+To finalize our size requirements, we now need to estimate the surface needed to sustain a given population. A population needs space for housing, work, energy, industry and food production. The energy requirements have already been settled in the [first post of this series](https://barthpaleologue.github.io/Blog/posts/procedural-space-stations-1/). Today I want to investigate housing and food production.
 
-## Space production vs planetary imports
+## Housing
+
+We will start with the easier part of the two: estimating the surface necessary to house a given population. This is quite well modeled by the population density which is a measure of the number of persons living in a unit of surface. The population density in a city also accounts for the space required for work and entertainment, which is a nice bonus: we won't have to model them separately.
+
+The issue is that cities come in all shapes and forms on our planets: small, large, tall even when taking skyscrapers into account. What should our baseline be?
+
+This part will be quite subjective as it is my vision for what a futuristic city should look like, but I will justify each point.
+
+First, a space city will use a lot of public transportation. The reason for this is the reduction of surface used to store unused individual vehicles (think parkings), the reduction in traffic and noise. The different kinds of transportation used include trains for broad connection, automatic buses for narrow connections and finally flying taxis for urgent and precise business such as emergencies and personality transportation.
+
+Second, a space city should invest massively in urban nature. This is important to mimic an earth-like environment and avoid any kind of alienation due to the artificiality of the habitat. These spaces should include forests and gardens as well as trees in the streets. Moreover, the vegetation can lower the cost of life support on the station as it can recycle the air naturally.
+
+We have some cities on Earth which have plenty of public transportation and green spaces.
+
+One of them is Oslo according to https://www.eea.europa.eu/highlights/how-green-are-european-cities and other sources. The capital of Norway has the largest green spaces in the world for its size. This can be seen even from space:
+
+![Oslo from space](image-1.png)
+
+And its public transport system is vast and interconnected:
+
+![Oslo public transport](image.png)
+
+For these reasons, we will use Oslo as our model for space stations.
+
+According to [citypopulation.de](https://www.citypopulation.de/en/norway/oslo/_/0801__oslo/), the population density is about 4,000 people per square meter, which is 0.004 person per square meter. To say it differently, if we were to spread evenly all of Oslo inhabitants, each of them would end up with 250m².
+
+Using the density, we can compute the surface necessary for a given population of size `N` using the following formula:
+
+$$
+S = \frac{N}{d} \text{ where d is the population density}
+$$
+
+## Food supply
+
+### Space production vs planetary imports
 
 The first question we need to ask is whether the food supply comes from local production or imports. Importing would save a lot of space, but it would undermine each station's autonomy dramatically. What if the supply chain is broken? The inhabitants of the station would starve without being able to do anything about it.
 
@@ -31,7 +65,7 @@ $$
 F_{local} = F_{needed} - F_{imports} + F_{exports}
 $$
 
-## Estimating the required calories
+### Estimating the required calories
 
 According to [NHS](https://www.nhs.uk/live-well/healthy-weight/managing-your-weight/understanding-calories/), a man needs 2,500 kcal each day on average, while women need 2,000 kcal
 
@@ -49,7 +83,7 @@ $$
 
 With `N_imports` and `N_exports` representing the number of persons sustained by the imports and exports.
 
-## Estimating the surface needed
+### Estimating the surface needed
 
 The surface needed to produce a given quantity of food depends on many factors: climate, crop species, farming methods and more!
 
@@ -88,7 +122,7 @@ $$
 S = (N - N_{imports} + N_{exports}) E_{individual} \sum_{crops} \frac{a_{crop}}{3.5 E_{crop} N_{layers}}
 $$
 
-## Results
+### Results
 
 Let's put this formula to use with a simple case: no imports and no exports, and we only produce rice on a single hydroponic layer:
 
