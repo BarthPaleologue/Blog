@@ -119,7 +119,7 @@ If you want a taste of the gradient derivation, you can check out blackedout01�
 The most fundamental constraint is the distance constraint. Make it rigid and you have a rigid body, make it soft and you can already
 simulate flat cloth pieces. This one has all the math already done in the original PBD paper so it didn’t cause any issue.
 
-{{<figure src="image-2.png" alt="Distance constraint" caption="Distance constraint" caption-position="bottom">}}
+{{<figure src="image-2.png" alt="Distance constraint" caption="Distance constraint" caption-position="bottom" caption-effect="fade">}}
 
 ### Fixed Constraint
 
@@ -137,7 +137,7 @@ allows to increase the compliance of the constraint while simulating which gives
 
 Although we studied the dihedral constraint in class, I did not implement it at first. 
 
-{{<figure src="image-3.png" alt="Dihedral bending constraint" caption="Dihedral bending constraint" caption-position="bottom">}}
+{{<figure src="image-3.png" alt="Dihedral bending constraint" caption="Dihedral bending constraint" caption-position="bottom" caption-effect="fade">}}
 
 It’s main advantage is that by targeting the angle between the triangles, the
 constraint becomes independent from stretching created by classic distance constraint.
@@ -152,7 +152,7 @@ but it is still a nice addition to the constraint bestiary.
 My favorite bending constraint is the fast bending constraint. It is also the easier
 one to implement as it only involves a distance constraints between opposed vertices of neighboring triangles.
 
-{{<figure src="image.png" alt="Fast bending constraint" caption="Fast bending constraint" caption-position="bottom">}}
+{{<figure src="image.png" alt="Fast bending constraint" caption="Fast bending constraint" caption-position="bottom" caption-effect="fade">}}
 
 I came across it on [Carmen Cincotti’s website](https://carmencincotti.com/2022-09-05/the-most-performant-bending-constraint-of-xpbd/) while looking for information on the dihedral constraint. Although it is not independent of stretching,
 it is much faster which makes it worth it to reach real-time speed.
@@ -220,7 +220,7 @@ I spent an entire week fixing the collisions in my simulations so I have plenty 
 
 The first thing is about the constraint itself. It is presented as a particle triangle constraint while in reality it is a particle to infinite
 plane constraint! 
-{{<figure src="image-5.png" alt="Collision constraint" caption="Collision constraint" caption-position="bottom">}}
+{{<figure src="image-5.png" alt="Collision constraint" caption="Collision constraint" caption-position="bottom" caption-effect="fade">}}
 
 The constraint keeps the particle on one side of the infinite plane that contains the triangle, which can become awful when you have a lot of different triangles! (With so many infinite planes with random orientations, you will always be on the wrong side!).
 

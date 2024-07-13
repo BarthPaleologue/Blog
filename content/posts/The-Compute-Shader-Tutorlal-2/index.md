@@ -12,7 +12,7 @@ Hello again! This is the second part of my compute shader series. If you haven't
 
 Now that we know how to create simple compute shaders, we will see how to parameterize them with uniforms.
 
-{{<figure src="image.png" alt="Uniformity (src: https://stickwithjesus.files.wordpress.com/2015/11/uniformity.jpg)" caption="Uniformity (src: https://stickwithjesus.files.wordpress.com/2015/11/uniformity.jpg)" caption-position="bottom">}}
+{{<figure src="image.png" alt="Uniformity at its finest" attr-link="https://stickwithjesus.files.wordpress.com/2015/11/uniformity.jpg" caption="Uniformity at its finest" caption-position="bottom">}}
 
 No, not that kind of uniform!
 
@@ -38,7 +38,7 @@ Don't forget to select WebGPU instead of WebGL2 or WebGL in the top right of the
 
 Now let's open the browser console by pressing `F12` and then select the `Console` tab. You should see something like this:
 
-{{<figure src="image-1.png" alt="WebGPU is experimental on this platform" caption="WebGPU is experimental on this platform" caption-position="bottom">}}
+{{<figure src="image-1.png">}}
 
 We see the result of the addition of the 2 arrays from last time, it is all good we can continue.
 

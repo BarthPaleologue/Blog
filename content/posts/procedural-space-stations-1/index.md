@@ -41,13 +41,11 @@ The next important parameter is the energy efficiency. It is defined as the rati
 
 According to https://www.edn.com/international-space-station-iss-power-system/, the ISS solar panel surface is about 2,500 m² and produces 120kW of power. To get the efficiency, we must first compute how much energy is received from the sun. You might find weird that we use the surface of solar panels of the ISS to compute the solar panel efficiency in order to compute the solar panel surface. This is only because I want to check our model gives plausible results, and to prove I'm not cheating.
 
-{{<figure src="image.png" alt="Trust me bro" caption="Trust me bro" caption-position="bottom">}}
-
 ### Solar energy received
 
 This is the part with some math, but I will try to make it as painless as possible.
 
-{{<figure src="thermo.gif" alt="Thermodynamics" caption="Thermodynamics" caption-position="bottom">}}
+{{<figure src="thermo.gif" alt="Thermodynamics">}}
 
 The energy we receive from the sun depends on multiple factors:
 
@@ -116,7 +114,7 @@ $$
 
 The resulting energy is about 3,400kw for 2,500 m² of solar panels. This gives us an efficiency of about 7%. But that's considering the solar panels are always lit by the sun. The situation is more like this:
 
-{{<figure src="./shadow.png" alt="ISS orbiting the Earth" caption="ISS orbiting the Earth" caption-position="bottom">}}
+{{<figure src="./shadow.png" alt="ISS orbiting the Earth">}}
 
 As the ISS spends half of the time in the shadow of the Earth, we will divide the energy produced by 2:
 
@@ -142,7 +140,7 @@ As a refresher, we have the following values:
 
 Which gives us 1,890m² of solar panels. We are in the same range! But the result is not exact, why is that? Well, the ISS does not produces exactly the amount of energy necessary to sustain itself. It generates a bit more to recharge batteries and to have some margin in case of emergency. The energy produced is more like 120kW. Plugging this in our equation, we get back 2,521m², which is very close to the actual value of 2,500m².
 
-{{<figure src="image-2.png" alt="Great success!" caption="Great success!" attr-link="https://1.bp.blogspot.com/_5PFJfNCAwkM/TGXdmJm5toI/AAAAAAAABHY/zDGeu9CnjH0/s1600/borat_great_success-450x337.jpg" caption-position="bottom">}}
+{{<figure src="image-2.png" alt="Great success!" attr-link="https://1.bp.blogspot.com/_5PFJfNCAwkM/TGXdmJm5toI/AAAAAAAABHY/zDGeu9CnjH0/s1600/borat_great_success-450x337.jpg">}}
 
 This little exercise demonstrates that our model is coherent with the data we have on the ISS. We will now use it to generalize to Cosmos Journeyer's space stations.
 

@@ -43,7 +43,7 @@ In computer graphics, we do not use plain arrays, but textures (which are just a
 
 After precomputing the rings look up texture, we get something like this:
 
-{{<figure src="./ringsLUT.png" alt="rings lut" caption="rings lut" caption-position="bottom">}}
+{{<figure src="./ringsLUT.png" alt="rings lut" caption="rings lut" caption-position="bottom" caption-effect="fade">}}
 
 We can intuitively see that rotating this texture around the planet will indeed give us the same ring system as before.
 
