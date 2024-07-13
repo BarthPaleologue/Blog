@@ -34,7 +34,7 @@ I wasn't expecting it to be perfect, but it was. Even the evil sandwiches from l
 
 You could argue that they were so accurate because the technique is very slow. So how fast is it?
 
-{{<figure src="total time.png" alt="Alt text" caption="Alt text">}}
+{{<figure src="total time.png" alt="Alt text" caption="Alt text" caption-position="bottom">}}
 
 As you can see the average time for the entire task is around 100 seconds. As each participant had to select 20 items, we reach an average of 5 seconds per item. This is quite a good result when considering the users had to also move around the supermarket.
 

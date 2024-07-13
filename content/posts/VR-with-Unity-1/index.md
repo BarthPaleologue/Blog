@@ -32,13 +32,13 @@ Additional informations for troubleshooting are available at https://docs.unity3
 
 Now you can launch unity hub and you should see something like this:
 
-{{<figure src="unityhub.png" alt="Unity Hub" caption="Unity Hub">}}
+{{<figure src="unityhub.png" alt="Unity Hub" caption="Unity Hub" caption-position="bottom">}}
 
 Note that the color may change depending on your system theme and of course if you just installed the hub, there will be no projects in the project section.
 
 Now on your left there are 4 tabs: `Projects`, `Installs`, `Learn` and `Community`. then click on the top right button `Installs` and you should see something like this:
 
-{{<figure src="install-unity-editor.png" alt="Install Unity Editor" caption="Install Unity Editor">}}
+{{<figure src="install-unity-editor.png" alt="Install Unity Editor" caption="Install Unity Editor" caption-position="bottom">}}
 
 I will be using Unity Editor version 2022.3.8f1 for this series but it should also work for versions not far from that one. Unity unfortunately is notorious for breaking backward compatibility, so that might prove important.
 
@@ -52,13 +52,13 @@ You can always add modules later by clicking on the wheel icon on your installed
 
 Now go back to the `Projects` tab and click on `New Project` and you should see something like this:
 
-{{<figure src="unity-new-project.png" alt="Create new project" caption="Create new project">}}
+{{<figure src="unity-new-project.png" alt="Create new project" caption="Create new project" caption-position="bottom">}}
 
 We will choose the `3D` template for this series, choose a name you like and then click on `Create Project`.
 
 If everything went well, Unity will open your project and you should see something like this:
 
-{{<figure src="unity-editor.png" alt="Success !" caption="Success !">}}
+{{<figure src="unity-editor.png" alt="Success !" caption="Success !" caption-position="bottom">}}
 
 ## Conclusion
 

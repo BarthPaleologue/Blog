@@ -8,7 +8,7 @@ image: ""
 tags: ["VR", "IGD301"]
 ---
 
-{{<figure src="image.png" alt="src: wikipedia" caption="src: wikipedia">}}
+{{<figure src="image.png" alt="src: wikipedia" caption="src: wikipedia" caption-position="bottom">}}
 
 When talking about VR nowadays, we often think about headsets and controllers. But VR is far more diverse than you would think at first glance. In this post, I will present the CAVE system, an alternative to headsets that is still used today in many research labs.
 
@@ -28,7 +28,7 @@ It is important to understand that VR and reality are not 2 completely separate 
 
 This continuum is called the Reality-Virtuality Continuum and was first introduced by Paul Milgram and Fumio Kishino in 1994.
 
-{{<figure src="image-1.png" alt="The R-VR continuum" caption="The R-VR continuum">}}
+{{<figure src="image-1.png" alt="The R-VR continuum" caption="The R-VR continuum" caption-position="bottom">}}
 
 Where does the CAVE fit in this continuum? It is somewhere between augmented virtuality and augmented reality. It is a virtual environment, but it is not fully virtual as it is still anchored in the real world. You can see your own body and other people can see what you are doing. It is also not augmented reality as the virtual environment is not anchored in the real world, but the real world is anchored in the virtual environment.
 

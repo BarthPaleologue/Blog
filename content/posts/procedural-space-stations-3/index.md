@@ -23,9 +23,9 @@ The issue is that cities come in all shapes and forms on our planets: small, lar
 
 <!-- two columns with different images -->
 {{< columns >}}
-{{<figure src="./image.png" alt="Oslo from space" caption="Oslo from space">}}
+{{<figure src="./image.png" alt="Oslo from space" caption="Oslo from space" caption-position="bottom">}}
 {{< column >}}
-{{<figure src="./image.png" alt="Oslo public transport" caption="Oslo public transport">}}
+{{<figure src="./image.png" alt="Oslo public transport" caption="Oslo public transport" caption-position="bottom">}}
 {{< endcolumns >}}
 
 This part will be quite subjective as it is my vision for what a futuristic city should look like, but I will justify each point.
@@ -38,11 +38,11 @@ We have some cities on Earth which have plenty of public transportation and gree
 
 One of them is Oslo according to https://www.eea.europa.eu/highlights/how-green-are-european-cities and other sources. The capital of Norway has the largest green spaces in the world for its size. This can be seen even from space:
 
-{{<figure src="image-1.png" alt="Oslo from space" caption="Oslo from space">}}
+{{<figure src="image-1.png" alt="Oslo from space" caption="Oslo from space" caption-position="bottom">}}
 
 And its public transport system is vast and interconnected:
 
-{{<figure src="image.png" alt="Oslo public transport" caption="Oslo public transport">}}
+{{<figure src="image.png" alt="Oslo public transport" caption="Oslo public transport" caption-position="bottom">}}
 
 For these reasons, we will use Oslo as our model for space stations.
 

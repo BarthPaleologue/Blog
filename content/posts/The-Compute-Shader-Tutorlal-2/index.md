@@ -12,7 +12,7 @@ Hello again! This is the second part of my compute shader series. If you haven't
 
 Now that we know how to create simple compute shaders, we will see how to parameterize them with uniforms.
 
-{{<figure src="image.png" alt="Uniformity (src: https://stickwithjesus.files.wordpress.com/2015/11/uniformity.jpg)" caption="Uniformity (src: https://stickwithjesus.files.wordpress.com/2015/11/uniformity.jpg)">}}
+{{<figure src="image.png" alt="Uniformity (src: https://stickwithjesus.files.wordpress.com/2015/11/uniformity.jpg)" caption="Uniformity (src: https://stickwithjesus.files.wordpress.com/2015/11/uniformity.jpg)" caption-position="bottom">}}
 
 No, not that kind of uniform!
 
@@ -38,7 +38,7 @@ Don't forget to select WebGPU instead of WebGL2 or WebGL in the top right of the
 
 Now let's open the browser console by pressing `F12` and then select the `Console` tab. You should see something like this:
 
-{{<figure src="image-1.png" alt="WebGPU is experimental on this platform" caption="WebGPU is experimental on this platform">}}
+{{<figure src="image-1.png" alt="WebGPU is experimental on this platform" caption="WebGPU is experimental on this platform" caption-position="bottom">}}
 
 We see the result of the addition of the 2 arrays from last time, it is all good we can continue.
 
@@ -116,7 +116,7 @@ computeShader.setUniformBuffer("uniforms", uniformBuffer);
 
 Now save your playground and run it! You should see something like this in the console:
 
-{{<figure src="image-2.png" alt="Result" caption="Result">}}
+{{<figure src="image-2.png" alt="Result" caption="Result" caption-position="bottom">}}
 
 ## Checkpoint 2
 
@@ -201,7 +201,7 @@ for(let i = 0; i < 1000; i++) {
 
 In your console, you will see A LOT of values:
 
-{{<figure src="image-3.png" alt="Numbers everywheeere" caption="Numbers everywheeere">}}
+{{<figure src="image-3.png" alt="Numbers everywheeere" caption="Numbers everywheeere" caption-position="bottom">}}
 
 And all of that with the same WGSL code!
 

@@ -11,9 +11,9 @@ tags: ["Hugo", "Miscellaneous"]
 Alright, I was looking for an easy way to add comments to my blog. I found 2 popular solutions: Disqus and Cusdis (the names look interestingly similar!).
 
 {{< columns >}}
-{{<figure src="image-1.png" alt="Cusdis" caption="Cusdis">}}
+{{<figure src="image-1.png" alt="Cusdis" caption="Cusdis" caption-position="bottom">}}
 {{< column >}}
-{{<figure src="disqus.png" alt="Disqus" caption="Disqus">}}
+{{<figure src="disqus.png" alt="Disqus" caption="Disqus" caption-position="bottom">}}
 {{< endcolumns >}}
 
 
@@ -29,7 +29,7 @@ Well this one is quite straightforward, just go to [cusdis.com](https://cusdis.c
 
 Now we want to get the code that we will need to embed Cusdis in our website. Once you have configured the website on Cusdis dashboard, we can get the embed code in the top left corner:
 
-{{<figure src="image.png" alt="Embed code" caption="Embed code">}}
+{{<figure src="image.png" alt="Embed code" caption="Embed code" caption-position="bottom">}}
 
 It will present itself as some html like this:
 

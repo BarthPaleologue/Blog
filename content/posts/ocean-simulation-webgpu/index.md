@@ -21,7 +21,7 @@ I was also inspired by existing work on the subject by [Popov72](https://github.
 
 FFT-based ocean simulations are quite popular and you came across one if you ever watched Titanic:
 
-{{<figure src="image-12.png" alt="Titanic Ocean" caption="Titanic Ocean">}}
+{{<figure src="image-12.png" alt="Titanic Ocean" caption="Titanic Ocean" caption-position="bottom">}}
 
 With Cosmos Journeyer being implemented using Typescript and BabylonJS, I decided to use them as well for this project with the intent of integrating the ocean simulation into the game in the near future. The entire project is available on GitHub under an MIT license, you can find a link at the end of this post.
 
@@ -77,7 +77,7 @@ Here `A` is just an amplitude factor that you can change to your liking, I use 1
 
 You can notice how the dot product between the normalized wave vector and the normalized wind direction is used to give more amplitude to waves in the direction of the wind, and less amplitude to waves in the orthogonal direction. This gives us the following 256x256 texture:
 
-{{<figure src="image-2.png" alt="Phillips Spectrum" caption="Phillips Spectrum">}}
+{{<figure src="image-2.png" alt="Phillips Spectrum" caption="Phillips Spectrum" caption-position="bottom">}}
 
 Here the origin is at the center of the texture, the distance to the origin gives us the frequency of the wave, and the angle gives us the direction of the wave. The value of the pixel then gives us the amplitude of the wave at that frequency and direction.
 
@@ -87,17 +87,17 @@ But the real and imaginary parts are currently identical and oceanographic data 
 
 The solution is to multiply our spectrum by some random numbers, like a complex gaussian noise with mean 0 and variance 1. Here is an example of gaussian noise texture:
 
-{{<figure src="image.png" alt="Gaussian Noise" caption="Gaussian Noise">}}
+{{<figure src="image.png" alt="Gaussian Noise" caption="Gaussian Noise" caption-position="bottom">}}
 
 Each pixel is assigned a gaussian random number for the red channel, and another for the green channel. The blue channel is not used again.
 
 Now we take the product of the two:
 
-{{<figure src="image-4.png" alt="Complete Spectrum" caption="Complete Spectrum">}}
+{{<figure src="image-4.png" alt="Complete Spectrum" caption="Complete Spectrum" caption-position="bottom">}}
 
 We can also increase the influence of the wind by raising the dot product between the wave vector and the wind direction to a greater power. For a 6th power, we get the following spectrum:
 
-{{<figure src="image-5.png" alt="Spectrum^6" caption="Spectrum^6">}}
+{{<figure src="image-5.png" alt="Spectrum^6" caption="Spectrum^6" caption-position="bottom">}}
 
 We can see clearly that waves with an orthogonal direction to the wind have a much lower amplitude than waves in the direction of the wind.
 
@@ -115,7 +115,7 @@ So we will need to use the conjugate of the initial spectrum to compute the spec
 
 Here is the result with the conjugate:
 
-{{<figure src="image-3.png" alt="Conjugate Spectrum" caption="Conjugate Spectrum">}}
+{{<figure src="image-3.png" alt="Conjugate Spectrum" caption="Conjugate Spectrum" caption-position="bottom">}}
 
 The blue shade is the real part of the conjugate, and the imaginary part is stored in the alpha channel which we cannot view here.
 
@@ -141,7 +141,7 @@ For WebGPU, I reused [Popov72's implementation](https://github.com/Popov72/Ocean
 
 Now if we run the FFT on the spectrum, we get the following heightmap:
 
-{{<figure src="image-7.png" alt="Heightmap" caption="Heightmap">}}
+{{<figure src="image-7.png" alt="Heightmap" caption="Heightmap" caption-position="bottom">}}
 
 We have 2 colors here, red for the real part and green for the imaginary part. The actual height we are interested in is only the real part, but the imaginary part is also computed by the FFT algorithm.
 
@@ -183,7 +183,7 @@ First of all, water does not exist in a vacuum. Every ocean shot on camera also 
 
 It's already looking better:
 
-{{<figure src="image-9.png" alt="With a skybox" caption="With a skybox">}}
+{{<figure src="image-9.png" alt="With a skybox" caption="With a skybox" caption-position="bottom">}}
 
 With a sky so bright, our ocean looks very out of place, and that's because the ocean must reflect the sky!
 
@@ -197,7 +197,7 @@ $$
 
 Using this formula to interpolate between the color of the ocean and the reflected color of the sky, we get the following result:
 
-{{<figure src="image-10.png" alt="Fresnel" caption="Fresnel">}}
+{{<figure src="image-10.png" alt="Fresnel" caption="Fresnel" caption-position="bottom">}}
 
 ### Specular
 
@@ -273,7 +273,7 @@ We are not exactly doing texture mapping, but all of our ocean data is stored in
 
 One solution to avoid those warping artifacts on non-flat terrain is called "tri-planar mapping". The idea is to project the texture on the terrain from 3 different directions and blend the results:
 
-{{<figure src="image-11.png" alt="Triplanar Terrain Shaders from https://forum.unity.com/threads/free-triplanar-terrain-shaders.367992/" caption="Triplanar Terrain Shaders from https://forum.unity.com/threads/free-triplanar-terrain-shaders.367992/">}}
+{{<figure src="image-11.png" alt="Triplanar Terrain Shaders from https://forum.unity.com/threads/free-triplanar-terrain-shaders.367992/" caption="Triplanar Terrain Shaders from https://forum.unity.com/threads/free-triplanar-terrain-shaders.367992/" caption-position="bottom">}}
 
 If you want to know more about it, I recommend [Catlike Coding's tutorial](https://catlikecoding.com/unity/tutorials/advanced-rendering/triplanar-mapping/).
 

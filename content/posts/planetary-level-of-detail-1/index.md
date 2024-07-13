@@ -42,7 +42,7 @@ And there are multiple ways to assemble the triangles to get the shape we desire
 
 The most common way to create a sphere is to take inspiration from world maps: a 2d plane that can be wrapped around a sphere like shown on this image from Blender's documentation:
 
-{{<figure src="image-1.png" alt="UV Sphere" caption="UV Sphere">}}
+{{<figure src="image-1.png" alt="UV Sphere" caption="UV Sphere" caption-position="bottom">}}
 
 This is called a UV sphere. The mapping with the 2D surface is really useful when using textures, we can simply take the map of the earth and wrap it around like a gift. As there is no free lunch, we have some downsides:
 
@@ -52,11 +52,11 @@ The sphere does not have a uniform distribution of vertices, they get crowded at
 
 Another popular way is to start with an icosahedron:
 
-{{<figure src="image-3.png" alt="From Wikipedia" caption="From Wikipedia">}}
+{{<figure src="image-3.png" alt="From Wikipedia" caption="From Wikipedia" caption-position="bottom">}}
 
 And then we subdivide each triangle into 4 smaller triangles, like a Triforce or a Sierpinski triangle depending on your cultural preferences:
 
-{{<figure src="image-4.png" alt="https://sinestesia.co/wp/wp-content/uploads/2017/09/icos.png" caption="https://sinestesia.co/wp/wp-content/uploads/2017/09/icos.png">}}
+{{<figure src="image-4.png" alt="https://sinestesia.co/wp/wp-content/uploads/2017/09/icos.png" caption="https://sinestesia.co/wp/wp-content/uploads/2017/09/icos.png" caption-position="bottom">}}
 
 You can tell that the vertex distribution is much more uniform than the UV sphere, and subdivision is easy. The problem is that we subdivide the entire sphere, there are no individual chunks.
 
@@ -162,7 +162,7 @@ Computing distances on the surface of a sphere is different as when we are doing
 
 Instead we use the great circle distance, which is the length of the shortest arc connecting two points on a sphere. 
 
-{{<figure src="image.png" alt="Wikipedia Image" caption="Wikipedia Image">}}
+{{<figure src="image.png" alt="Wikipedia Image" caption="Wikipedia Image" caption-position="bottom">}}
 
 The formula to compute it is as follow for a point `p` and a point `q` on a sphere of radius `r`:
 
