@@ -19,7 +19,7 @@ In this blog post series, I will be presenting how I optimized the shaders of [C
 
 To perform many effects in computer graphics, we rely on noise functions:  randomness with smooth transitions. Here is what it can look like:
 
-![Noise](./noise.png)
+{{<figure src="./noise.png" alt="Noise" caption="Noise">}}
 
 src: https://barthpaleologue.github.io/Noise-Engine/dist/
 
@@ -27,7 +27,7 @@ The issue is that we use A LOT of noise, and it is very costly to generate at ru
 
 ## Planetary rings
 
-![Planetary rings](./rings.png)
+{{<figure src="./rings.png" alt="Planetary rings" caption="Planetary rings">}}
 
 Let's start slowly our optimization journey with the planetary rings. To create the ring effect, we use a noise function that computes the ring density for every pixel visible of the rings. Although I made it using a postprocess, you could use a real mesh with a shader material that performs the same thing inside the fragment shader.
 
@@ -43,7 +43,7 @@ In computer graphics, we do not use plain arrays, but textures (which are just a
 
 After precomputing the rings look up texture, we get something like this:
 
-![rings lut](./ringsLUT.png)
+{{<figure src="./ringsLUT.png" alt="rings lut" caption="rings lut">}}
 
 We can intuitively see that rotating this texture around the planet will indeed give us the same ring system as before.
 

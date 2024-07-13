@@ -23,7 +23,7 @@ Basically, we discretize the path light takes from the observer to the black hol
 
 This can done by in realtime by using a raymarching shader! Even though we do a lot of approximations, the result can be quite good. This is [Cosmos Journeyer's](https://cosmosjourneyer.com) version:
 
-![Alt text](screenshot_24-1-12_9-07.png)
+{{<figure src="screenshot_24-1-12_9-07.png" alt="Alt text" caption="Alt text">}}
 
 For anyone wondering, I used this shader from shadertoy as a base:
 
@@ -69,19 +69,19 @@ Not a lot has changed, we replaced the 2s by ps essentially. But this is enough 
 
 Here is a black hole with a p-distance of 1 (Manhattan distance):
 
-![p=1](screenshot_24-1-12_9-02.png)
+{{<figure src="screenshot_24-1-12_9-02.png" alt="p=1" caption="p=1">}}
 
 We get the shape of a diamond for the event horizon! This is because the p-distance of 1 is the sum of the absolute values of the differences between the coordinates.
 
 What about p=2?
 
-![p=2](screenshot_24-1-12_9-26.png)
+{{<figure src="screenshot_24-1-12_9-26.png" alt="p=2" caption="p=2">}}
 
 Haha got you, p=2 is just the regular euclidean distance, so we get the same result as before, with a nice circular event horizon.
 
 Okay what about p=5?
 
-![p=5](screenshot_24-1-12_9-30.png)
+{{<figure src="screenshot_24-1-12_9-30.png" alt="p=5" caption="p=5">}}
 
 We get a cubic event horizon! In the same way as increasing p in the orbit articles gave us square orbits, increasing p here gives us a cubic event horizon in the 3rd dimension.
 
@@ -89,11 +89,11 @@ We could actually have predicted this shape by looking at the wikipedia page for
 
 We get these shapes in 2D, and we indeed got the same shapes in 3D!
 
-![Shapes of Minkowski distances](image.png)
+{{<figure src="image.png" alt="Shapes of Minkowski distances" caption="Shapes of Minkowski distances">}}
 
 Let's do one more: p=0.5
 
-![p=0.5](screenshot_24-1-12_9-36.png)
+{{<figure src="screenshot_24-1-12_9-36.png" alt="p=0.5" caption="p=0.5">}}
 
 The maths checks out!
 
@@ -103,21 +103,21 @@ That's pretty cool, can we find other distances that give us other shapes?
 
 Yeeees! Signed distance fields are functions that give the distance to a certain shape. For example, using the SDF of a capsule, we can bend the rays in a wonky way to get a black hole with a capsule event horizon!
 
-![Wtf am I doing](screenshot_24-1-12_10-13.png)
+{{<figure src="screenshot_24-1-12_10-13.png" alt="Wtf am I doing" caption="Wtf am I doing">}}
 
 Unfortunately, we are only bending the rays around the capsule and not really raymarching the capsule directly so we don't get a very definite shape.
 
 Indeed, if we use the SDF of a cylinder instead, we get a similar result:
 
 Side view:
-![Side view](screenshot_24-1-12_10-18.png) 
+{{<figure src="screenshot_24-1-12_10-18.png" alt="Side view" caption="Side view">}} 
 
 Top view:
-![Top view](<screenshot_24-1-12_10-18 (1).png>)
+{{<figure src="screenshot_24-1-12_10-18 (1).png" alt="Top view" caption="Top view">}}
 
 Just for fun, here the result with the SDF of a pyramid:
 
-![Big forehead](screenshot_24-1-12_10-21.png)
+{{<figure src="screenshot_24-1-12_10-21.png" alt="Big forehead" caption="Big forehead">}}
 
 You probably never thought about a black hole with a huge forehead, but here we are.
 

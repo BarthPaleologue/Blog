@@ -12,7 +12,7 @@ tags: ["VR", "IGD301"]
 
 In mainstream VR, the most common selection technique is raycasting from the controller. It is simple and cheap to implement, but having to move the hands around can be tiring.
 
-![https://journals.sagepub.com/doi/10.1177/21695067231192429](image.png)
+{{<figure src="image.png" alt="https://journals.sagepub.com/doi/10.1177/21695067231192429" caption="https://journals.sagepub.com/doi/10.1177/21695067231192429">}}
 
 Using your gaze allows for a very natural way to select distant object (the reach is infinite). It is used in newer headsets such as the Apple Vision Pro that take advantage of cutting edge hardware.
 
@@ -28,6 +28,6 @@ As the flashlight is a variant of the raycast, its reach is infinite. However, c
 
 The aperture is an evolution of the flashlight. The main difference being that you can adjust the angle of the cone to refine your selection (progressive refinement). This allows for a very precise selection of objects.
 
-![Design and evaluation of a novel out-of-reach selection technique for VR using iterative refinement](image-1.png)
+{{<figure src="image-1.png" alt="Design and evaluation of a novel out-of-reach selection technique for VR using iterative refinement" caption="Design and evaluation of a novel out-of-reach selection technique for VR using iterative refinement">}}
 
 In the same way as the flashlight, the aperture has an infinite reach and a plural cardinality. However as you can adjust the angle of the cone, you can select objects one by one as well with a small enough angle. Therefore the cardinality can be both plural and single.

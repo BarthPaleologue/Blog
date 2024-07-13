@@ -8,7 +8,7 @@ image: ""
 tags: ["Compute Shaders", "WebGPU", "BabylonJS"]
 ---
 
-![Cover image](cover.png)
+{{<figure src="cover.png" alt="Cover image" caption="Cover image">}}
 
 Welcome to my tutorial on compute shaders using WebGPU and BabylonJS! It is meant to be accessible to beginers and then to provide concrete use cases of compute shaders in the context of terrain generation and grass rendering.
 
@@ -78,7 +78,7 @@ Let's head to the [BabylonJS playground](https://playground.babylonjs.com/), whi
 
 We are greeted by see something like this:
 
-![The playground](image.png)
+{{<figure src="image.png" alt="The playground" caption="The playground">}}
 
 On the left is the code editor and on the right the 3D scene. As we are only doing array processing, we don't really care about the 3D stuff.
 
@@ -276,7 +276,7 @@ The `console.log` will print the result of the addition of the 2 arrays in the b
 
 Now let's press the run button (The triangle next to the floppy disk icon) and see what happens!
 
-![Alt text](image-1.png)
+{{<figure src="image-1.png" alt="Alt text" caption="Alt text">}}
 
 It worked! We indeed got the addition of the 2 arrays from the GPU. You can try changing the values of the arrays and see that the result changes accordingly.
 

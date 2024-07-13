@@ -21,6 +21,13 @@ We will start with the easier part of the two: estimating the surface necessary 
 
 The issue is that cities come in all shapes and forms on our planets: small, large, tall even when taking skyscrapers into account. What should our baseline be?
 
+<!-- two columns with different images -->
+{{< columns >}}
+{{<figure src="./image.png" alt="Oslo from space" caption="Oslo from space">}}
+{{< column >}}
+{{<figure src="./image.png" alt="Oslo public transport" caption="Oslo public transport">}}
+{{< endcolumns >}}
+
 This part will be quite subjective as it is my vision for what a futuristic city should look like, but I will justify each point.
 
 First, a space city will use a lot of public transportation. The reason for this is the reduction of surface used to store unused individual vehicles (think parkings), the reduction in traffic and noise. The different kinds of transportation used include trains for broad connection, automatic buses for narrow connections and finally flying taxis for urgent and precise business such as emergencies and personality transportation.
@@ -31,11 +38,11 @@ We have some cities on Earth which have plenty of public transportation and gree
 
 One of them is Oslo according to https://www.eea.europa.eu/highlights/how-green-are-european-cities and other sources. The capital of Norway has the largest green spaces in the world for its size. This can be seen even from space:
 
-![Oslo from space](image-1.png)
+{{<figure src="image-1.png" alt="Oslo from space" caption="Oslo from space">}}
 
 And its public transport system is vast and interconnected:
 
-![Oslo public transport](image.png)
+{{<figure src="image.png" alt="Oslo public transport" caption="Oslo public transport">}}
 
 For these reasons, we will use Oslo as our model for space stations.
 
@@ -100,9 +107,15 @@ Fun fact: Nasa is already experimenting with hydroponics in space: https://scien
 I will use the data from https://www.fao.org/4/t0207e/T0207E04.htm#4.%20Nutritive%20value to get the `kcal/ha/day` that we need to compute the surface. The formula for a single type of crops is as follow:
 
 $$
-S = (N - N_{imports} + N_{exports}) \frac{E_{individual}}{E_{crop} N_{layers}} \newline
-\text{where: } E_{individual} = 2,250 \text{ kcal/day} \newline 
-E_{crop} \text{ is the edible energy of the crop type in kcal/ha/day} \text{ and}  \newline
+S = (N - N_{imports} + N_{exports}) \frac{E_{individual}}{E_{crop} N_{layers}}
+$$
+$$
+\text{where: } E_{individual} = 2,250 \text{ kcal/day}
+$$
+$$
+E_{crop} \text{ is the edible energy of the crop type in kcal/ha/day} \text{ and}
+$$
+$$
 N_{layers} \text{ is the number of layers used in our hydroponic infrastructure}
 $$
 

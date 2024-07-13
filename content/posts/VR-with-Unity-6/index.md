@@ -45,7 +45,7 @@ Normally, we would be able to do it using scripts but the shelves do not have a 
 
 Oh boy, well let's select them all by hand then.
 
-![One hour later](image.png)
+{{<figure src="image.png" alt="One hour later" caption="One hour later">}}
 
 Okay so now that we have everything selected, we can add a box collider to all of them at once, assign them to the `Shelves` layer and finally attach a `Shelf` script to them.
 
@@ -111,7 +111,7 @@ void Update() {
 
 Now we get the following result:
 
-![Shelf highlighting](image-4.png)
+{{<figure src="image-4.png" alt="Shelf highlighting" caption="Shelf highlighting">}}
 
 You can increase the opacity of the highlights as you wish, but in VR I found this to be enough to tell the boundaries of the shelf.
 
@@ -153,7 +153,7 @@ In the very same fashion as we did for the shelves, we will create a highlight b
 
 More importantly, there is the sandwich problem.
 
-![SCARY SANDWICHES](image-5.png)
+{{<figure src="image-5.png" alt="SCARY SANDWICHES" caption="SCARY SANDWICHES">}}
 
 You are scared right? No? You should be!
 
@@ -193,11 +193,11 @@ public void DisplayBoundingBox(bool display) {
 
 We get the desired result:
 
-![Item bounding box](image-6.png)
+{{<figure src="image-6.png" alt="Item bounding box" caption="Item bounding box">}}Item bounding box" caption="Item bounding box">}}
 
 And now we can tell apart the sandwiches!
 
-![The sandwich problem, solved!](image-7.png)
+{{<figure src="image-7.png" alt="The sandwich problem, solved!" caption="The sandwich problem, solved!">}}
 
 ## Shelf manipulation
 
@@ -381,7 +381,7 @@ The target scale is fixed to `0.1f` as I found it was quite a good size for the 
 
 You might ask what is this `xOffset` i am using here that changes in function of the hand. Without an xOffset, the shelf would be centered on the controller, which is good but not perfect. We want the shelf to be closer to the center of the view like this:
 
-![xOffset](image-8.png)
+{{<figure src="image-8.png" alt="xOffset" caption="xOffset">}}
 
 Here the shelf is held by the right hand, but is translated on the controller x axis by some offset to make it closer to the center of the view.
 

@@ -11,7 +11,7 @@ bigimg: [{src: "banner.png", desc: "The International Space Station and its 8 so
 
 How can we create realistic looking space stations? How to make them feel grounded and functional? That's what I want to explore it this series of blog posts while developing the new space stations for [Cosmos Journeyer](https://cosmosjourneyer.com). Here is a sneak peak:
 
-![View from Cosmos Journeyer's space station](cosmos.png)
+{{<figure src="cosmos.png" alt="View from Cosmos Journeyer's space station" caption="View from Cosmos Journeyer's space station">}}
 
 In this first one, we will talk about solar panels. They are an iconic part of the look of space stations: from Mir to the ISS, and Tiangong to the upcoming Lunar Gateway, they all have them! So it's only natural that my procedural space stations will have them too.
 
@@ -41,13 +41,13 @@ The next important parameter is the energy efficiency. It is defined as the rati
 
 According to https://www.edn.com/international-space-station-iss-power-system/, the ISS solar panel surface is about 2,500 m² and produces 120kW of power. To get the efficiency, we must first compute how much energy is received from the sun. You might find weird that we use the surface of solar panels of the ISS to compute the solar panel efficiency in order to compute the solar panel surface. This is only because I want to check our model gives plausible results, and to prove I'm not cheating.
 
-![Trust me bro](image.png)
+{{<figure src="image.png" alt="Trust me bro" caption="Trust me bro">}}
 
 ### Solar energy received
 
 This is the part with some math, but I will try to make it as painless as possible.
 
-![Thermodynamics](thermo.gif)
+{{<figure src="thermo.gif" alt="Thermodynamics" caption="Thermodynamics">}}
 
 The energy we receive from the sun depends on multiple factors:
 
@@ -78,7 +78,7 @@ $$
 
 where R is the radius of the sun, which is about 696,340 km = 696,340,000 m. Just for comparison, Earth is only 6,371 km = 6,371,000 m.
 
-![It's big. src: https://www.universetoday.com/wp-content/uploads/2010/05/sunearthcompared.jpg](image-1.png)
+{{<figure src="image-1.png" alt="It's big. src: https://www.universetoday.com/wp-content/uploads/2010/05/sunearthcompared.jpg" caption="It's big. src: https://www.universetoday.com/wp-content/uploads/2010/05/sunearthcompared.jpg">}}
 
 We get the following formula for the total energy radiated by the sun:
 
@@ -88,7 +88,7 @@ $$
 
 But we want to know the energy received by the ISS, which accounts for the distance to the sun. As we get further away, the energy of the sun gets spread out over a larger area (think about a pebble thrown in a pond: the wave will start strong but fade away the further it goes because of the energy spread). 
 
-![What an awesome illustration!](./flux.png)
+{{<figure src="./flux.png" alt="What an awesome illustration!" caption="What an awesome illustration!">}}
 
 If we stand at distance D from the sun, the total energy emitted by the sun will be spread over a sphere of radius D. Therefore we can compute the energy flux received by the ISS as:
 
@@ -116,7 +116,7 @@ $$
 
 The resulting energy is about 3,400kw for 2,500 m² of solar panels. This gives us an efficiency of about 7%. But that's considering the solar panels are always lit by the sun. The situation is more like this:
 
-![ISS orbiting the Earth](./shadow.png)
+{{<figure src="./shadow.png" alt="ISS orbiting the Earth" caption="ISS orbiting the Earth">}}
 
 As the ISS spends half of the time in the shadow of the Earth, we will divide the energy produced by 2:
 
@@ -142,7 +142,7 @@ As a refresher, we have the following values:
 
 Which gives us 1,890m² of solar panels. We are in the same range! But the result is not exact, why is that? Well, the ISS does not produces exactly the amount of energy necessary to sustain itself. It generates a bit more to recharge batteries and to have some margin in case of emergency. The energy produced is more like 120kW. Plugging this in our equation, we get back 2,521m², which is very close to the actual value of 2,500m².
 
-![Great success! src: https://1.bp.blogspot.com/_5PFJfNCAwkM/TGXdmJm5toI/AAAAAAAABHY/zDGeu9CnjH0/s1600/borat_great_success-450x337.jpg](image-2.png)
+{{<figure src="image-2.png" alt="Great success!" caption="Great success!" attr-link="https://1.bp.blogspot.com/_5PFJfNCAwkM/TGXdmJm5toI/AAAAAAAABHY/zDGeu9CnjH0/s1600/borat_great_success-450x337.jpg">}}
 
 This little exercise demonstrates that our model is coherent with the data we have on the ISS. We will now use it to generalize to Cosmos Journeyer's space stations.
 
@@ -150,7 +150,7 @@ This little exercise demonstrates that our model is coherent with the data we ha
 
 For Cosmos Journeyer, I see space stations being analog to our cities on Earth. This gives us a rough number of people that should be sustained on board. I will take Nantes as an example, as it is the city I spent most of my childhood in. Moreover, there is a huge debate to know if Nantes is part of Bretagne or not, so we will just put it into space to piss off everybody.
 
-![Nantes in space](nantes.png)
+{{<figure src="nantes.png" alt="Nantes in space" caption="Nantes in space">}}
 
 Our population increases dramatically: from 7 crew members, we go to about 323,000 people. The energy consumption is also not the same, as this is no longer a scientific space station but a space city. In France, the energy consumption per capita is about 40,000 kwh per year, so about 4.5kW per person. This gives us a total energy consumption of about 1.45GW. The ISS uses one more third of the energy used to recharge batteries, so we can also account for that and get a total energy production of about 1.9GW.
 

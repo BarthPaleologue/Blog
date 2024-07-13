@@ -27,7 +27,7 @@ Soft bodies are a notoriously challenging field of computer simulations. Making 
 
 Although my initial goal was to implement HPBD, combining it with XPBD felt very natural and yield powerful results.
 
-![Result](<Capture d’écran du 2024-02-07 20-44-49.png>)
+{{<figure src="Capture d’écran du 2024-02-07 20-44-49.png" alt="Result" caption="Result">}}
 
 ## Introduction to PBD
 
@@ -88,7 +88,7 @@ output a new batch of data with fewer vertices, and fewer triangles that have si
 The HPBD paper proposes the general reduction algorithm to perform the decimation and its implementation yield good results
 for complex meshes such as the Stanford Bunny.
 
-![Decimated bunny](<Capture d’écran du 2024-01-02 21-04-45.png>)
+{{<figure src="Capture d’écran du 2024-01-02 21-04-45.png" alt="Decimated bunny" caption="Decimated bunny">}}
 
 One limitation is that sometimes the general reduction algorithm outputs a non-manifold mesh, which causes issues when deciding
 whether or not to create a global volume constraint (more on that later).
@@ -119,7 +119,7 @@ If you want a taste of the gradient derivation, you can check out blackedout01�
 The most fundamental constraint is the distance constraint. Make it rigid and you have a rigid body, make it soft and you can already
 simulate flat cloth pieces. This one has all the math already done in the original PBD paper so it didn’t cause any issue.
 
-![Distance constraint](image-2.png)
+{{<figure src="image-2.png" alt="Distance constraint" caption="Distance constraint">}}
 
 ### Fixed Constraint
 
@@ -137,7 +137,7 @@ allows to increase the compliance of the constraint while simulating which gives
 
 Although we studied the dihedral constraint in class, I did not implement it at first. 
 
-![Dihedral bending constraint](image-3.png)
+{{<figure src="image-3.png" alt="Dihedral bending constraint" caption="Dihedral bending constraint">}}
 
 It’s main advantage is that by targeting the angle between the triangles, the
 constraint becomes independent from stretching created by classic distance constraint.
@@ -152,7 +152,7 @@ but it is still a nice addition to the constraint bestiary.
 My favorite bending constraint is the fast bending constraint. It is also the easier
 one to implement as it only involves a distance constraints between opposed vertices of neighboring triangles.
 
-![Fast bending constraint](image.png)
+{{<figure src="image.png" alt="Fast bending constraint" caption="Fast bending constraint">}}
 
 I came across it on [Carmen Cincotti’s website](https://carmencincotti.com/2022-09-05/the-most-performant-bending-constraint-of-xpbd/) while looking for information on the dihedral constraint. Although it is not independent of stretching,
 it is much faster which makes it worth it to reach real-time speed.
@@ -220,7 +220,7 @@ I spent an entire week fixing the collisions in my simulations so I have plenty 
 
 The first thing is about the constraint itself. It is presented as a particle triangle constraint while in reality it is a particle to infinite
 plane constraint! 
-![Collision constraint](image-5.png)
+{{<figure src="image-5.png" alt="Collision constraint" caption="Collision constraint">}}
 
 The constraint keeps the particle on one side of the infinite plane that contains the triangle, which can become awful when you have a lot of different triangles! (With so many infinite planes with random orientations, you will always be on the wrong side!).
 
@@ -238,7 +238,7 @@ used to solve the actual collisions.
 
 In the same way as last year, I added an Axis-Aligned Bounding Box (AABB) to every physics body of my scene.
 
-![AABBs in Avalanche](image-4.png)
+{{<figure src="image-4.png" alt="AABBs in Avalanche" caption="AABBs in Avalanche">}}
 
 In the broad phase, I check all AABB against each other (sorry for the O(n^2), I didn’t have the time to back port my spatial hash
 grid to C++).
@@ -257,7 +257,7 @@ as selecting particle/triangle pairs.
 
 The next thing I implemented was to shoot a ray from the center of mass of the object to the surface particle and then checking the
 intersection of this ray with the faces of the other body: 
-![Shooting a ray from a center of mass](image-1.png)
+{{<figure src="image-1.png" alt="Shooting a ray from a center of mass" caption="Shooting a ray from a center of mass">}}
 
 This already fixed the instabilities I had, but using the center of mass is not perfect when the mesh is not perfectly convex (think of
 a torus, the center of mass is not inside the object so a ray coming from the center of mass to a surface vertex could intersect a triangle
@@ -305,7 +305,7 @@ In fact, when a sphere is colliding with the flat piece of clothing, we don’t 
 only need an approximation of its shape to get a convincing result.
 Thankfully we already built a hierarchy with approximations of the original mesh.
 
-![Hierarchy of the flat cloth](<Capture d’écran du 2024-02-09 12-09-42.png>)
+{{<figure src="<Capture d’écran du 2024-02-09 12-09-42.png>" alt="Hierarchy of the flat cloth" caption="Hierarchy of the flat cloth">}}
 
 Therefore, I only needed to check the collisions against the hierarchy level I wanted. For now it is user defined and highly depends on the geometry of the clothing, but automatic estimation of the
 right level to use can probably be found.

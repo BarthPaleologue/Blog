@@ -10,7 +10,7 @@ tags: ["VR", "Unity", "IGD301", "Poking around"]
 
 Have you ever been in a supermarket and felt overwhelmed by the task of grabing objects from the shelves? I know, i know.
 
-![The supermarket of dooooom](image.png)
+{{<figure src="image.png" alt="The supermarket of dooooom" caption="The supermarket of dooooom">}}
 
 Of course you have! This feeling of frustration is not uncommon for people not using advanced VR selection techniques in real supermarkets.
 
@@ -32,11 +32,11 @@ To create this effect, we can play with the field of view (FOV) of the camera. T
 
 Here is an image with a FOV of 60 degrees:
 
-![FOV=60](image-2.png) 
+{{<figure src="image-2.png" alt="FOV=60" caption="FOV=60">}} 
 
 As you can see the items of the shelf are far away and small on the screen. Now without moving at all, by just lowering the FOV to 23 degrees, we can see the items are bigger:
 
-![FOV=23](image-1.png)
+{{<figure src="image-1.png" alt="FOV=23" caption="FOV=23">}}
 
 Once the objects are magnified, it is easy to pick them using a raycast from a controller or from your eyes. Once the object is selected, it will fly right into the user's hand like you some kind of Jedi.
 
@@ -127,7 +127,7 @@ bottle4
 
 It would be wild if it actually worked right?
 
-![Wow](image-6.png)
+{{<figure src="image-6.png" alt="Wow" caption="Wow">}}
 
 Well well, if it isn't the exact bottle we wanted! ChatGPT never fails to amaze me.
 
@@ -161,11 +161,11 @@ Once the shelf is in hand, the user can easily rotate it in the same way we did 
 
 For example this occluded chips cylinder behind the magenta bottles:
 
-![Occluded object](image-4.png)
+{{<figure src="image-4.png" alt="Occluded object" caption="Occluded object">}}
 
 If we simply rotate the shelf:
 
-![No longer occluded](image-5.png)
+{{<figure src="image-5.png" alt="No longer occluded" caption="No longer occluded">}}
 
 Now the cylinder is perfectly visible and easy to grab for a user in VR.
 

@@ -22,15 +22,15 @@ We saw last week how to create and setup a new unity project. If you don't know 
 
 We will now create a new scene that will hold today's session. To do that, go to file -> new scene.
 
-![Find the new scene button](image.png)
+{{<figure src="image.png" alt="Find the new scene button" caption="Find the new scene button">}}
 
 A context window will open, choose the Basic (Built-in) template, and click on create.
 
-![Create new scene](image-1.png)
+{{<figure src="image-1.png" alt="Create new scene" caption="Create new scene">}}
 
 We are now inside the untitled scene. To save it, go to `File` -> `Save As`. Choose a name (like `RollABall`) and save it in the scene folder of your project.
 
-![Save the scene](image-2.png)
+{{<figure src="image-2.png" alt="Save the scene" caption="Save the scene">}}
 
 ## Create the ground
 
@@ -38,15 +38,15 @@ The first thing we want to do now is to create our game environment. Starting wi
 
 For this project, the ground will be a simple flat plane. Go to `GameObject` -> `3D Object` -> `Plane`.
 
-![Create a plane](image-3.png)
+{{<figure src="image-3.png" alt="Create a plane" caption="Create a plane">}}
 
 To focus the camera on the plane, simply click on it with the mouse and press `F`. You should see something like this:
 
-![The ground!](image-4.png)
+{{<figure src="image-4.png" alt="The ground!" caption="The ground!">}}
 
 To make it bigger, we can go to the inspector and set the scale to `2` on the `X` and `Z` axis.
 
-![The inspector](image-5.png)
+{{<figure src="image-5.png" alt="The inspector" caption="The inspector">}}
 
 If you do not see this in your inspector, make sure the ground plane is selected. You can press `F` again to see the whole plane.
 
@@ -56,7 +56,7 @@ Now it is time to create the ball that will be our player. To do that, go to `Ga
 
 In the inspector, set the Y position to `0.5` so that the ball is not inside the ground. Press `F` to focus on the ball. You should see something like this:
 
-![The ball on the ground](image-6.png)
+{{<figure src="image-6.png" alt="The ball on the ground" caption="The ball on the ground">}}
 
 ## Lighting
 
@@ -64,11 +64,11 @@ Do not like the look of it? Lighting is everything. We can change the lighting c
 
 In the object hierarchy on the left, select the `Directional Light` object.
 
-![Select the light](image-7.png)
+{{<figure src="image-7.png" alt="Select the light" caption="Select the light">}}
 
 Now on your right (you will get used to the eyes exercise), in the inspector, you can change the color of the light. I chose a nice blue.
 
-![Changing the light color](image-8.png)
+{{<figure src="image-8.png" alt="Changing the light color" caption="Changing the light color">}}
 
 We can also change the direction the light is coming from. In the `Transform` component of the light, try changing the rotations for `X` and `Y`. `Z` does not change anything so you can leave it at `0`.
 
@@ -82,11 +82,11 @@ Our scene still looks bland. To make it look better, we will add some materials.
 
 In the `Assets` folder that you can find at the bottom of the screen, right click and choose `Create` -> `Folder`. Name it `Materials`.
 
-![Create a folder](image-9.png)
+{{<figure src="image-9.png" alt="Create a folder" caption="Create a folder">}}
 
 Now we will create a new material inside the folder. Right click on the folder and choose `Create` -> `Material`. Name it `Background`.
 
-![Create a material](image-10.png)
+{{<figure src="image-10.png" alt="Create a material" caption="Create a material">}}
 
 To apply in on the ground, simply drag and drop it from the bottom of your screen onto the ground in the scene view.
 
@@ -94,13 +94,13 @@ At this point nothing has changed and you may be wondering why am I loosing your
 
 The reason is that we still have to change its properties in the inspector. Select your material, choose a dark gray color, and set the smoothness to `0.25` to make it look like a plastic.
 
-![Change material properties](image-11.png)
+{{<figure src="image-11.png" alt="Change material properties" caption="Change material properties">}}
 
 Now you can do the same the player sphere, but this time choose a color of your choice. I chose a nice red.
 
 Your scene should look like this:
 
-![Alt text](image-12.png)
+{{<figure src="image-12.png" alt="Alt text" caption="Alt text">}}
 
 ## Controlling the player
 
@@ -112,7 +112,7 @@ We want our ball to be rolling, so we will need the physics engine of Unity. To 
 
 Select the player sphere, and in the inspector, click on `Add Component`. Search for `Rigidbody` and click on it.
 
-![Add a rigidbody](image-13.png)
+{{<figure src="image-13.png" alt="Add a rigidbody" caption="Add a rigidbody">}}
 
 ### The input system
 
@@ -122,21 +122,21 @@ I can't believe that I am writing this but as of 2023, Unity's new input system 
 
 Let's go to `Window` -> `Package Manager`.
 
-![Go to package manager](image-14.png)
+{{<figure src="image-14.png" alt="Go to package manager" caption="Go to package manager">}}
 
 Then we need to show the packages from the `Unity Registry`. Click on `packages:` and choose `Unity Registry`.
 
-![Select unity registry packages](image-15.png)
+{{<figure src="image-15.png" alt="Select unity registry packages" caption="Select unity registry packages">}}
 
 Now we search for the `Input System` using the search bar. Click on `Install`, during the installation you might get prompts, just press `yes` and proceed.
 
-![Install the input system](image-16.png)
+{{<figure src="image-16.png" alt="Install the input system" caption="Install the input system">}}
 
 Now let's select our player sphere again, and add a `Player Input` component to it, just like we did for the `Rigidbody`. This will allow us to read the input from the keyboard.
 
 The updated inspector will show this:
 
-![Attached input system](image-17.png)
+{{<figure src="image-17.png" alt="Attached input system" caption="Attached input system">}}
 
 Let's click on `Create Actions` to create the actions we will need to move our player.
 
@@ -144,7 +144,7 @@ You will be prompted to save the actions in a folder. Create a new folder called
 
 We end up with this strange window:
 
-![The input system window](image-18.png)
+{{<figure src="image-18.png" alt="The input system window" caption="The input system window">}}
 
 We close it for now, but we will be back!
 
@@ -156,7 +156,7 @@ We will create a script to move our player around. First let's create a `Scripts
 
 Now let's right click on the `Scripts` folder and choose `Create` -> `C# Script`. Name it `PlayerController`.
 
-![Creating a C# script](image-19.png)
+{{<figure src="image-19.png" alt="Creating a C# script" caption="Creating a C# script">}}
 
 We can then drag and drop the script onto our player sphere in the scene view just like with the materials.
 
@@ -311,7 +311,7 @@ Notice how I split the line in two to make it more readable. You should always a
 
 Now if you go to Unity, select the player and look for the `Player Controller` script in the inspector, you should see the `speed` variable. 
 
-![Public variables are visible in the inspector](image-20.png)
+{{<figure src="image-20.png" alt="Public variables are visible in the inspector" caption="Public variables are visible in the inspector">}}
 
 Try changing it to `2.0` (or more, you are the one making the game after all) and press play. You should see that the player is now moving faster.
 
@@ -390,7 +390,7 @@ The only thing left to do it to create a material for the walls, you can proceed
 
 My playground looks like this:
 
-![Awesome playground!](image-21.png)
+{{<figure src="image-21.png" alt="Awesome playground!" caption="Awesome playground!">}}
 
 ## Collectibles
 
@@ -439,7 +439,7 @@ Drag and drop the collectible object from the hierarchy into the `Prefabs` folde
 
 Now in the hierachy, we have this:
 
-![Prefab in hierarchy](image-22.png)
+{{<figure src="image-22.png" alt="Prefab in hierarchy" caption="Prefab in hierarchy">}}
 
 The prefab instance appears in blue and there is a little arrow next to it.
 
@@ -457,7 +457,7 @@ Now just duplicate (`Ctrl + D`) the collectible a bunch of times and put them an
 
 I ended up with this:
 
-![Collectibles everywhere!](image-23.png)
+{{<figure src="image-23.png" alt="Collectibles everywhere!" caption="Collectibles everywhere!">}}
 
 Now when we run the game, the collectibles are rotating and everything but the player collides with them instead of collecting them. We will fix that now.
 
@@ -490,13 +490,13 @@ We didn't talk about the tags! Tags are used to identify objects, and multiple o
 
 Use the arrow next to any `Collectible` prefab instance in the hierachy to enter the prefab editing mode. Select the collectible object and in the inspector, look for this:
 
-![The tags in the inspector](image-24.png)
+{{<figure src="image-24.png" alt="The tags in the inspector" caption="The tags in the inspector">}}
 
 Open the dropdown menu. We already have a few tags available but we will create a new one. Click on `Add Tag...`.
 
 We end up in this not so very ergonomic window:
 
-![Tags & Layers window](image-25.png)
+{{<figure src="image-25.png" alt="Tags & Layers window" caption="Tags & Layers window">}}
 
 Press the `+` button to add a new tag. Name it `Collectible` and save it.
 
@@ -510,7 +510,7 @@ We are almost there! We just need to tell Unity that the collectible object is a
 
 Let's select the collectible object in the prefab editing mode and in the inspector, check the `Is Trigger` checkbox in the `Box Collider` component.
 
-![The is trigger checkbox](image-26.png)
+{{<figure src="image-26.png" alt="The is trigger checkbox" caption="The is trigger checkbox">}}
 
 Now when we exit the prefab editing mode, all the instances of the collectible will have the `Is Trigger` checkbox checked.
 
@@ -551,13 +551,13 @@ Our `Score` object is a child of a new `Canvas` object. Select it and press `F` 
 
 As is is a 2D object, click on the 2D button in the top right corner of the scene view:
 
-![2D toggle](image-27.png)
+{{<figure src="image-27.png" alt="2D toggle" caption="2D toggle">}}
 
 Select the `Score` object and in the inspector, change the `Text` field to `Score: 0`.
 
 In the anchor presets, choose the top left one:
 
-![Anchor presets](image-28.png)
+{{<figure src="image-28.png" alt="Anchor presets" caption="Anchor presets">}}
 
 Now just set the position of the text to 0 and your score should be in the top left corner of the screen.
 
@@ -599,7 +599,7 @@ As we are using the new input system, we need to fix a little something.
 
 In the hierarchy, select the `EventSystem` object and in the inspector:
 
-![Big warning!!!](image-29.png)
+{{<figure src="image-29.png" alt="Big warning!!!" caption="Big warning!!!">}}
 
 Click on the `Replace` button and you will be good.
 

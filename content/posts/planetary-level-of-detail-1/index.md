@@ -14,73 +14,97 @@ draft: true
 
 Planetary rendering is hard. The scales at play can go from the small butterfly in a patch of grass to an entire continent viewed from space. As always, computer graphics is all about finding tricks to fake a realistic look to the player.
 
-The most important trick, and the first one I implemented for [Cosmos Journeyer](https://cosmosjourneyer.com) is the terrain level of detail. The goal is to be able to have a detailled surface only where it is needed: close to the camera where it will be seen by the player.
+The gist of it is that we want a lot of details where the player is looking, and save as much resources everywhere else.
 
-I recently reworked this system, and I wanted to share my insights with you.
+I have been developping [Cosmos Journeyer](https://cosmosjourneyer.com)'s planet renderer for more than 3 years now, and I will share some of the insights I have found while doing it.
+
+The most important trick, the one we will talk about today, is the terrain dynamic level of detail (LoD): a way to render fine details close to the player's eyes, and reducing the quality the further away we look.
 
 ## Chunking
 
-In order to have this variable level of detail, we have to split our planet surface into smaller chunks that we will be able to control separately: we don't want to have the same level of detail for the entire planet. 
+In order to have this dynamic level of detail, we have to split our planet surface into smaller chunks that we will be able to control separately: we don't want to have the same level of detail for the entire planet. If the player lands on one side of the planet, it should not affect the terrain on the other side of said planet. 
 
-When working on a flat surface, the most straightforward chunking method is the grid: cut the terrain regularly along the two directions of space and you are good to go.
+When working on a flat surface, the most straightforward chunking method is the grid: cut the terrain into smaller squares, which can then be subdivided further in 4 new squares, and so on recursively.
 
 TODO: an illustration of a grid chunking
 
-Unfortunately, when dealing with a sphere, the grid approach is not so natural anymore. This makes us ask the fundamental question: what is a sphere?
+As far as we know, planets are not flat (although the flat earth society has members all around the globe): the simple 2D grid won't be enough. There are many kinds of spheres, and choosing the right one will be important. Let me guide you through the 3D sphere shop!
 
-### Finding the best spheres
+## Finding the best sphere
 
-You see, there is not one sphere and not all spheres are born equal, some are more equal than others, let me explain.
+How can there be multiple kind of spheres? A sphere is a sphere, that's all, why should we care?
 
-In computer graphics, a sphere is only a mesh where the vertices all happen to be at the same distance from a center point. How we lay those vertices can have a huge impact on our ability to process the sphere for chunking.
+Well the thing is, spheres do not exist in this part of computer graphics, we only do triangles! And when we stick many triangles together, we can make any shape: spheres, cubes, spacestations...
 
-#### UV Sphere
+And there are multiple ways to assemble the triangles to get the shape we desire. Some will be more useful than others depending on your usecase.
+
+### UV Sphere
 
 The most common way to create a sphere is to take inspiration from world maps: a 2d plane that can be wrapped around a sphere like shown on this image from Blender's documentation:
 
-![UV Sphere](image-1.png)
+{{<figure src="image-1.png" alt="UV Sphere" caption="UV Sphere">}}
 
-This is called a UV sphere.
+This is called a UV sphere. The mapping with the 2D surface is really useful when using textures, we can simply take the map of the earth and wrap it around like a gift. As there is no free lunch, we have some downsides:
 
-As you can see, this sphere does not have a uniform distribution of vertices, they get crowded at the poles and sparse at the equator. This is not ideal for planet rendering as the surface will not look good on the pole singularity. Moreover, chunking it is not trivial!
+The sphere does not have a uniform distribution of vertices, they get crowded at the poles and sparse at the equator. If we used this sphere for planet rendering, the poles would get more details than the equator. Moreover, subdividing locally the sphere's surface is not trivial.
 
-#### Icosphere
+### Icosphere
 
 Another popular way is to start with an icosahedron:
 
-![From Wikipedia](image-3.png)
+{{<figure src="image-3.png" alt="From Wikipedia" caption="From Wikipedia">}}
 
 And then we subdivide each triangle into 4 smaller triangles, like a Triforce or a Sierpinski triangle depending on your cultural preferences:
 
-![https://sinestesia.co/wp/wp-content/uploads/2017/09/icos.png](image-4.png)
+{{<figure src="image-4.png" alt="https://sinestesia.co/wp/wp-content/uploads/2017/09/icos.png" caption="https://sinestesia.co/wp/wp-content/uploads/2017/09/icos.png">}}
 
-You can tell that the vertex distribution is much more uniform than the UV sphere, however once again cutting it into chunks is not trivial.
+You can tell that the vertex distribution is much more uniform than the UV sphere, and subdivision is easy. The problem is that we subdivide the entire sphere, there are no individual chunks.
 
-#### Cube Sphere
+### Cube Sphere
 
-The third popular option is to start with a cube! Quite counter intuitive I know. The thing is, the surface of a cube is made of squares, and each square is trivially cut into 4 smaller squares. If we could find a way to make it spherical, that would be ideal for the chunking.
+The third popular option is to start with a cube! Quite counter intuitive I know. 
 
-But what about the vertex distribution? Well, let's try it and we will see!
+The thing is, subdividing a cube's surface is easy: 6 squares for the faces, meaning each face can be subdivided in 4 new squares, nice!
 
 Here is our base cube:
 
 TODO: illustration of a cube
 
-Now a sphere, as we discussed earlier, is a mesh where all the vertices are at the same distance from a center point. This mean that for each vertex, we can set its distance to the center to a fixed value and we get the following cube sphere:
+That's nice but planets are not cubes, I hear you say. And you would be right, even though the cubic earth society as members all around the globe!
+
+Fortunately for us, mapping the cube on the sphere can be done in one step: for each vertex, we translate it toward the center of the cube so that each vertex is at the same distance from the center:
 
 TODO: illustration of a cube sphere
 
-Well its not perfect, we can see the vertex density tends to be higher at the corners of the cube, but it's a good middle ground compared to the ico sphere which has a perfect distribution but is harder to cut into chunks.
+Well its not perfect, we can see the vertex density tends to be higher at the corners of the cube. The vertex distribution can be improved using some fancy math that I won't be covering today, but go take a look at [cat like coding's explanation](https://catlikecoding.com/unity/tutorials/cube-sphere/) if you are curious.
 
-I have been using the cube sphere for my planet surfaces for 3 years, and I still think it's the best compromise. You can also have a look at [cat like coding improvement of the base cube sphere](https://catlikecoding.com/unity/tutorials/cube-sphere/) to go further.
+Cube spheres are a solid foundation for planetary rendering, let's get our hands dirty with the actual LoD implementation!
 
 ## Quadtrees
 
-Now we know how to cut our planet surface into smaller chunks. Now the only question, the HARD question is: when do we cut to add details, and when do we merge chunks to save on performance?
+### Back to 2D
 
-I invite you to think about it for a few seconds.
+Let's go back to our 2D example from earlier. We can divide a square into more squares and get this kind of results:
 
-The intuition behind it is quite sensible: when the camera gets closer to the ground, we want the closest chunk to subdivide to increase the level of details. When the camera gets further away, we want to merge the chunks to save on performance.
+TODO: a nice kind of result
+
+We can use a tree-like structure to represent it in a more abstract way that will be easier to implement. We can consider the base state to be the first node of our tree (the root).
+
+If we subdivide it one, our root gives birth to 4 child nodes that we can connect that way:
+
+TODO: a nice illustration
+
+And we can keep doing this multiple times:
+
+TODO: another illustration
+
+In a tree, the deepest nodes (those that have no children) are called the leaves. In our case, the leaves are the actual chunks of terrain that are used.
+
+It is easy merge chunks together: take 4 children on one node, remove them so that their parent becomes a leaf: we have effectively reduced the level of detail.
+
+### Back to 3D
+
+Now that we understand how it works in 2D, we can go back to our cube sphere. We will not be using a single tree, but 6: one for each side of the cube. What will matter now is to choose subdivision and merging rules for our chunks.
 
 ## My mistakes
 
@@ -138,7 +162,7 @@ Computing distances on the surface of a sphere is different as when we are doing
 
 Instead we use the great circle distance, which is the length of the shortest arc connecting two points on a sphere. 
 
-![Wikipedia Image](image.png)
+{{<figure src="image.png" alt="Wikipedia Image" caption="Wikipedia Image">}}
 
 The formula to compute it is as follow for a point `p` and a point `q` on a sphere of radius `r`:
 

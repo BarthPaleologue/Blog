@@ -40,7 +40,7 @@ Once that's done, run Sidequest and connect your headset to your computer.
 
 On the top right corner of SideQuest, you should see your headset connected:
 
-![Your headset is connected](image-3.png)
+{{<figure src="image-3.png" alt="Your headset is connected" caption="Your headset is connected">}}
 
 ## Test your setup
 
@@ -52,7 +52,7 @@ https://github.com/tater-tot25/VR_Projects_Taster
 
 Now in sidequest, click on this little button:
 
-![Upload APK to headset](image.png)
+{{<figure src="image.png" alt="Upload APK to headset" caption="Upload APK to headset">}}
 
 Now select the test APK and SideQuest will install it on your headset (this will take a few seconds).
 
@@ -60,7 +60,7 @@ Now in the headeset, go to the app library, select `Unknown Sources` in the top 
 
 When I launched it, I saw this:
 
-![Alt text](com.Tate.HistProject-20231210-171411.jpg)
+{{<figure src="com.Tate.HistProject-20231210-171411.jpg" alt="Alt text" caption="Alt text">}}
 
 If you have something similar, then your setup is working! Let's create our own VR app now!
 
@@ -116,7 +116,7 @@ In the same `Prefabs` folder, drag and drop the `OVRControllerPrefab` prefab in 
 
 Expand the  `OVRCameraRig`, then expand the `TrackingSpace` then expend `LeftHandAnchor` to find `LeftControllerAnchor`. Drag and drop the `OVRControllerPrefab` to the `LeftControllerAnchor` to make it a child of it.
 
-![EXPAND](image-1.png)
+{{<figure src="image-1.png" alt="EXPAND" caption="EXPAND">}}
 
 In the inspector, change the `Controller` to `LTouch`.
 
@@ -140,11 +140,11 @@ In our VR scene, let's add the `GameBoard` prefab and move it to the origin. We 
 
 I ended up with something like this:
 
-![Game board on desk](com.DefaultCompany.IGD301-20231210-141755.jpg)
+{{<figure src="com.DefaultCompany.IGD301-20231210-141755.jpg" alt="Game board on desk" caption="Game board on desk">}}
 
 We don't see the UI though, to fix that in the hierachy select the canvas of the `GameBoard` prefab and in the inspector, change the `Render Mode` to `World Space`. Scale it down so that it fits above the board. Now you can see the UI in the scene view. (It might not be super visible because it is white on white), try changing the color of the text to black.
 
-![Gameboard with UI](com.DefaultCompany.IGD301-20231210-143100.jpg)
+{{<figure src="com.DefaultCompany.IGD301-20231210-143100.jpg" alt="Gameboard with UI" caption="Gameboard with UI">}}
 
 ## Grabbing the game board
 
@@ -184,7 +184,7 @@ We will find it in `Edit` > `Project Settings` > `Physics` > `Layer Collision Ma
 
 Uncheck the `Selection` layer for the `rollaball` layer:
 
-![The layer collision matrix](image-2.png)
+{{<figure src="image-2.png" alt="The layer collision matrix" caption="The layer collision matrix">}}
 
 ### Selection script
 
