@@ -23,9 +23,9 @@ The issue is that cities come in all shapes and forms on our planets: small, lar
 
 <!-- two columns with different images -->
 {{< columns >}}
-{{<figure src="./image.png" alt="Oslo from space" caption="Oslo from space" caption-position="bottom">}}
+{{<figure src="./image-2.png" alt="Small village in France" caption="Small village in France" caption-position="bottom">}}
 {{< column >}}
-{{<figure src="./image.png" alt="Oslo public transport" caption="Oslo public transport" caption-position="bottom">}}
+{{<figure src="./image-3.png" alt="Manhattan skyline" caption="Manhattan skyline" caption-position="bottom">}}
 {{< endcolumns >}}
 
 This part will be quite subjective as it is my vision for what a futuristic city should look like, but I will justify each point.
@@ -34,9 +34,11 @@ First, a space city will use a lot of public transportation. The reason for this
 
 Second, a space city should invest massively in urban nature. This is important to mimic an earth-like environment and avoid any kind of alienation due to the artificiality of the habitat. These spaces should include forests and gardens as well as trees in the streets. Moreover, the vegetation can lower the cost of life support on the station as it can recycle the air naturally.
 
-We have some cities on Earth which have plenty of public transportation and green spaces.
+{{<figure src="./image-4.png" alt="Futuristic city" caption="Futuristic city" caption-position="bottom" attr-link="https://wallpaperaccess.com/beautiful-future-city">}}
 
-One of them is Oslo according to https://www.eea.europa.eu/highlights/how-green-are-european-cities and other sources. The capital of Norway has the largest green spaces in the world for its size. This can be seen even from space:
+We have some cities on Earth which have plenty of public transportation and green spaces, even though none come close to the artistic renders such as the one above.
+
+We can still take a look at Oslo. According to https://www.eea.europa.eu/highlights/how-green-are-european-cities and other sources, the capital of Norway has the largest green spaces in the world for its size. This can be seen even from space:
 
 {{<figure src="image-1.png" alt="Oslo from space" caption="Oslo from space" caption-position="bottom">}}
 
@@ -58,7 +60,7 @@ $$
 
 ### Space production vs planetary imports
 
-The first question we need to ask is whether the food supply comes from local production or imports. Importing would save a lot of space, but it would undermine each station's autonomy dramatically. What if the supply chain is broken? The inhabitants of the station would starve without being able to do anything about it.
+The first question we need to ask is whether the food supply comes from local production or imports. Importing would save a lot of space, but it would undermine each station's autonomy. What if the supply chain is broken? The inhabitants of the station would starve without being able to do anything about it.
 
 But then on Earth, food is not produced in the middle of the city and a supply chain disruption could also be dramatic. While I agree, I would argue it is always harder to figure out solutions when you are stranded in space.
 
@@ -99,6 +101,8 @@ Luckily for us, a space station is a closed environment with a constant controll
 For the crop species, we have to consider them separately to compute the resulting area needed. For example, 100g of tomato only provide 18 calories while 100g of rice provide 130 calories. Depending on the mix of each space station, we will get different results!
 
 The more interesting part I think is the farming method. Do we use biological farming? With intrans? What about hydroponic farming and even aeroponic?
+
+{{<figure src="verticrop2.jpg" alt="Vertical hydroponic farm" caption="Vertical hydroponic farm" caption-position="bottom">}}
 
 This [stack exchange discussion](https://worldbuilding.stackexchange.com/a/9601) gives interesting insights on the matter. Compared to regular farming, hydro and aeroponics provide superior yields by a factor of about 250%. Moreover, they are stackable. This means we can divide the required surface by the number of farming layers we want. This can save a ton of space, so our space stations will go the hydroponic way.
 
@@ -146,3 +150,7 @@ $$
 We will consider a population of 300,000 people. Still according to https://www.fao.org/4/t0207e/T0207E04.htm#4.%20Nutritive%20value, the yield of rice is `49,000 kcal/ha/day`.
 
 Putting all of this together, we get about `4,000 ha` necessary: `40 km²` or `400,000 m²` depending on your unit of choice. If this is too much for you, we can simply stack hydroponic layers on top of each other (like 50 for example), putting us under a single square meter!
+
+This work is very exploratory so you should take it with a grain of salt. I am a computer scientist and not a farmer, so my knowledge on the subject is quite limited. 
+
+I still think it gives a reasonable order of magnitude for what it takes to sustain a population in space.
