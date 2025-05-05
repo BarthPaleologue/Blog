@@ -24,7 +24,11 @@ In the past few months, my space exploration game, [Cosmos Journeyer](https://co
 
 Today's problem can be summed up with this chart:
 
+<br>
+
 {{<figure src="./image.png" alt="New features goes down, testing goes up" caption="I guess we are doing tests now" caption-position="bottom" caption-effect="fade">}}
+
+<br>
 
 As you can see, the more features gets added, the more time it takes to test all of them. This means less time spent adding new features.
 
@@ -84,7 +88,8 @@ export default defineConfig({
 
     expect: {
         toHaveScreenshot: {
-            maxDiffPixelRatio: 0.03 // ~3 % pixels may differ (aliasing can change the color of some pixels)
+            maxDiffPixelRatio: 0.03, // ~3 % pixels may differ (aliasing can change the color of some pixels)
+            threshold: 0.01 // pixels are considered different if they differ by more than 1% (aliasing can change the color of some pixels)
         }
     },
 
@@ -152,8 +157,11 @@ Hopefully, all the tests should pass. Try changing something in your game and ru
 
 The issue with Playwright is that you can't run it on all systems. That can be an issue for an open source project where contributors are using different systems, and the CI is using yet another system. That's why Docker exists!
 
+<br>
+
 {{<figure src="./image-1.png" alt="Docker creation meme" caption="Mom said it's my turn to reuse this meme" caption-position="bottom" caption-effect="fade">}}
 
+<br>
 
 Here is a minimal `Dockerfile` for running the tests:
 
