@@ -17,7 +17,9 @@ For a brief instant, there is a connection between the developer and the player,
 
 Those moments are memorable because they feel like a direct interaction between our curiosity as players and the developer's intent.
 
-One video that stuck with me on the topic of easter eggs and secret content is the popular coverage of Shadow of the Colossus' last secret by Jacob Geller:
+Even more powerful are secrets that are only hinted at. Players must go out of their way to interpret clues to access the secret or easter egg. This can lead to beautiful moments of cooperation between players of the same game, all working toward a shared goal.
+
+One video that stuck with me on this topic is the popular coverage of Shadow of the Colossus' last secret by Jacob Geller:
 
 {{< youtube jQNeYbBiCKw >}}
 
@@ -37,19 +39,21 @@ There was nothing behind that door. It was meant to be shut.
 
 Well that was disappointing...
 
-But years later, a remake of the game was made, and the seekers were granted what they always wanted: the door could finally be opened, revealing a secret chamber at center of which a throne and sword could be found.
+The revelation triggered an existential crisis among the seeker community, but some kept going even though there was nothing to find.
 
-And that got me thinking. How do we make an easter egg that resists ripping the game apart?
+Years later, a remake of the game was made for the PS4, and the seekers were granted what they always wanted: the door could finally be opened, revealing a secret chamber at the center of which a throne and sword could be found.
 
-I am making an open source space exploration game ([it's called Cosmos Journeyer, check it out!](https://cosmosjourneyer.com/)), and any easter egg or secret feature I would add to the game would be trivially revealed by looking at the code, or having an AI analyze the code for this kind of secrets.
+Nowadays, data-mining and emulation are very common. This means we can know everything that is in a game, and by subtraction, everything that is not (like the secret room that did not exist in the original version of Shadow of the Colossus). 
 
-For regular closed source games, binaries can be decompiled, and once again with the advent of AI, no secret, or lack thereof is safe!
+Furthermore, I am making an open source space exploration game ([it's called Cosmos Journeyer, check it out!](https://cosmosjourneyer.com/)), and any easter egg or secret feature I would add to the game would be trivially revealed by looking at the code, or having an AI analyze the code for this kind of secrets!
 
-So what do we do? How do we hide secrets in plain sight?
+And that got me thinking. How do we make a secret that resists ripping the game apart? An unyielding yet solvable mystery that teases players from inside the game, and could survive for years or even decades.
+
+This article focuses on the technical aspect of how to achieve such a thing. How to hint at the secret we want players to find is another rabbit hole that I hope to cover one day, once I learn how to do it!
 
 ## Demo Setup
 
-Disclaimer: the following will work best with interpreted languages such as JavaScript and Python. Making it work for compiled languages such as C++ or Rust would take a bit more work.
+> Disclaimer: the following will work best with interpreted languages such as JavaScript and Python. Making it work for compiled languages such as C++ or Rust would take a bit more work.
 
 We will set up a very small demo inside a 3D web environment:
 
