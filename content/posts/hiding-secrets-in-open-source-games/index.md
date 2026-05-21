@@ -27,7 +27,11 @@ I recommend you watch it to see where I am coming from, and the video is just th
 
 For those who don't want to watch it, here is the gist:
 
-Scattered in the world are 4 glyphs carved in stone. Each glyph can be paired with a location of a colossus on the map. When connecting the 4 locations, you get a perfect right-angled cross intersecting over a 5th location. There, you can find a locked door that can't be opened by any known means.
+Scattered in the world are 4 glyphs carved in stone. Each glyph can be paired with a location of a colossus on the map. When connecting the 4 locations, you get a perfect right-angled cross intersecting over a 5th location:
+
+{{<figure src="soc-map.png" alt="The lines intersect at 90 degrees over another colossus location. https://www.gamepressure.com/editorials/easter-eggs-and-secrets-discovered-after-years/the-last-secret-of-shadow-of-the-colossus/za3b5#page7" caption="The lines intersect at 90 degrees over another colossus location" caption-position="bottom">}}
+
+There, you can find a locked door that can't be opened by any known means.
 
 This feels intentional, and one could easily believe there must be a way to open this door, and that something interesting must lie right behind it.
 
@@ -43,9 +47,9 @@ The revelation triggered an existential crisis among the seeker community, but s
 
 Years later, a remake of the game was made for the PS4, and the seekers were granted what they always wanted: the door could finally be opened, revealing a secret chamber at the center of which a throne and sword could be found.
 
-Nowadays, data-mining and emulation are very common. This means we can know everything that is in a game, and by subtraction, everything that is not (like the secret room that did not exist in the original version of Shadow of the Colossus). 
+Nowadays, data-mining and emulation are commonplace. This means we can know everything that is in a game, and by subtraction, everything that is not (like the secret room that did not exist in the original version of Shadow of the Colossus). 
 
-Furthermore, I am making an open source space exploration game ([it's called Cosmos Journeyer, check it out!](https://cosmosjourneyer.com/)), and any easter egg or secret feature I would add to the game would be trivially revealed by looking at the code, or having an AI analyze the code for this kind of secrets!
+Furthermore, I am making an open source space exploration game ([it's called Cosmos Journeyer, check it out!](https://cosmosjourneyer.com/)), and any easter egg or secret feature I would add to the game would be trivially revealed by looking at the code!
 
 And that got me thinking. How do we make a secret that resists ripping the game apart? An unyielding yet solvable mystery that teases players from inside the game, and could survive for years or even decades.
 
@@ -55,15 +59,13 @@ This article focuses on the technical aspect of how to achieve such a thing. How
 
 > Disclaimer: the following will work best with interpreted languages such as JavaScript and Python. Making it work for compiled languages such as C++ or Rust would take a bit more work.
 
-We will set up a very small demo inside a 3D web environment:
+We will set up a very small demo inside a 3D web environment: https://playground.babylonjs.com/#GBRNEJ
 
-https://playground.babylonjs.com/#GBRNEJ
-
-![basic babylonjs playground](setup.png)
+{{<figure src="setup.png" alt="Basic BabylonJS playground" caption="Basic BabylonJS playground" caption-position="bottom">}}
 
 ## Making the secret feature
 
-Our goal will be to add a secret feature to our game: make the ball move! (Wow crazy easter egg)
+So the first step toward hiding our secret feature, is to make the secret feature in the first place: make the ball move! (Wow crazy easter egg, felt very personal)
 
 The first thing to do is to program our easter egg inside a single function:
 
@@ -79,17 +81,17 @@ const secretFunction = () => {
 };
 ```
 
-And we can check, executing the function indeed triggers the secret feature:
+Basically we are adding a new behavior running every frame that will get the sphere from the scene, get the current time, and use that to make the sphere oscillate around its starting position.
 
-https://playground.babylonjs.com/#GBRNEJ#1
+And we can check, executing the function indeed triggers the secret feature: https://playground.babylonjs.com/#GBRNEJ#1
 
 {{< video src="secret-feature.mp4" >}}
 
 ## Making the secret feature secret
 
-So how do we take this secret feature, and hide it in plain sight? We are in luck because that's exactly what cryptography is designed to achieve.
+So how do we take this secret feature, and hide it in plain sight? That's where cryptography comes in handy.
 
-Here is how it works:
+Here is how it works generally:
 - Get yourself a bunch of data you want to hide
 - Choose an encryption key (often a sentence or a number)
 - Apply some complicated algorithm to your input data (the algorithm is designed to make decryption almost impossible without the decryption key)
@@ -108,7 +110,7 @@ const sourceCode = secretFunction.toString();
 alert(sourceCode);
 ```
 
-![A browser alert modal containing the source code of the secret function](source-code.png)
+{{<figure src="source-code.png" alt="A browser alert modal containing the source code of the secret function" caption="A browser alert modal containing the source code of the secret function" caption-position="bottom">}}
 
 ### Passphrase and encryption
 
@@ -116,9 +118,9 @@ Now we are getting in the nitty gritty of the topic, where we choose a passphras
 
 Thankfully web browsers expose the [SubtleCrypto API](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto), which will let us do all that with minimal complications.
 
-You may wonder why the "subtle" in the name? That's because the API is very easy to use incorrectly and make insecure encryption with it! So we will try our best, but remember I mostly have no idea what I am doing so you should definitely check with someone else or an AI before using this code for anything serious.
+You may wonder why the "subtle" in the name? There is an official reason and apparently it's because [the API is very easy to use incorrectly](https://www.w3.org/TR/webcrypto-2/#subtlecrypto-interface). So we will try our best, but remember I mostly have no idea what I am doing so you should definitely check with someone else or an AI before using this code for anything serious.
 
-So here is a helper to encrypt our code string using a passphrase with AES-GCM (a modern and secure encryption algorithm):
+So here is a helper to encrypt our code string using a passphrase with AES-256-GCM (a modern and secure encryption algorithm):
 
 ```js
 async function encryptSourceCode(sourceCode, passphrase) {
@@ -150,17 +152,16 @@ async function encryptSourceCode(sourceCode, passphrase) {
 }
 ```
 
-So what's the meaning of all of this? I am not fully sure myself! And you will notice I didn't define `deriveAesKey` and `bytesToBase64` so here they are:
+So what's the meaning of all of this? 
 
-```js
-function bytesToBase64(bytes) {
-    let binary = "";
-    for (const byte of bytes) {
-        binary += String.fromCharCode(byte);
-    }
-    return btoa(binary);
-}
-```
+The passphrase chosen by the player is not directly usable as an AES key, so we need to transform it into one (`deriveAesKey`). Feeding some random salt to the key generator makes the transformation unique for this payload: two secrets using the same passphrase will have different keys. (This is probably overkill here, but that's kinda the point of the article haha).
+
+Then we create an AES key using the passphrase with the PBKDF2 algorithm with 600k iterations. Having that many iterations makes decryption attempts slower, which we want to discourage players from brute-forcing their way through the secret.
+
+Finally we use that key and inject yet again some random noise (`iv`, for uniqueness purposes) inside the `AES-256-GCM` algorithm, and we get our encrypted payload!
+
+You will notice I didn't define `deriveAesKey` and `bytesToBase64` so here they are:
+
 
 ```js
 async function deriveAesKey(
@@ -192,9 +193,19 @@ async function deriveAesKey(
 }
 ```
 
+```js
+function bytesToBase64(bytes) {
+    let binary = "";
+    for (const byte of bytes) {
+        binary += String.fromCharCode(byte);
+    }
+    return btoa(binary);
+}
+```
+
 Here is the updated playground with the encryption helpers: https://playground.babylonjs.com/#GBRNEJ#2
 
-So now if we call `encryptSourceCode` with the passphrase `secret` (I am better at choosing my password trust me) on the string we derived from `secretFunction`, we get something like this:
+So now if we call `encryptSourceCode` with the passphrase `secret` (I am better at choosing my passwords trust me) on the string we derived from `secretFunction`, we get something like this:
 
 ```json
 {
@@ -215,7 +226,7 @@ Absolutely unreadable... perfect! Now the source code of our function exists as 
 
 Alright we managed to create an encrypted payload carrying our super secret feature, ready to be shipped with the code of the game.
 
-Now we need to reverse the transformation when the player uses the correct key, because the feature must exist unencrypted when it is being executed.
+Now we need to reverse the transformation when the player finds the correct key, as we won't be able to execute it while encrypted.
 
 For this we need another crypto helper (I promise those are the last ones)
 
@@ -279,11 +290,13 @@ encryptSourceCode(sourceCode, passphrase).then((encrypted) => {
 
 If you look at your console output in the browser dev tools, you will see that what you get at the end is the same as your input:
 
-![Output of the encryption round trip](round-trip.png)
+{{<figure src="round-trip.png" alt="Output of the encryption round trip" caption="Output of the encryption round trip" caption-position="bottom">}}
 
 The updated playground code is available here: https://playground.babylonjs.com/#GBRNEJ#4
 
 > Note that once the payload is decrypted, the user can inspect the memory of the program to find the source code of the secret feature. They will likely and rightfully leak the code as well as the passphrase, so the feature won't be secret anymore. That's why you should use these techniques only for the hardest easter eggs, those you expect to be discovered years after the release of the game.
+
+And what happens if we don't use the correct passphrase? In our case, because we use `GCM`, decryption will fail and throw an exception, so we don't risk executing garbage code.
 
 ### Execution
 
@@ -320,7 +333,7 @@ What do you mean the source code of the secret feature AND the passphrase are wr
 
 Ok fine, onto the last step of our journey then.
 
-## The final nail in the coffin
+## Putting it all together
 
 And for our last trick, let's get rid of the secret feature source code.
 
@@ -348,6 +361,8 @@ const passphrase = prompt("Enter passphrase");
 And once that's done, there it is: there is no trace left of our secret feature and passphrase. Even with access to the source code, no one can access our easter egg without knowing the passphrase. We did it!
 
 {{< video src="final-demo.mp4" >}}
+
+Here is the final version of the code: https://playground.babylonjs.com/#GBRNEJ#6
 
 ## Parting words
 
