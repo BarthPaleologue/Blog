@@ -4,9 +4,8 @@ author: "Barthélemy Paléologue"
 type: ""
 date: 2026-05-20T17:44:53+02:00
 subtitle: "Having unsafe fun with cryptography and JavaScript"
-image: ""
+image: "posts/hiding-secrets-in-open-source-games/soc-map.png"
 tags: ["Cosmos Journeyer", "Cryptography", "JavaScript", "BabylonJS"]
-draft: true
 ---
 
 Easter eggs and game secrets are among the most fascinating and powerful aspects of video games in my experience. 
@@ -105,7 +104,7 @@ Starting with the data to hide: `secretFunction`. The issue is that a function i
 
 Thankfully we are using JavaScript, which has very advanced introspection capabilities, and so we can do some crazy stuff, such as dumping the source code of our function into a string at runtime:
 
-```
+```js
 const sourceCode = secretFunction.toString();
 alert(sourceCode);
 ```
