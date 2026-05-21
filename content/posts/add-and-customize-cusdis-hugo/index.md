@@ -10,11 +10,10 @@ tags: ["Hugo", "Miscellaneous"]
 
 Alright, I was looking for an easy way to add comments to my blog. I found 2 popular solutions: Disqus and Cusdis (the names look interestingly similar!).
 
-{{< columns >}}
+{{< gallery caption-position="bottom" hover-effect="none" >}}
 {{<figure src="image-1.png" alt="Cusdis" caption="Cusdis" caption-position="bottom">}}
-{{< column >}}
 {{<figure src="disqus.png" alt="Disqus" caption="Disqus" caption-position="bottom">}}
-{{< endcolumns >}}
+{{< /gallery >}}
 
 
 On the one hand we have Disqus, a widely used comment system, but it's not privacy-friendly and it's not open-source. Bummer.

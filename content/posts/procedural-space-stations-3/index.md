@@ -22,11 +22,10 @@ We will start with the easier part of the two: estimating the surface necessary 
 The issue is that cities come in all shapes and forms on our planets: small, large, tall even when taking skyscrapers into account. What should our baseline be?
 
 <!-- two columns with different images -->
-{{< columns >}}
+{{< gallery caption-position="bottom" hover-effect="none" >}}
 {{<figure src="./image-2.png" alt="Small village in France" caption="Small village in France" caption-position="bottom">}}
-{{< column >}}
 {{<figure src="./image-3.png" alt="Manhattan skyline" caption="Manhattan skyline" caption-position="bottom">}}
-{{< endcolumns >}}
+{{< /gallery >}}
 
 This part will be quite subjective as it is my vision for what a futuristic city should look like, but I will justify each point.
 

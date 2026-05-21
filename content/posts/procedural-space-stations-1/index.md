@@ -58,10 +58,10 @@ Moreover, the sun is in space (yeah, I know, big surprise), so we can rule out c
 We can compute the radiation flux coming from every unit of surface of our sun with the Stefan-Boltzmann law:
 
 $$
-\Phi = \sigma T^4 \quad \text{[W m$^{-2}$]}
+\Phi = \sigma T^4 \quad \text{[W m}^{-2}\text{]}
 $$
 $$
-\text{where: } \sigma = 5.67 \times 10^{-8} \text{ W m$^{-2}$ K$^{-4}$} \ \text{and} \ T = 5,778 \text{ K}
+\text{where: } \sigma = 5.67 \times 10^{-8} \text{ W m}^{-2}\text{ K}^{-4} \ \text{and} \ T = 5,778 \text{ K}
 $$
 
 Sigma is the Stefan-Boltzmann constant, and T is the temperature of the sun.
@@ -102,7 +102,7 @@ $$
 
 We get a nice inverse square law here, which is a common occurrence in physics, as a lot of stuff spreads out in a spherical way (think about sound, gravity, etc.).
 
-When taking D as the distance between the Earth and the sun, which is about 149,600,000 km = 149,600,000,000 m, we get a flux of about 1,360 W m$^{-2}$.
+When taking D as the distance between the Earth and the sun, which is about 149,600,000 km = 149,600,000,000 m, we get a flux of about 1,360 W m\\(^{-2}\\).
 
 ### Back to the ISS
 
