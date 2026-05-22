@@ -6,7 +6,7 @@ theme = ["hugo-video", "beautifulhugo"]
 # Or when using theme as hugo module
 # theme = "github.com/halogenica/beautifulhugo"
 #pygmentsStyle = "trac"
-#pygmentsUseClasses = true
+pygmentsUseClasses = true
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
 #pygmentsUseClassic = true
