@@ -56,7 +56,9 @@ This article focuses on the technical aspect of how to achieve such a thing. Lea
 
 ## Demo Setup
 
-> Disclaimer: the following will work best with interpreted languages such as JavaScript and Python. Making it work for compiled languages such as C++ or Rust would take a bit more work.
+{{< callout note >}}
+Disclaimer: the following will work best with interpreted languages such as JavaScript and Python. Making it work for compiled languages such as C++ or Rust would take a bit more work.
+{{< /callout >}}
 
 We will set up a very small demo inside a 3D web environment: https://playground.babylonjs.com/#GBRNEJ
 
@@ -225,7 +227,9 @@ So now when calling `encryptSourceCode` with the passphrase `secret` (my passwor
 
 Absolutely unreadable... perfect! Now the source code of our function exists as this encrypted string, and no one can tell what it is unless they have the key.
 
-> Choosing the right passphrase is paramount! An attacker using a simple dictionary for brute forcing would find the `secret` key in seconds. Prefer using an actual sentence, which will be dramatically harder to brute force.
+{{< callout warning >}}
+Choosing the right passphrase is paramount! An attacker using a simple dictionary for brute forcing would find the `secret` key in seconds. Prefer using an actual sentence, which will be dramatically harder to brute force.
+{{< /callout >}}
 
 ### Decryption
 
@@ -299,7 +303,9 @@ If you look at your console output in the browser dev tools, you will see that w
 
 The updated playground code is available here: https://playground.babylonjs.com/#GBRNEJ#4
 
-> Note that once the payload is decrypted, the user can inspect the memory of the program to find the source code of the secret feature. They will likely and rightfully leak the code as well as the passphrase, so the feature won't be secret anymore. That's why you should use these techniques only for the hardest easter eggs, those you expect to be discovered years after the release of the game.
+{{< callout note >}}
+Note that once the payload is decrypted, the user can inspect the memory of the program to find the source code of the secret feature. They will likely and rightfully leak the code as well as the passphrase, so the feature won't be secret anymore. That's why you should use these techniques only for the hardest easter eggs, those you expect to be discovered years after the release of the game.
+{{< /callout >}}
 
 Alright, but what happens if we decrypt with the wrong passphrase? Well no secret for you then! Because we use `GCM`, decryption will fail and throw an exception. That way we don't risk executing garbage code.
 
@@ -311,7 +317,9 @@ Once again JS to the rescue! As we can convert functions into strings, we can co
 
 Basically `eval` takes a string of JavaScript source code, and just executes it. What could go wrong?
 
-> Example of bad usage: Make a social media where we run `eval(username)`. A single malicious user can now execute any code it wants on any computer where its username appears. NOT GREAT!
+{{< callout warning >}}
+Example of bad usage: Make a social media where we run `eval(username)`. A single malicious user can now execute any code it wants on any computer where its username appears. NOT GREAT!
+{{< /callout >}}
 
 So let's try it, the first thing is to stop executing our `secretFunction` every time to make room for our new experiment: https://playground.babylonjs.com/#GBRNEJ#5
 
