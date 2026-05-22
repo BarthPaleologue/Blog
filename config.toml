@@ -52,7 +52,7 @@ staticDir = ["static"]
 [Params.author]
   # Set only your "username" for default hosts and full URLs otherwise (e.g., "https://MyGitLab.org/username")
   name = "Barthélemy Paléologue"
-  website = "barth.paleologue.fr"
+  website = "https://barth.paleologue.fr"
   email = "barth@paleologue.fr"
   github = "BarthPaleologue"
   bluesky = "barthpaleologue.bsky.social"
