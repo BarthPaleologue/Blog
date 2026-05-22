@@ -11,7 +11,7 @@ bigimg: [{src: "helix.png", desc: "A helix habitat in orbit"}]
 
 Hello again! 
 
-This is the 2nd post of the procedural space station series aiming at creating realistic space station for [Cosmos Journeyer](https://cosmosjourneyer.com) through the awesome power of science! The previous post about energy is not required to understand this one, but you can read it [here]() if you are interested.
+This is the 2nd post of the procedural space station series aiming at creating realistic space station for [Cosmos Journeyer](https://cosmosjourneyer.com) through the awesome power of science! The previous post about energy is not required to understand this one, but you can read it [here]({{< relref "/posts/procedural-space-stations-1/" >}}) if you are interested.
 
 In the previous article, we created a model for the surface of solar panels needed to power our space stations. But we also need to create habitable sections where people will live their life in comfort, just like you are doing right now I hope ^^ (make yourself at ease!)
 

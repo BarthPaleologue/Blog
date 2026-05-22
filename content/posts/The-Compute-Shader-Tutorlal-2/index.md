@@ -5,7 +5,7 @@ type: ""
 date: 2023-12-03T19:48:00+01:00
 subtitle: "Uniform buffers" 
 image: ""
-tags: ["Compute Shaders", "WebGPU", "BabylonJS"]
+tags: ["compute-shaders", "webgpu", "BabylonJS"]
 ---
 
 Hello again! This is the second part of my compute shader series. If you haven't read the first part yet, you can find it [here](https://barthpaleologue.github.io/Blog/posts/the-compute-shader-tutorial-1/).
