@@ -18,7 +18,7 @@ staticDir = ["static"]
 
 [Params]
   homeTitle = "Barth Cave" # Set a different text for the header on the home page
-  subtitle = "Articles where I explain crazy computer graphics stuff"
+  subtitle = "Notes on my random computer experiments"
   mainSections = ["posts"]
   logo = "img/pp.jpg" # Expecting square dimensions
   favicon = "img/favicon.ico"
