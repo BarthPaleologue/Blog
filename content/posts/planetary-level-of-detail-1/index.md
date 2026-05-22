@@ -5,7 +5,7 @@ type: ""
 date: 2024-04-07T18:46:59+02:00
 subtitle: "A technical breakdown"
 image: ""
-tags: ["Cosmos Journeyer", "LoD"]
+tags: ["cosmos-journeyer", "LoD"]
 bigimg: [{src: "banner.png", desc: "Planetary detail at every scale"}]
 draft: true
 ---

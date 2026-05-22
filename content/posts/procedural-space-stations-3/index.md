@@ -5,7 +5,7 @@ type: ""
 date: 2024-06-14T15:18:33+02:00
 subtitle: "Housing and food for everyone!"
 image: ""
-tags: ["Cosmos Journeyer", "Space station"]
+tags: ["cosmos-journeyer", "Space station"]
 draft: true
 bigimg: [{src: "verticrop.jpg", desc: "Lettuce in a vertical farm"}]
 ---

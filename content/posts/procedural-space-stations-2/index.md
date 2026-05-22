@@ -5,7 +5,7 @@ type: ""
 date: 2024-06-14T10:49:25+02:00
 subtitle: "Comfortable artificial gravity"
 image: ""
-tags: ["Cosmos Journeyer", "Space station", "Physics"]
+tags: ["cosmos-journeyer", "Space station", "Physics"]
 bigimg: [{src: "helix.png", desc: "A helix habitat in orbit"}]
 ---
 

@@ -5,7 +5,7 @@ type: ""
 date: 2023-12-18T09:31:06+01:00
 subtitle: "Daunting supermarkets"
 image: ""
-tags: ["VR", "Unity", "IGD301", "Poking around"]
+tags: ["VR", "Unity", "IGD301"]
 ---
 
 Have you ever been in a supermarket and felt overwhelmed by the task of grabing objects from the shelves? I know, i know.
