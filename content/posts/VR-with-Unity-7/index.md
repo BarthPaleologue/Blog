@@ -5,7 +5,7 @@ type: ""
 date: 2024-01-27T13:16:11+01:00
 subtitle: "Evaluation of the technique"
 image: ""
-tags: ["VR", "Unity", "C#", "IGD301"]
+tags: ["vr", "unity", "c#", "igd301"]
 ---
 
 In the previous article, we developped a selection technique for a VR supermarket. Here is the result we achieved:

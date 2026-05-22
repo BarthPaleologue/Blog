@@ -5,7 +5,7 @@ type: ""
 date: 2023-12-10T18:02:26+01:00
 subtitle: "Wait it's not a headset?"
 image: ""
-tags: ["VR", "IGD301"]
+tags: ["vr", "igd301"]
 ---
 
 {{<figure src="image.png" alt="src: wikipedia" caption="src: wikipedia" caption-position="bottom">}}

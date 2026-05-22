@@ -5,7 +5,7 @@ type: ""
 date: 2023-12-10T18:22:38+01:00
 subtitle: "An overview of 3 selection techniques in VR"
 image: ""
-tags: ["VR", "IGD301"]
+tags: ["vr", "igd301"]
 ---
 
 ## Raycasting from the eyes

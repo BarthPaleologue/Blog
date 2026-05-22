@@ -5,7 +5,7 @@ type: ""
 date: 2024-01-27T14:15:33+01:00
 subtitle: "When immersion goes too far"
 image: ""
-tags: ["VR", "IGD301"]
+tags: ["vr", "igd301"]
 ---
 
 If you ever tried a VR headset at home, you probably know that full immersion can be dangerous for your surroundings. When I was setting up the IGD301 VR project in Unity, I punched my laptop screen very hard with one of the controllers (it survived no worries!).

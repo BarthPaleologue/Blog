@@ -5,7 +5,7 @@ type: ""
 date: 2024-01-21T15:35:05+01:00
 subtitle: "The final project"
 image: ""
-tags: ["IGD301", "VR", "Unity", "C#"]
+tags: ["igd301", "vr", "unity", "c#"]
 ---
 
 Okay the course is coming to a close and now we have to make a final project. The task is quite straightforward: select grocery items in a supermarket.

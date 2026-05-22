@@ -5,7 +5,7 @@ type: ""
 date: 2024-02-11T16:28:03+01:00
 subtitle: "Easy to use but hard to customize open-source comment system"
 image: ""
-tags: ["Hugo", "miscellaneous"]
+tags: ["hugo", "miscellaneous"]
 ---
 
 Alright, I was looking for an easy way to add comments to my blog. I found 2 popular solutions: Disqus and Cusdis (the names look interestingly similar!).

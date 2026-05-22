@@ -5,7 +5,7 @@ type: ""
 date: 2023-12-18T18:48:24+01:00
 subtitle: "Planetary rings"
 image: ""
-tags: ["cosmos-journeyer", "Shaders", "BabylonJS"]
+tags: ["cosmos-journeyer", "shaders", "babylonjs"]
 bigimg: [{src: "rings.png", desc: "Planetary rings"}]
 ---
 

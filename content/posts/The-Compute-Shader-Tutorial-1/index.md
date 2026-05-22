@@ -5,7 +5,7 @@ type: ""
 date: 2023-11-26T20:59:27+01:00
 subtitle: "Let's start from the beginning" 
 image: ""
-tags: ["compute-shaders", "webgpu", "BabylonJS"]
+tags: ["compute-shaders", "webgpu", "babylonjs"]
 ---
 
 {{<figure src="cover.png" alt="Cover image">}}

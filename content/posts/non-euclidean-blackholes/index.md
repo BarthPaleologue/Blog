@@ -5,7 +5,7 @@ type: ""
 date: 2024-01-12T09:03:04+01:00
 subtitle: "Because why not?"
 image: ""
-tags: ["cosmos-journeyer", "Shaders"]
+tags: ["cosmos-journeyer", "shaders"]
 bigimg: [{src: "screenshot_24-1-12_9-07.png", desc: "Black hole"}]
 ---
 
@@ -132,4 +132,3 @@ As we see, we can always get interesting results when we question the assumption
 There are probably ways to get more definite shapes for the event horizon, and if I have a good idea I will post a follow up to this article. Maybe we can get a mandelbulb black hole? That would be awesome!
 
 That will be all for now, I hope you enjoyed this article! Thanks for reading!
-

@@ -5,7 +5,7 @@ type: ""
 date: 2024-06-02T22:12:14+02:00
 subtitle: "Modelling solar panel surface from energy requirements"
 image: ""
-tags: ["cosmos-journeyer", "Space station", "Physics"]
+tags: ["cosmos-journeyer", "space-station", "physics"]
 bigimg: [{src: "banner.png", desc: "The International Space Station and its 8 solar arrays"}]
 ---
 

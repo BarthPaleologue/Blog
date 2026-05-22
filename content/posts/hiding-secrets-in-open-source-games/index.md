@@ -5,7 +5,7 @@ type: ""
 date: 2026-05-20T17:44:53+02:00
 subtitle: "Having unsafe fun with cryptography and JavaScript"
 image: "posts/hiding-secrets-in-open-source-games/soc-map.png"
-tags: ["cosmos-journeyer", "Cryptography", "JavaScript", "BabylonJS"]
+tags: ["cosmos-journeyer", "cryptography", "javascript", "babylonjs"]
 ---
 
 Easter eggs and game secrets are among the most fascinating and powerful aspects of video games in my experience. 
