@@ -8,7 +8,7 @@ image: ""
 tags: ["VR", "Unity", "IGD301"]
 ---
 
-Have you ever been in a supermarket and felt overwhelmed by the task of grabing objects from the shelves? I know, i know.
+Have you ever been in a supermarket and felt overwhelmed by the task of grabbing objects from the shelves? I know, i know.
 
 {{<figure src="image.png" alt="The supermarket of dooooom" caption="The supermarket of dooooom" caption-position="bottom">}}
 

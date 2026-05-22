@@ -14,7 +14,7 @@ These moments are VR fails, when the immersion make you forget about reality. He
 
 ## VR and cables
 
-Just like I said in the intro, developping in VR can be dangerous, and not just because of punching screens.
+Just like I said in the intro, developing in VR can be dangerous, and not just because of punching screens.
 
 To communicate with the Quest, you will probably use the cable link to transfer the apk to the headset. And then you will probably want to test it.
 Even though the cable is quite long, you will probably want to move around a bit. Now 2 things can happen:

@@ -17,7 +17,7 @@ Anyway, here is what you can expect from this article:
 
 {{< youtube JaQAZ1Kaw9I >}}
 
-The full source code is as always available under a public license on Github (see the link at the end of the article).
+The full source code is as always available under a public license on GitHub (see the link at the end of the article).
 
 I hope you will enjoy it!
 

@@ -14,9 +14,9 @@ It's been a while since I last posted. I was busy getting a job among other thin
 
 ## TLDR
 
-- Minimal setup on [Github](https://github.com/BarthPaleologue/BabylonPlaywrightExample)
+- Minimal setup on [GitHub](https://github.com/BarthPaleologue/BabylonPlaywrightExample)
 - Simple [Dockerfile](https://github.com/BarthPaleologue/BabylonPlaywrightExample/blob/master/Dockerfile) to run the tests
-- [Github Actions CI](https://github.com/BarthPaleologue/BabylonPlaywrightExample/blob/master/.github/workflows/e2e.yml) to run the tests on PRs
+- [GitHub Actions CI](https://github.com/BarthPaleologue/BabylonPlaywrightExample/blob/master/.github/workflows/e2e.yml) to run the tests on PRs
 
 ## Introduction
 
@@ -219,7 +219,7 @@ Like before, try changing something in your game and run the tests again. You sh
 
 Now, checking you didn't break anything is all well and good, but what about the other contributors? You probably also want to check their PRs as well!
 
-For that, we can run a CI check leveraging our newly written Dockerfile to run the tests in a Github Action workflow `e2e.yml`:
+For that, we can run a CI check leveraging our newly written Dockerfile to run the tests in a GitHub Action workflow `e2e.yml`:
 
 ```yaml
 name: e2e
@@ -276,12 +276,12 @@ jobs:
                   path: artifacts/test-results
 ```
 
-Add this file to the `.github/workflows` folder of your project. The end-to-end tests will now run on every push to the `main` branch and on every pull request. The results will be uploaded as artifacts that you can download from the Github Actions page.
+Add this file to the `.github/workflows` folder of your project. The end-to-end tests will now run on every push to the `main` branch and on every pull request. The results will be uploaded as artifacts that you can download from the GitHub Actions page.
 
 ## Conclusion
 
 I hope you found this tutorial useful! Let me know if you have any questions or issues with the setup. I will be happy to help you out.
 
-All the code for this tutorial is available on [Github](https://github.com/BarthPaleologue/BabylonPlaywrightExample) under the MIT license. It contains a small Babylon.JS scene used to generate the screenshots, and the Dockerfile from this post, as well as the Github Actions script.
+All the code for this tutorial is available on [GitHub](https://github.com/BarthPaleologue/BabylonPlaywrightExample) under the MIT license. It contains a small Babylon.JS scene used to generate the screenshots, and the Dockerfile from this post, as well as the GitHub Actions script.
 
 Until next time, have a nice day!

@@ -286,4 +286,4 @@ If everything went well, you should have something similar to this:
 
 Congratulations on making your first VR game!
 
-All projects files are available on Github under a free license at https://github.com/BarthPaleologue/UnityVR
+All projects files are available on GitHub under a free license at https://github.com/BarthPaleologue/UnityVR

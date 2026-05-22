@@ -16,7 +16,7 @@ Planetary rendering is hard. The scales at play can go from the small butterfly 
 
 The gist of it is that we want a lot of details where the player is looking, and save as much resources everywhere else.
 
-I have been developping [Cosmos Journeyer](https://cosmosjourneyer.com)'s planet renderer for more than 3 years now, and I will share some of the insights I have found while doing it.
+I have been developing [Cosmos Journeyer](https://cosmosjourneyer.com)'s planet renderer for more than 3 years now, and I will share some of the insights I have found while doing it.
 
 The most important trick, the one we will talk about today, is the terrain dynamic level of detail (LoD): a way to render fine details close to the player's eyes, and reducing the quality the further away we look.
 

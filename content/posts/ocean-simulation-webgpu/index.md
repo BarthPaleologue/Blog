@@ -13,7 +13,7 @@ bigimg: [{src: "cover.png", desc: "Ocean Simulation with Webgpu"}]
 
 It's been a few month since I started pondering making a better ocean for [Cosmos Journeyer's procedural planets](https://cosmosjourneyer.com). To have actual waves moving around and not just a scrolling normal maps would make a significant difference in visual quality.
 
-Coincidentally, I was also taking a course on computer animation (INF585) at Ecole Polytechnique, and I had the opportunity to choose my final project. Long stroy short, I decided to implement [Jerry Tessendorf's FFT-based ocean simulation](https://people.computing.clemson.edu/~jtessen/reports/papers_files/coursenotes2004.pdf) on WebGPU, and this is my project report.
+Coincidentally, I was also taking a course on computer animation (INF585) at Ecole Polytechnique, and I had the opportunity to choose my final project. Long story short, I decided to implement [Jerry Tessendorf's FFT-based ocean simulation](https://people.computing.clemson.edu/~jtessen/reports/papers_files/coursenotes2004.pdf) on WebGPU, and this is my project report.
 
 I came across many different techniques to simulate an ocean during my investigation, but I was definitely seduced by the realism of the FFT ocean simulation, and the fact that it is actually real-time. 
 

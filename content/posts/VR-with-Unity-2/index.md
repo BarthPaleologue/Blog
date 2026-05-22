@@ -613,7 +613,7 @@ Once that's done, Unity will build the game and launch it. You can now share the
 
 Voilà! Now we have a working little game.
 
-All projects files are available on Github under a free license at https://github.com/BarthPaleologue/UnityVR
+All projects files are available on GitHub under a free license at https://github.com/BarthPaleologue/UnityVR
 
 We will start true VR development next week, building on what we did today. Stay tuned!
 
