@@ -1,6 +1,6 @@
 ---
 title: "Translating Books at Home"
-subtitle: "Technical & Ethical overview of a modern machine translation project"
+subtitle: "Technical & ethical overview of a modern machine translation project"
 date: 2026-07-19T13:57:46+02:00
 draft: true
 author: "Barthélemy Paléologue"
@@ -21,9 +21,11 @@ I was about to discover for myself how translator-dependent the ease of reading 
 
 In the cas of LOGH, the first 3 books were translated by Daniel Huddleston, and next 3 were translated by Tyran Grillo. (There are 4 more books afterward, but we don't care about them today).
 
-Once my partner reached the 4th book, she shared with me some passages that she found very hard to understand. Pronouns reference were unclear, some sentences had even anti-meaning [CHECK_TRANS]. I felt there was a real risk she would stop reading the book as the friction drains her motivation day after day. 
+Once my partner reached the 4th book, she shared with me some passages that she found very hard to understand. Pronouns reference were unclear, some sentences had contradictory meaning in the canon of the universe. I felt there was a real risk she would stop reading the book as the friction drains her motivation day after day. 
 
-Disclaimer: I don't want to throw shade at Tyran Grillo here, there is no telling how much time and money he was given to translate those 3 books, and even the most talented translator would fail under inferior working conditions. Any attempt at making people understand each other better should be celebrated.
+{{< callout warning >}}
+I don't want to throw shade at Tyran Grillo here, there is no telling how much time and money he was given to translate those 3 books, and even the most talented translator would fail under inferior working conditions. Any attempt at making people understand each other better should be celebrated.
+{{< /callout >}}
 
 What I am more interested in today is: what can you do in modern days when faced in this situation? 
 
@@ -32,11 +34,14 @@ Faced with this problem, I felt like I had 3 options:
 - learn japanese to read the source material
 - create a new translation from scratch
 
+{{< callout info >}}
+This article will talk about LLMs and the ethics of using them. The article itself was painstakingly written by yours truly (a human), and proofread by both humans and LLMs for correctness and idiomaticity of some sentences. I hope you will find it interesting, no matter what your opinion of AI is.
+{{< /callout >}}
+
 ## Human translation efforts
 
 The easiest solution by far would be to find another translation that we would find suitable. From what I found, there is no other english translation for book 4 to 6.
 
-[MAKE_INFO_BOX]
 There was [a community-led project](https://legendofgalacticheroes.blogspot.com/) to translate the books but it seems they only got around to translate the first one, before sadly stopping in 2015.
 
 I also checked for translation in my native language (French), and found [a crowdfunding project](https://fr.ulule.com/les-heros-de-la-galaxie/)! However the first book is set to release in 2027 so the 4th book is likely a few years away, and I won't wait that long.
@@ -67,14 +72,17 @@ For a real translation project, we will need a system that can take decisions an
 
 #### Some context
 
-In late 2024, [OpenAI introduced the first LLM capable of complex reasoning](https://openai.com/fr-FR/index/introducing-openai-o1-preview/) and in context decision making: o1. The reasoning capability lead to improvements across all tasks, and nowadays all new models are post-trained to develop complex reasoning abilities leading to remarkable advances such as [refuting Erdos conjecture about the unit distance problem](https://openai.com/fr-FR/index/model-disproves-discrete-geometry-conjecture/).
+Large Language Models (LLMs) are neural network trained to predict tokens (pieces of words) given a text context. Modern systems use them to generate the next word in a sentence repeatedly, creating coherent sentences. 
 
-[MIGHT_NOT_KEEP]
-Moreover [LLM training grows internal representations of language in general](https://www.anthropic.com/research/tracing-thoughts-language-model), which makes them suitable for translation as they will process the information in an abstract concept space.
+By itself, this is not enough for translating entire books: the model will simply generate what's most probable, which is average internet slop text. A translator does not predict the most probable translation, they think about different possibilities, make drafts and more. We pay professional translator precisely because they will produce something better than average thanks to their expertise.
+
+Technological progress has not stopped though, and in late 2024, [OpenAI introduced the first LLM capable of complex reasoning](https://openai.com/fr-FR/index/introducing-openai-o1-preview/) and in context decision making: o1. Reasoning capabilities lead to major improvements across all tasks, culminating in the recent [refutal of Erdos conjecture about the unit distance problem](https://openai.com/fr-FR/index/model-disproves-discrete-geometry-conjecture/).
+
+The system we need today might already exist.
 
 #### Cost estimate
 
-Even though the system could work in practice, we dismissed human translation earlier based on cost so it would be unfair not to the same for the machine-based approach.
+Earlier, we dismissed human translation earlier based on cost so it would be unfair not to the same for the machine-based approach.
 
 We want to translate 3 books, which we estimated will contain ~270k english words once translated. LLMs do not operate on words directly, instead words are split into tokens. In our case [english words are split in 1.3 tokens on average](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them), so will need to generate *at the very least* 360k tokens. How much would that cost?
 
@@ -87,23 +95,23 @@ Claude Fable 5: 50$ per million output token: 18$ [source](https://platform.clau
 
 The first time I ran this numbers I was surprised to see how cheap it is! But let's be careful: we are considering only the output translation tokens. 
 
-A translator must read the source material (input tokens), read what he already has translated (more input tokens), and most importantly: think, draft and make decisions (output reasoning tokens).
+As we said, a translator must read the source material (input tokens), read what he already has translated (more input tokens), and most importantly: think, draft and make decisions (output reasoning tokens).
 
 For a large task executed in one go, input tokens are cached and therefore their price is negligible compared to the output tokens. What matters then is estimating how much reasoning will be needed.
 
 As a first guess, let's say a translator spends 99% of its cognitive effort thinking about how to translate, weighing trade-offs, drafting and making decisions, while the remaining percent is used to produce the final result. Instead paying for 360k tokens, we would be paying for 36M tokens!
 
-[Infobox]
+{{< callout note >}}
+Why 99% you may ask? Why not 99.999% or 98%? The answer it that it was revealed to me in a dream! (Joke aside it just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself). You will see at the end that my estimate was shockingly close.
+{{< /callout >}}
 
-Why 99% you may ask? Why not 99.999% or 98%? The answer it that it was revealed to me in a dream! (Joke aside it just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself).
-
-So if we 100x the previous prices, we would get:
+Let's 100x the previous prices to account for reasoning:
 
 Deepseek V4 Flash: 10$
 
 Claude Fable 5: 1800$
 
-See how even then, the estimated price is far below what the professional translator would cost us! In fact it is affordable enough that I want to try and see for myself how far we can take it! 
+Even then, the estimated price is far below what the professional translator would cost us. But there is no telling how the quality will compare at this point. I am curious and it is affordable enough that I want to try and see for myself how far we can take it! 
 
 ## Translation Ex Machina
 
@@ -112,6 +120,8 @@ TLDR: If you don't care about the technical details (aren't you curious?), you c
 ### Mapping LLM weaknesses
 
 Let's get inside the engineering part of the project. How will we tackle this problem? Do we just paste the japanese source inside ChatGPT and tell it to "Translate in english, make no mistake!".
+
+![obligatory make no mistake joke](./makeNoMistake.png)
 
 That's of course not what's going to happen, I wouldn't be writing a blog post about it if I did.
 
