@@ -78,9 +78,9 @@ Large Language Models (LLMs) are neural network trained to predict tokens (piece
 
 By itself, this is not enough for translating entire books: the model will simply generate what's most probable, which is average internet slop text. A translator does not predict the most probable translation, they think about different possibilities, make drafts and more. We pay professional translator precisely because they will produce something better than average thanks to their expertise.
 
-Technological progress has not stopped though, and in late 2024, [OpenAI introduced the first LLM capable of complex reasoning](https://openai.com/fr-FR/index/introducing-openai-o1-preview/) and in context decision making: o1. Reasoning capabilities lead to major improvements across all tasks, culminating in the recent [refutal of Erdos conjecture about the unit distance problem](https://openai.com/fr-FR/index/model-disproves-discrete-geometry-conjecture/). 
+Technological progress has not stopped though, and in late 2024, [OpenAI introduced the first LLM capable of complex reasoning](https://openai.com/fr-FR/index/introducing-openai-o1-preview/) and in context decision making: o1. Reasoning capabilities lead to major improvements across all tasks, culminating in the recent [refutal of Erdos conjecture about the unit distance problem](https://openai.com/fr-FR/index/model-disproves-discrete-geometry-conjecture/). Who knows how far this technology got when you are reading those lines?
 
-These models are capable of planning and adaptation to novel situations, which is exactly what we need.
+Anyhow, these recent models are capable of planning and adaptation to novel situations, which is exactly what we need.
 
 #### Cost estimate
 
@@ -121,7 +121,7 @@ Even then, the estimated price is far below what the professional translator wou
 
 TLDR: If you don't care about the technical details (aren't you curious?), you can find a link to the AGPL licensed repository at the end of the article ;)
 
-### Mapping LLM weaknesses
+### The context bottleneck
 
 Let's get inside the engineering part of the project. How will we tackle this problem? Do we just paste the japanese source inside ChatGPT and tell it to "Translate in english, make no mistake!".
 
@@ -147,19 +147,19 @@ Good engineers always try first to find an existing solution to their problems b
 
 Often nature can show us the way (biomimicry). Evolution already spent hundreds of millions of years finding solutions to problems we care about (think bird inspired wing design, brain inspired artificial neural network or and colony optimization algorithms).
 
-So let's take a look at nature to see how translation is solved. After hundreds of millions of years, natural selection and mutation produced the human translator. We will be looking at how they work to come up with a solution to our problem. 
+![biomimicry examples, including a bird flying on top of another bird supposedly inspiring the space shuttle carrier](./biomimicry.png)
 
-How does a translator produces a quality translation?
+So let's take a look at nature to see how translation is solved. After hundreds of millions of years of natural selection and mutation, The human translator appeared. *Using David Attenborough's voice* Let's observe the human translator in their natural habitat to see what we can learn.
 
-The first observation is obvious: a translator does not work on the entire book all at once. By focusing on a smaller passage, we make sure we have the cognitive space required to make the right decisions.
+The first observation is obvious: a translator does not work on the entire book all at once. By focusing on a smaller passage, we can direct our attention to the specific local challenges of the passage.  
 
-Ok, but how do we handle long range consistency then?
+*Ok, but how do we handle long range consistency then? Passages are related to one another.*
 
 For human translators, consistency comes from recalling earlier translation decisions. Those decisions can range from a consistent translation for a character name to more conceptual decisions about the style to adopt in a given context.
 
-Right, but isn't there a risk that a mis-translation early on have cascading consequences later in the translation?
+*Right, but isn't there a risk that a mis-translation early on having cascading consequences later in the translation?*
 
-Human translator will proof-read their ongoing work and reference again the source material to double check pending decisions. Once the proof-reading yields diminishing returns, go translate the next passage.
+Human translators will proof-read their ongoing work and reference again the source material to double check pending decisions. Once the proof-reading yields diminishing returns, go translate the next passage.
 
 Given what we observed from real world translation, here is an overview of the system I want to build:
 
@@ -177,37 +177,23 @@ Given what we observed from real world translation, here is an overview of the s
 
 Let's build this thing!
 
-Disclaimer: even though the specification of each step and tool of the pipeline was made by yours truly, the python implementation was realized by Codex with GPT 5.6 Sol medium over the course of a week. (The first workable version was done in one day, the six others were used to refactor the project into a more robust, generic and efficient pipeline).
+{{< callout info >}}
+Even though I made the specification of each step and tool of the pipeline, the python implementation was realized by Codex with GPT 5.6 Sol medium over the course of a week. (The first workable version was done in one day, the six others were used to refactor the project into a more robust, generic and efficient pipeline).
+{{</ callout >}}
 
 ## Book pre-processing
 
+The first step will be to take our reference and source books and pre-process them to get a predictable format we can use programmatically. Python is the king of languages for data-science so we will be using it with the [uv toolchain](https://docs.astral.sh/uv/) for the project.
+
 ### Making the reference translation semantically searchable
 
-Multiple steps of the proposed pipeline are about finding how a given string of text has been translated in the reference translation. What I want is some kind of process that takes a query in natural language, and returns the closest matches in both english and japanese in the reference translation with some surrounding context.
+We will need to search inside the reference material to make informed translation decisions and for review purposes.
 
-The starting point for search is simply searching japanese terms returning the corresponding english context around that term so the LLM can identify the translation. However language is messy and sometimes you want to look for indirect matches like paraphrases "the officer keeping the fleet supplied".
+The main challenges is returning the correct bilingual context for a given query. If we find an exact match inside the japanese reference, we want to also feed the corresponding english context so that our translation agent has everything it needs to make decisions.
 
-This problem lead to the development of interesting solutions like `word2vec` in the pre-transformer era. The idea is to associate each token with a vector from a vector space that we hope will capture some semantic meaning. (king - man + woman = queen). 
+The first step is to cut each source chapter into small segments of fixed length (let's say 500 japanese characters). Then for each chapter, we can compute the size ratio of the translation to the original to get an estimate of the english segment length. This way get a number of japanese/english segment pairs that are roughly aligned (mistakes are still possible though).
 
-This process is called embedding, and is a key part of modern LLMs as well: convert the input tokens into vectors, add an empty vector at the end for the output token, run the attention mechanism on all those vectors, then translate the final vector into a token using the inverse embedding.
-
-Searching using embeddings is straightforward: transform the natural language query into a vector, and find the closest other vectors inside the list of stored embeddings.
-
-The question is then, how do we make good english/japanese pairs to then embed?
-
-First we will choose a size for those pairs: too small and we would lose much of the surrounding context, which would lead to suboptimal translation decisions. Too large and we would get too many matches for any query, which would drown the signal under the surrounding noise.
-
-I chose a size of 500 japanese characters for starters. Of course it can be tweaked but remember it is a trade-off.
-
-The next step is splitting the book into chapters as we can be sure the start of the source and target chapters are aligned.
-
-For a given chapter, we then take the ratio of english characters per japanese character and deduce an english size for each pair.
-
-We then split the chapters of both the japanese and english books using the language-specific chunk size to get our aligned pairs. This technique works best for chapters that are not too long, as very long chapters would lead to misalignment of the chunks, rendering our semantic search useless.
-
-Now that we have our list of translation pairs, we will embed each pair as one vector using the [BGE-M3 model](https://huggingface.co/BAAI/bge-m3). It performs well for multilingual contexts, which is exactly what we need. Even better: it can run locally.
-
-Now we can run both the simple search and the semantic search to get the best results possible.
+Now for search, a good starting point can be returning all segments containing the query. This will work well for character names or places names.
 
 For example we can query a name:
 
@@ -217,14 +203,20 @@ uv run book-translate reference-search "キャゼルヌ"
 
 It is pronounced "Kyazerunu", so translating it to english is not obvious at all. The search tool returns passages mentionning "Caselnes" as lexical matches, which is indeed how the name was translated by Daniel Huddleston.
 
-And because this is a semantic index, we can make more complex queries:
+Because Codex is not as lazy as I am, we can even ask it to go further to enable more complex querying. Maybe we want to search with a paraphrase like "the officer keeping the fleet supplied", where we probably won't have a lexical match.
+
+This problem can be solved using word embeddings: a process in which text content is converted into vectors. They are a fundamental building block of LLMs, you can explore them interactively [here](https://www.doc.ic.ac.uk/~nuric/word2vec_demo.html) if you are curious. Once we know how to convert texts into vectors, finding matches is a matter of finding the vectors closest to your query, hoping it will be relevant! 
+
+We won't be reinventing wheel here either. Instead let's use an existing embedding model like [BGE-M3 model](https://huggingface.co/BAAI/bge-m3). It performs well in multilingual contexts, which is exactly what we need. Good news, its small enough to run locally even on CPU only.
+
+Now we can run both the simple lexical search and the semantic search to get the best results possible. Let's try a more complex query that has no exact match in the reference material:
 
 
 ```sh
 uv run book-translate reference-search "A man who wanted to study the past but ended up commanding on the battlefield"
 ```
 
-Getting the following result:
+We get the following result:
 
 
 ```json
@@ -237,8 +229,7 @@ Getting the following result:
 
 If you don't want to read the whole passage, just know it indeed references the backstory of Yang-Wen-Li even though the wording is not the same at all: `After looking around for a school where he could study history for free, he had entered the Department of Military History at Officers’ Academy—only to have his department abolished along the way, to be transferred against his will to the Department of Military Strategy`.
 
-
-### Chunking into segments
+### More chunking
 
 Now that the reference translation is usable, we need to prepare the japanese source we actually want to translate. 
 
@@ -246,6 +237,9 @@ Much like before, we want to chunk the text into segments of a given length, wit
 
 Too long: the LLM will need to make too many unrelated decisions to make a good translation.
 Too short: the LLM might miss some long range dependencies that are needed to make a good translation. 
+
+
+We will go with something bigger than the reference as we are not just querying for surrounding context, we want to make a consistent translation of the given passage.
 
 My first instinct is again to split by chapters first, then subdivide again if chapters are too long.
 
