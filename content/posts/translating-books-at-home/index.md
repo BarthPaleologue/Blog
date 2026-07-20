@@ -297,8 +297,11 @@ That's cheaper than what we estimated earlier, nice! But that also means the mod
 You might notice the token count of about 390M and think: "hold on, our estimate was about 36M output tokens!". The number displayed on deepseek usage board conflates input and output tokens. Here are the actual output tokens day by day:
 
 13th of july: 2.3M output tokens
+
 14th of july: 3.7M output tokens
+
 15th of july: 4.4M output tokens
+
 16th of july: 2.3M output tokens
 
 (fluctuation is caused by me scrambling to fix the pipeline as well as remaking the entire agent framework midway through).
@@ -321,11 +324,21 @@ Thankfully the 5th book's translation had only started and the glossary issue wa
 
 ## Conclusion and ethical considerations
 
-Let's reflect on what we just did today. We were able to make a better translation of a japanese book in english, at an affordable cost, allowing more people to read it through the language barrier. This was made possible by using an LLM to build a pipeline around another LLM, both of them trained on countless stolen books. Furthermore, we used the work of a human translator to imitate his translation style without prior authorization. If you *should* feel conflicted about  this.
+What a journey! I must say I did not expect this project to work as well as it did. Wait what's that noise?
+
+![Address me elephant in the room](./elephant.png)
+
+Looks like we've got an elephant in our room, we better address it.
+
+Was any of this legal or even moral? Let's take a step back.
+
+On the bright side, we made a system capable of translating books with high quality at the fraction of the cost of what was possible a few years ago. Translating books is akin to building bridges between cultures: it allows us to better understand each other. Looking at history, war often relies on stripping the designated enemy of their human qualities, through propaganda. Mass translating culture makes this process harder as we are allowed to see the world through the perspective of others. 
+
+But now on the dark side, we used an LLM to build a pipeline leveraging another LLM, both trained on stolen data, many of them authored by human translators. We used the work of Daniel Huddleston to ground the style of our output without prior authorization. The existence of such systems are bound to make the translation market more competitive, driving translator wages down, derailing many lives in the process. That's not fair.
 
 I do not want a world where human translators are unable to live decently because their honest work no longer pays their bill when competing with LLMs.
 
-I do not want a world where we demonize using our technology to build bridges across cultures. The first step toward war is to strip your designated ennemy from their humanity, building understanding between cultures prevents that.
+I do not want a world where we demonize using our technology to build bridges across cultures, hopefully creating friction in war mongering.
 
 We should blame the unfair society that lets translators be the victims of technological progress. And they are not alone, what about artists which now have to compete with image models? What about programmers who may have to compete soon with next generation coding agents?
 
