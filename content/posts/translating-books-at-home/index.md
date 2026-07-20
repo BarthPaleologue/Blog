@@ -238,16 +238,13 @@ Much like before, we want to chunk the text into segments of a given length, wit
 Too long: the LLM will need to make too many unrelated decisions to make a good translation.
 Too short: the LLM might miss some long range dependencies that are needed to make a good translation. 
 
-
-We will go with something bigger than the reference as we are not just querying for surrounding context, we want to make a consistent translation of the given passage.
-
-My first instinct is again to split by chapters first, then subdivide again if chapters are too long.
+Like before, we will first split by chapters, then cut into segments. We will go with something bigger than the reference as we are not just querying for surrounding context, we want to make a consistent translation of the given passage.
 
 As a rough starting point, I went with a segment length of at least 2000 characters, and at most 6000 characters. For 200 pages, that's about 30 segments, so between 6/7 pages per segment.
 
 ## Incremental glossary
 
-Going back to humanmimicry, a human translator would not need to check the reference translation every time it sees the name of the main character. Instead they would have either in their mind or written down, a glossary for reoccuring names.
+Going back to humanmimicry, a human translator would not need to check the reference translation every time it sees the name of the main character. Instead they would have either in their mind or written down, a glossary for reoccurring names.
 
 Of course when the translator sees a name or expression for the first time, it is not inside the glossary, so we use our semantic search from earlier to find clues and examples in the reference translation. 
 
@@ -255,66 +252,72 @@ The translator can then make an informed decision that we can record in the glos
 
 The glossary then acts as a shared memory between translation sessions. Later sessions are very likely to reuse what they find in the glossary next time they encounter the name or expression.
 
+I could not resist the temptation of making a vector index for the glossary like for the reference material, that way we can handle non exact matches as well.
+
 ## Review
 
-Good translators read their output multiple times to find mistakes that could have happened while writing the translation draft. Human attention is limited hence it needs multiple passes to reach a stable result.
+Good translators read their output multiple times to spot mistakes that could have happened while writing the translation draft. Human attention is limited hence it needs multiple passes to reach a stable result.
 
-LLM attention also has weaknesses, and so stopping at the first draft would be a mistake.
+LLM output is less reliable than humans on average (although the current frontier is getting uncomfortably close), thus reviewing is mandatory.
 
 Given our problem, we want to review 2 aspects of the translation:
 - Is it correct? (The english text is correct and conveys as much of the meaning of the original japanese)
-- Does it follow the reference translation style? (A correct translation that is painful to read would not be much of an improvement to our initial setting)
+- Does it follow the reference translation style? (A correct translation that is painful to read would not be much of an improvement to our initial problem)
 
 Those 2 review dimensions are orthogonal, and as such they should be handled by 2 different agents, each with a prompt tailored to their task.
 
+For this, we can use [the Pydantic agent framework](https://pydantic.dev/docs/ai/overview/) to expose tools for cross-checking with the reference material and get structured outputs from them, which is mandatory to make our pipeline reliable.
+
 ## Model choice
 
-We now have a solid translation pipeline, what LLM are we going to plug inside?
+We now have a solid translation pipeline, but we still have to choose which LLM to use?
 
-We could technically chose a different LLM for each role, but that would mean finding which LLM works best for a certain task, which is time consuming. For the sake of simplicity we will use the same LLM for all agents.
+For the sake of simplicity I will use the same model for all tasks. I don't think we need the absolute frontier of LLM intelligence for our side project so the goal is to strike a balance between intelligence and price.
 
-After working on some coding tasks with Deepseek V4 Flash, I found it lacking in the taste/decision making area, which is critical for a good translation. And I don't want to spend thousand of dollars on the translation either, it's really a fun side-project before anything else.
+After working on some coding tasks with Deepseek V4 Flash, I found it lacking in the taste/decision making area, which is critical for a good translation. Its big bro, Deepseek V4 Pro fairs better in comparison, at 3x the price.
 
-I settled on Deepseek V4 Pro after testing it on some coding tasks. It is about 3x more expensive than Flash, but also has better taste than its sibling.
-
-Taking our original estimate, that would put the task at O(30$), which is more than reasonable.
+Taking our original estimate of $10 using Deepseek V4 flash, we can hope to land in O(30$) territory, which is more than reasonable.
 
 Let's start the pipeline shall-we ?
 
 ## Results
 
-Over the course of 4 days, all 3 books have been translated! The pipeline was not running 24/7 as I was making adjustments along the way, and also my API key had no balance left for an entire night!
+Over the course of 4 days, all 3 books have been successfully translated! There was a bunch of crashes on the way there, but I made sure the pipeline was resumable, and with some tinkering it got through the finish line. 
 
-My estimate is about 17h per book which is 17h for 200 pages, so 8/9 hours for 100 pages.
+From what I saw, the average segment took a little more than half an hour to be fully translated, which means about 17h per book. This means you can use larger models if you want and still get a result in a reasonable amount of time. 
 
-How much did it cost?
+### Cost
+
+What about the cost? Was our estimate remotely correct? Let's see:
 
 ![API cost](./finalCost.png)
 
-In the end it cost about 20 bucks for the 3 books, what a relief! 
+That's cheaper than what we estimated earlier, nice! But that also means the model spent less time thinking for each final translation token, which could come back to bite us. 
 
-You might notice the token count of about 390M and think, "hold on our estimate was about 36M output tokens!". The number displayed on deepseek usage board conflates input and output tokens. Here are the output tokens day by day:
+You might notice the token count of about 390M and think: "hold on, our estimate was about 36M output tokens!". The number displayed on deepseek usage board conflates input and output tokens. Here are the actual output tokens day by day:
 
 13th of july: 2.3M output tokens
 14th of july: 3.7M output tokens
 15th of july: 4.4M output tokens
 16th of july: 2.3M output tokens
 
-Total is 12.7M tokens, so our 100x cognitive production estimate was quite off by a factor of 3 haha! At 120k tokens per book, the pipeline used 3% of its token production for the final translation and not 1% like I guessed at first.
+(fluctuation is caused by me scrambling to fix the pipeline as well as remaking the entire agent framework midway through).
 
-Notice how token usage went up everyday as I fixed some outages in the pipeline. Including a depleted API key!
+Total is 12.7M tokens compared to our 36M estimate. This confirms the models did not speed 100x more tokens on thinking. Instead, At 120k tokens per book, the pipeline used 3% of its token production for the final translation. This of course depends a lot on the model used in the experiment, some are more token efficient than others.
 
-Are any of those tokens any good?
+### Quality
 
 But is it any good? How do you even measure something like that? Translation is a hard to verify domain after all.
 
-I only have qualitative tests to share with you. My partner and I read side-by-side some of the hardest passages of Tyran Grillo's translation with the newly machine translated one. It wasn't a blind experiment as she already had read those passages, in fact those passages motivated the entire operation you see. So take this with a grain of salt.
+I only have qualitative tests to share with you. My partner and I read side-by-side some of the hardest passages of Tyran Grillo's translation with the newly machine translated one. It wasn't a blind experiment as we already had read those passages, so take this with a grain of salt.
 
-We found the machine translation to be significantly easier to read, and some of the sentences that had illogical meanings were making perfect sense in our version. Fast forward a few days later, my partner feels less friction when reading the book (I don't know yet myself I am still reading the 3rd book when I write these words lol).
+We found the machine translation to be significantly easier to read, and some of the sentences that had illogical meanings were making perfect sense in the new version. Fast forward a few days later, my partner feels less friction when reading the book (I don't know yet myself I am still reading the 3rd book when I write these words).
 
-The only mistake she found was the translation for the character name "Caselnes", that was found to be "Cazerne". When asking Codex about it, it innocently told me the glossary mechanism I proposed was not implemented during the translation of the 4th book. Do not trust your AI agents!
+The only noticeable mistake she found was the translation for the character name "Caselnes", that was found to be "Cazerne". When asking Codex about it, it innocently told me the glossary mechanism I proposed was not implemented at all! That's what you get for trusting an AI agent too much.
 
-Thankfully the 5th book's translation had only started and so I made sure the glossary was wired up before continuing the process. I might return to it and rerun the full pipeline again just to fix the 4th book haha.
+![Be careful when trusting your AI agent](./trustAgent.png)
+
+Thankfully the 5th book's translation had only started and the glossary issue was soon fixed. I might re-translate the entire 4th book to fix this though.
 
 ## Conclusion and ethical considerations
 
