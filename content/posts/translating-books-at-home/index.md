@@ -52,19 +52,21 @@ Well I did take some japanese classes in high school and at engineering school, 
 
 ## Making a new translation
 
+Our list of options is growing thin. Looks like we will need to make a new translation, or stop reading the books.
+
 ### Hiring a human professional
 
-I did some searching, and it seems hiring a professional translator costs [between 0.12$ and 0.16$ per word](https://pen.org/report/fairness-in-publishing). Given 3 books of 200 pages, averaging 90k english words per book, we can estimate the cost at `270k * 0.14 = 38k$` for those translations. And we are not even considering buying the rights and all these legal shenanigans! 
+The gold standard for making a new translation is to hire a professional to do it for us. But I am only a software engineer and wallet is definitely finite. It seems hiring a professional english translator costs [between 0.12$ and 0.16$ per word](https://pen.org/report/fairness-in-publishing). Given 3 books of 200 pages, averaging 90k english words per book (270k words total), we can estimate the cost at `270k * 0.14 = 38k$` for those translations.
 
 ![combien, meme from La Cité de la Peur (How much ???! in english)](combien.png)
 
 You see I don't have that much money, and if I did I would likely use it for something else than re-translating books!
 
-Seems like human translators are out of the menu for today unfortunately. Let's see if we can find something else.
+Seems like human translators are out of the menu for today unfortunately. Let's see if we can find another solution.
 
 ### Google translate
 
-Google Translate is free of course, but it is notoriously bad for anything serious, even with the recent Gemini updates, [which made the tool vulnerable to prompt injections](https://winbuzzer.com/2026/02/10/google-translate-gemini-prompt-injection-vulnerability-xcxwbn/).
+When learning english at school, Google Translate was the go to option for students who didn't want to put effort into their work. It is free of course, and notoriously bad for anything serious unfortunately. Funnily enough, they recently tried shoving Gemini inside, [which made the tool vulnerable to prompt injection attacks](https://winbuzzer.com/2026/02/10/google-translate-gemini-prompt-injection-vulnerability-xcxwbn/).
 
 For a real translation project, we will need a system that can take decisions and weigh translation trade-offs when the mapping between source and target languages is not obvious. Google translation is not that system.
 
@@ -72,13 +74,13 @@ For a real translation project, we will need a system that can take decisions an
 
 #### Some context
 
-Large Language Models (LLMs) are neural network trained to predict tokens (pieces of words) given a text context. Modern systems use them to generate the next word in a sentence repeatedly, creating coherent sentences. 
+Large Language Models (LLMs) are neural network trained to predict tokens (pieces of words) given a text context. Modern systems use them to generate the next word in a sentence repeatedly, creating coherent sentences.
 
 By itself, this is not enough for translating entire books: the model will simply generate what's most probable, which is average internet slop text. A translator does not predict the most probable translation, they think about different possibilities, make drafts and more. We pay professional translator precisely because they will produce something better than average thanks to their expertise.
 
-Technological progress has not stopped though, and in late 2024, [OpenAI introduced the first LLM capable of complex reasoning](https://openai.com/fr-FR/index/introducing-openai-o1-preview/) and in context decision making: o1. Reasoning capabilities lead to major improvements across all tasks, culminating in the recent [refutal of Erdos conjecture about the unit distance problem](https://openai.com/fr-FR/index/model-disproves-discrete-geometry-conjecture/).
+Technological progress has not stopped though, and in late 2024, [OpenAI introduced the first LLM capable of complex reasoning](https://openai.com/fr-FR/index/introducing-openai-o1-preview/) and in context decision making: o1. Reasoning capabilities lead to major improvements across all tasks, culminating in the recent [refutal of Erdos conjecture about the unit distance problem](https://openai.com/fr-FR/index/model-disproves-discrete-geometry-conjecture/). 
 
-The system we need today might already exist.
+These models are capable of planning and adaptation to novel situations, which is exactly what we need.
 
 #### Cost estimate
 
@@ -86,14 +88,14 @@ Earlier, we dismissed human translation earlier based on cost so it would be unf
 
 We want to translate 3 books, which we estimated will contain ~270k english words once translated. LLMs do not operate on words directly, instead words are split into tokens. In our case [english words are split in 1.3 tokens on average](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them), so will need to generate *at the very least* 360k tokens. How much would that cost?
 
-Of course LLMs are not equally expensive to run. Depending on the size of the model, depending on caching, you can get widely different prices:
+Depending on the size of the model, depending on caching, you can get widely different prices. Let's use 2 extremes of the modern landscape: Deepseek V4 flash which is ok-tier and insanely cheap, and Claude Fable 5 which is very smart and insanely expensive.
 
-[MAKE_TABLE]
-Deepseek V4 Flash: 0.28$ per million output token: 0.10$ [source](https://api-docs.deepseek.com/quick_start/pricing/)
+| Model | Price per million output tokens | Price for 360k output tokens | Source |
+|---|---:|---:|---|
+| DeepSeek V4 Flash | $0.28 | $0.10 | [DeepSeek pricing](https://api-docs.deepseek.com/quick_start/pricing/) |
+| Claude Fable 5 | $50.00 | $18.00 | [Claude pricing](https://platform.claude.com/docs/en/about-claude/pricing) |
 
-Claude Fable 5: 50$ per million output token: 18$ [source](https://platform.claude.com/docs/en/about-claude/pricing)
-
-The first time I ran this numbers I was surprised to see how cheap it is! But let's be careful: we are considering only the output translation tokens. 
+The first time I ran this numbers I was surprised to see how cheap it is (even for Fable)! But let's be careful: we are considering only the output translation tokens. 
 
 As we said, a translator must read the source material (input tokens), read what he already has translated (more input tokens), and most importantly: think, draft and make decisions (output reasoning tokens).
 
@@ -102,14 +104,16 @@ For a large task executed in one go, input tokens are cached and therefore their
 As a first guess, let's say a translator spends 99% of its cognitive effort thinking about how to translate, weighing trade-offs, drafting and making decisions, while the remaining percent is used to produce the final result. Instead paying for 360k tokens, we would be paying for 36M tokens!
 
 {{< callout note >}}
-Why 99% you may ask? Why not 99.999% or 98%? The answer it that it was revealed to me in a dream! (Joke aside it just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself). You will see at the end that my estimate was shockingly close.
+Why 99% you may ask? Why not 99.999% or 98%? ~~It that it was revealed to me in a dream!~~ (Joke aside it just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself). You will see at the end that my estimate was shockingly close.
 {{< /callout >}}
 
 Let's 100x the previous prices to account for reasoning:
 
-Deepseek V4 Flash: 10$
+| Model | Price per million output tokens | Price for 36M output tokens |
+|---|---:|---:|
+| DeepSeek V4 Flash | $0.28 | $10 |
+| Claude Fable 5 | $50.00 | $1800 |
 
-Claude Fable 5: 1800$
 
 Even then, the estimated price is far below what the professional translator would cost us. But there is no telling how the quality will compare at this point. I am curious and it is affordable enough that I want to try and see for myself how far we can take it! 
 
@@ -123,51 +127,57 @@ Let's get inside the engineering part of the project. How will we tackle this pr
 
 ![obligatory make no mistake joke](./makeNoMistake.png)
 
-That's of course not what's going to happen, I wouldn't be writing a blog post about it if I did.
+That's of course not what's going to happen, I wouldn't be writing a blog post about it otherwise.
 
 Our goal here is to capture they style of Daniel Huddleston that made the first 3 books so effortless to read and use that to translate the next 3. 
 
 That means using the japanese versions of the first 3 books as well as their translation and the source material from each target book. That's 7 books we need to use for each translation! 
 
-Let's suppose the english translation contains the same amount of tokens as the japanese one (it depends on the LLM you use really). That means each book is equivalent to 90k english words, (remember 1 english word = 1.33 tokens), so roughly 120k tokens per book and we want to fit 7 inside the context.
+Let's suppose the japanese source contains as many tokens as the english translation. That means each book is equivalent to 90k english words, so 120k tokens per book and we want to fit 7 inside the context.
 
 That's 840k tokens, and the LLM hasn't even started to think, which we estimated before would represent 99% of the token effort.
 
-For context (pun intended), the state of the art of LLM context size is 1M. Scientists are still figuring out how to extend the window, and we are currently bottlenecked by the quadratic complexity of the attention mechanism of transformer layers.
+For context (pun intended), the state of the art of LLM context size is 1M, and you will often see lower values like 256k instead.
 
-As you can, see we need to put in some human thinking here to make this translation happen. The key will be give enough context to make a quality translation, without resorting to dumping all 7 books on the LLM.
+As you can see, we need to put in some human thinking here to make this translation happen. The key will be give enough context to make a quality translation, without resorting to dumping all 7 books on the LLM.
 
 ## Humanmimicry
 
 Good engineers always try first to find an existing solution to their problems before reinventing the wheel (we do love reinventing the wheel though).
 
-Often nature can be our guide, what we call biomimicry. Evolution already spent hundreds of millions of years finding solutions to problems we care about.
+Often nature can show us the way (biomimicry). Evolution already spent hundreds of millions of years finding solutions to problems we care about (think bird inspired wing design, brain inspired artificial neural network or and colony optimization algorithms).
 
-Examples range from the design of efficient wings inspired by birds, passive ventilation inspired by termite mounds, artificial neural networks inspired by our own brains, ant colony optimization algorithms...
+So let's take a look at nature to see how translation is solved. After hundreds of millions of years, natural selection and mutation produced the human translator. We will be looking at how they work to come up with a solution to our problem. 
 
-Today's problem can be thought as one of them as well. Nature has already solved how to translate meaning from one set of symbols to another: human translators.
+How does a translator produces a quality translation?
 
-Disclaimer: we will be making a toy model inspired by how human translators operate, do not mistake the imitation for the real deal!
+The first observation is obvious: a translator does not work on the entire book all at once. By focusing on a smaller passage, we make sure we have the cognitive space required to make the right decisions.
 
-## The translation pipeline
+Ok, but how do we handle long range consistency then?
 
-Here is the high level idea I have in my mind when imagining a translation pipeline: 
+For human translators, consistency comes from recalling earlier translation decisions. Those decisions can range from a consistent translation for a character name to more conceptual decisions about the style to adopt in a given context.
+
+Right, but isn't there a risk that a mis-translation early on have cascading consequences later in the translation?
+
+Human translator will proof-read their ongoing work and reference again the source material to double check pending decisions. Once the proof-reading yields diminishing returns, go translate the next passage.
+
+Given what we observed from real world translation, here is an overview of the system I want to build:
 
 1. Choose a section of text to be translated in one session (could be a few pages or an entire chapter)
 2. Read the text to see what you are up to
 3. Make a list of terms non-trivial to translate (like character names, places names, specific expressions...)
 4. Recall if you already decided on a translation for each of those terms in the past
-5. Search those terms in the reference translation if it's the first encounter
-6. Make a translation decision based on what was found in the reference translation
+5. If recall failed, try searching in the reference translation, or come-up with an original translation
+6. If recall failed, make a translation decision based on the previous step
 7. Think about the text for a while, ponder translation trade-offs, search the reference translation some more
 8. Write a translation draft
-9. Proofread your work with fresh eyes
-10. Make adjustments
+9. Proofread with fresh eyes
+10. Make adjustments based on review
 11. Go back to 1.
 
-This orchestration is quite simple, we simply follow the steps and repeat until the entire book has been processed. The main challenge will be to prepare the data to be fed inside the pipeline.
+Let's build this thing!
 
-Disclaimer: even though the detailed specification of each step and tool of the pipeline was made by yours truly, the python implementation was realized by Codex with GPT 5.6 Sol medium over the course of a week. (The first workable version was done in one day, the six others were used to refactor the project into a more generic and efficient pipeline).
+Disclaimer: even though the specification of each step and tool of the pipeline was made by yours truly, the python implementation was realized by Codex with GPT 5.6 Sol medium over the course of a week. (The first workable version was done in one day, the six others were used to refactor the project into a more robust, generic and efficient pipeline).
 
 ## Book pre-processing
 
