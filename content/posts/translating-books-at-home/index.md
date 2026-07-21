@@ -195,13 +195,27 @@ Even though I made the specification of each step and tool of the pipeline, the 
 
 The first step will be to pre-process our reference corpus and source books to get a predictable format we can use programmatically. Python is the data-science king so we will be using it with the [uv toolchain](https://docs.astral.sh/uv/) for this project.
 
+### Short intro to text embeddings
+
+Nowadays, when processing texts, we often use text embeddings. They are fundamental building blocks of LLMs, but they can also be very useful on their own, and we will need them today.
+
+The high-level idea is training a neural network to map pieces of texts to vectors. This gets interesting when you train the network to cluster texts with similar meaning in vector space. 
+
+For example, when working at the word level, words used in similar contexts produce similar vectors. You can then perform operations on the vectors directly like the famous `king - man + woman` where the resulting vector comes awfully close to the `queen` vector. [You can play yourself with word embeddings online](https://www.doc.ic.ac.uk/~nuric/word2vec_demo.html) if you are curious.
+
+Modern text-embeddings models apply the same concepts to sentences and entire passages.
+
+We won't be reinventing the wheel here either. Instead we will use an existing embedding model like the [BGE-M3 model](https://huggingface.co/BAAI/bge-m3). It performs well in multilingual contexts, which is exactly what we need. Good news, it's small enough to run locally even on CPU only.
+
 ### Making the reference translation semantically searchable
 
-We will need to search inside the reference material to make informed translation decisions and for review purposes.
+Now we need to set up a search mechanism to explore our reference corpus, so that our translation pipeline makes the most informed decisions.
 
 The main challenge is returning the correct bilingual context for a given query. If we find an exact match inside the Japanese reference, we want to also feed the relevant English translation for our agent to make interesting comparisons.
 
-The first step is to cut each source chapter into small segments of fixed length (let's say 500 Japanese characters). Then for each chapter, we can compute the length ratio of the translation to the original to get an estimate of the English segment length. This way we get a number of Japanese/English segment pairs that are roughly aligned (mistakes are still possible though).
+The first step is to divide each chapter into small units of roughly 500 Japanese characters while preserving complete paragraphs. The ratio between the Japanese and English section lengths helps us choose a comparable size for the English units, but at this point we could still have misalignment issues.
+
+We can then use our text embedding model on each of these units to get a corresponding vector. With all those vectors, we can find the best pairs by crawling the segments in reading order using vector similarity as the main confidence signal.
 
 Now for search, a good starting point can be returning all segments containing the query. This will work well for character or place names.
 
@@ -213,11 +227,9 @@ uv run book-translate reference-search "キャゼルヌ"
 
 It is pronounced "Kyazerunu", so translating it to English is not obvious at all. The search tool returns passages mentioning "Caselnes" as lexical matches, which is indeed how the name was translated by Daniel Huddleston.
 
-Because Codex is not as lazy as I am, we can even ask it to go further to enable more complex querying. Maybe we want to search with a paraphrase like "the officer keeping the fleet supplied", where we probably won't have a lexical match.
+With text embeddings, however, we can allow for more complex querying. Maybe we want to search with a paraphrase like "the officer keeping the fleet supplied", where we probably won't have a lexical match.
 
-This problem can be solved using word embeddings: a process in which text content is converted into vectors. They are a fundamental building block of LLMs, you can explore them interactively [here if you are curious](https://www.doc.ic.ac.uk/~nuric/word2vec_demo.html). Once we know how to convert texts into vectors, finding matches is a matter of finding the vectors closest to your query's own vector, and getting the corresponding segments. 
-
-We won't be reinventing wheel here either. Instead let's use an existing embedding model like [BGE-M3 model](https://huggingface.co/BAAI/bge-m3). It performs well in multilingual contexts, which is exactly what we need. Good news, its small enough to run locally even on CPU only.
+Once again, we use the embedding model on the query and find the closest matches among the vectors representing our aligned pairs.
 
 Now we can run both the simple lexical search and the semantic search to get the best results possible. Let's try a more complex query that has no exact match in the reference material:
 
