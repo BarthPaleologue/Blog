@@ -296,7 +296,9 @@ We now have a solid translation pipeline, but we still have to choose which LLM 
 
 For the sake of simplicity I will use the same model for all tasks. I don't think we need the absolute frontier of LLM intelligence for our side project so the goal is to strike a balance between intelligence and price.
 
-After working on some coding tasks with DeepSeek V4 Flash, I found it lacking in the taste/decision making area, which is critical for a good translation. Its big bro, DeepSeek V4 Pro fares better in comparison, at 3x the price.
+I only have an 8GB Vram AMD Radeon RX 6600 XTX at home so using capable local models is out of the question for me. If you have the hardware, however, local models are definitely an option you should at least investigate.
+
+On the cloud models side, after working on some coding tasks with DeepSeek V4 Flash, I found it lacking in the taste/decision making area, which is critical for a good translation. Its big bro, DeepSeek V4 Pro fares better in comparison, at 3x the price.
 
 Taking our original estimate of $10 using DeepSeek V4 flash, we can hope to land in O($30) territory, which is more than reasonable.
 
