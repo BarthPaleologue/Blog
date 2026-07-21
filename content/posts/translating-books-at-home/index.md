@@ -13,13 +13,13 @@ comments: true
 
 ## I guess we are doing translation now? 
 
-In recent months, my partner and I have been reading the English translation of "Legend of the Galactic Heroes" (LOGH) from the Japanese original by Yoshiki Tanaka.
+In recent months, my partner and I have been reading the English translation of Yoshiki Tanaka's Japanese novel series "Legend of the Galactic Heroes" (LOGH).
 
 While I usually avoid reading books in English as it is not my native language, this translation felt effortless to read.
 
-Everything changed when ~~the fire nation attacked~~ we started reading the 4th book. You see, the translator changed: the first 3 books were translated by Daniel Huddleston, while the next 3 were translated by Tyran Grillo. (There are 4 more books afterward, but we don't care about them today).
+Everything changed when ~~the Fire Nation attacked~~ we started reading the 4th book. You see, the translator changed: the first 3 books were translated by Daniel Huddleston, while the next 3 were translated by Tyran Grillo. (There are 4 more books afterward, but we don't care about them today).
 
-Some passages felt very confusing to read with many indirections, and some contradictions as well. The kind of stuff that will make you lose your motivation to read.
+Some passages felt very confusing to read with many indirections, and some apparent contradictions as well. The kind of stuff that will make you lose your motivation to read.
 
 {{< callout warning >}}
 I don't want to throw shade at Tyran Grillo here, there is no telling how much time and money he was given to translate those 3 books, and even the most talented translator would fail under inferior working conditions. Any attempt at building bridges between cultures should be celebrated.
@@ -38,17 +38,17 @@ Let's find out!
 
 ## Human translation efforts
 
-The easiest solution by far would be to find another suitable translation. Unfortunately, there is no other English translation for book 4 to 6.
+The easiest solution by far would be to find another suitable translation. Unfortunately, there is no other English translation for books 4 through 6.
 
 There was [a community-led project](https://legendofgalacticheroes.blogspot.com/) to translate all the books but it seems they only got around to translating the first one, before sadly stopping in 2015.
 
-I also checked for translation in my native language (French), and found [a crowdfunding project](https://fr.ulule.com/les-heros-de-la-galaxie/)! However the first book is set to release in 2027 so the 4th book is likely a few years away, and I won't wait that long.
+I also checked for translation in my native language (French), and found [a crowdfunding project](https://fr.ulule.com/les-heros-de-la-galaxie/)! However, the first book is set to be released in 2027 so the 4th book is likely a few years away, and I won't wait that long.
 
 ## Learning Japanese?
 
 Well I did take some Japanese classes at school, but it doesn't go much further than "Watashiwa Baruterumidesu, yoroshiku onegaishimasu. O genki desuka?". 
 
-I already have a full-time job and [am making a video game in my free-time](https://cosmosjourneyer.com). I can't even find time to play music so me learning an entire language is unlikely to say the least.
+I already have a full-time job and [am making a video game in my free time](https://cosmosjourneyer.com). I can't even find time to play music so learning an entire language is unlikely to say the least.
 
 ## Making a new translation
 
@@ -58,19 +58,19 @@ Our list of options is already growing thin. Looks like we will need to make a n
 
 The gold standard for making a new translation is to hire a professional to do it for us. My wallet is finite, however, so we need to watch the cost. 
 
-It seems hiring a professional English translator costs [between 0.12$ and 0.16$ per word](https://pen.org/report/fairness-in-publishing). Given 3 books of 200 pages, averaging 90k English words per book (270k words total), we can estimate the cost at `270k * 0.14 = 38k$` for those translations.
+It seems hiring a professional English translator costs [between $0.12 and $0.16 per word](https://pen.org/report/fairness-in-publishing). Given 3 books of 200 pages, averaging 90k English words per book (270k words total), we can estimate the cost at `270k * 0.14 = $38k` for those translations.
 
 ![combien, meme from La Cité de la Peur (How much ???! in English)](combien.png)
 
-You see I don't have that much money, and if I did I would likely use it for something else than re-translating books!
+You see I don't have that much money, and if I did I would likely spend it on something other than re-translating books!
 
 Seems like human translators are out of the menu for today unfortunately. Let's see if we can find another solution.
 
-### Google translate
+### Google Translate
 
-When learning English at school, Google Translate was the go to option for students who didn't want to put effort into their work. It is free of course, and notoriously bad for anything serious unfortunately. Funnily enough, they recently tried shoving Gemini inside, [which made the tool vulnerable to prompt injection attacks](https://winbuzzer.com/2026/02/10/google-translate-gemini-prompt-injection-vulnerability-xcxwbn/).
+When learning English at school, Google Translate was the go-to option for students who didn't want to put effort into their work. It is free of course, and notoriously bad for anything serious unfortunately. Funnily enough, they recently tried shoving Gemini inside, [which made the tool vulnerable to prompt injection attacks](https://winbuzzer.com/2026/02/10/google-translate-gemini-prompt-injection-vulnerability-xcxwbn/).
 
-For a real translation project, we will need a system that can take decisions and weigh translation tradeoffs when the mapping between source and target languages is not obvious. Google translation is not that system.
+For a real translation project, we will need a system that can make decisions and weigh translation tradeoffs when the mapping between source and target languages is not obvious. Google translation is not that system.
 
 ### Large language models with reasoning
 
@@ -90,7 +90,7 @@ Anyhow, these recent models are capable of planning and adaptation to novel situ
 
 Earlier, we dismissed human translation based on cost so it would be unfair not to do the same analysis for the machine-based approach.
 
-We want to translate 3 books, which we estimated will contain ~270k English words once translated. LLMs do not operate on words directly, instead words are split into tokens. In our case [English words are split in 1.3 tokens on average](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them), so will need to generate *at the very least* 360k tokens. How much would that cost?
+We want to translate 3 books, which we estimated will contain ~270k English words once translated. LLMs do not operate on words directly, instead words are split into tokens. In our case [English words are split in 1.3 tokens on average](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them), so we will need to generate *at the very least* 360k tokens. How much would that cost?
 
 Depending on the model, you can get widely different prices. Let's use 2 extremes of the modern landscape: DeepSeek V4 flash (ok-tier and insanely cheap), and Claude Fable 5 (very smart and insanely expensive).
 
@@ -101,14 +101,14 @@ Depending on the model, you can get widely different prices. Let's use 2 extreme
 
 The first time I ran these numbers I was surprised to see how cheap it is (even for Fable)! Let's be careful, however: we are considering only the output translation tokens. 
 
-As we said, a translator must read the source material (input tokens), read what he already has translated (more input tokens), and most importantly: think, draft and make decisions (output reasoning tokens).
+As we said, translators must read the source material (input tokens), read what they already have translated (more input tokens), and most importantly: think, draft and make decisions (output reasoning tokens).
 
-For a large task executed in one go, most input tokens are cached (faster to access in memory with less energy) and therefore their price is negligible compared to the output tokens. What matters then is estimating how much reasoning will be needed.
+For agentic workflows, most input tokens are cached (faster to access in memory with less energy) as we iterate on the same input tokens many times. Therefore their price is far cheaper compared to output tokens. What matters then is estimating how much reasoning will be needed.
 
 As a first guess, let's say a translator spends 99% of its cognitive effort thinking about how to translate, weighing tradeoffs, drafting and making decisions, while the remaining percent is used to produce the final result. Instead of paying for 360k tokens, we would be paying for 36M tokens!
 
 {{< callout note >}}
-Why 99% you may ask? Why not 99.999% or 98%? ~~It that it was revealed to me in a dream!~~ It just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself. You will see at the end that my estimate was not that far.
+Why 99% you may ask? Why not 99.999% or 98%? ~~It was revealed to me in a dream!~~ It just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself. You will see at the end that my estimate was not that far.
 {{< /callout >}}
 
 Let's 100x the previous prices to account for reasoning:
@@ -125,11 +125,11 @@ I am curious and it is affordable enough that I am gonna try and see for myself 
 
 ## Translation Ex Machina
 
-TLDR: If you don't care about the technical details (aren't you curious?), you can find a link to the AGPL licensed repository at the end of the article ;)
+TL;DR: If you don't care about the technical details (aren't you curious?), you can find a link to the AGPL-licensed repository at the end of the article ;)
 
 ### The context bottleneck
 
-Let's get inside the engineering part of the project. How will we tackle this problem? Do we just paste the Japanese source inside ChatGPT and tell it to "Translate in English, make no mistake!"?.
+Let's get inside the engineering part of the project. How will we tackle this problem? Do we just paste the Japanese source inside ChatGPT and tell it to "Translate in English, make no mistake!"?
 
 ![obligatory make no mistake joke](./makeNoMistake.png)
 
@@ -141,7 +141,7 @@ That means using the Japanese versions of the first 3 books as well as their tra
 
 Let's suppose the Japanese source contains as many tokens as the English translation. That means each book is equivalent to 90k English words. That's 120k tokens per book and we want to fit 7 inside the context.
 
-Running the number, we get 840k context tokens, and the LLM hasn't even started to think, which we estimated before would represent 99% of the token effort.
+Running the numbers, we get 840k context tokens, and the LLM hasn't even started to think, which we estimated before would represent 99% of the token effort.
 
 For context (pun intended), the state of the art of LLM context size in production is 1M, and you will often see lower values like 256k instead.
 
@@ -151,7 +151,7 @@ Even if we used a 1M capable model, performance degrades as context size grows: 
 
 Good engineers always try first to find an existing solution to their problems before reinventing the wheel (we do love reinventing the wheel though).
 
-Often nature can show us the way (biomimicry). Evolution already spent hundreds of millions of years finding solutions to problems we care about (think bird-inspired wings, brain-inspired artificial neural network or ant-colony optimization algorithms).
+Often nature can show us the way (biomimicry). Evolution already spent hundreds of millions of years finding solutions to problems we care about (think bird-inspired wings, brain-inspired artificial neural network and ant-colony optimization algorithms).
 
 ![biomimicry examples, including a bird flying on top of another bird supposedly inspiring the space shuttle carrier](./biomimicry.png)
 
@@ -163,15 +163,15 @@ Let's observe human translators in their natural habitat to see what we can lear
 
 The first observation is obvious: a translator does not work on the entire book all at once. By focusing on a smaller passage, we can direct our attention to the local challenges of the passage.
 
-*Ok, but how do we handle long range consistency then? Passages are related to one another.*
+*Ok, but how do we handle long-range consistency then? Passages are related to one another.*
 
 For human translators, consistency comes from recalling earlier translation decisions. Those decisions can range from a consistent translation for a character name to more abstract decisions about the style to be used in a given context.
 
-*Right, but isn't there a risk of a mis-translation early on having cascading consequences later in the translation?*
+*Right, but isn't there a risk of a mistranslation early on having cascading consequences later in the translation?*
 
-Human translators will proofread their ongoing work and will reference the source material again to double check pending decisions. Once the proofreading yields diminishing returns, go translate the next passage.
+Human translators will proofread their ongoing work and will reference the source material again to double-check pending decisions. Once the proofreading yields diminishing returns, go translate the next passage.
 
-Given what we observed from real world translation, here is an overview of the system I want to build:
+Given what we observed from real-world translation, here is an overview of the system I want to build:
 
 1. Choose a section of text to be translated in one session (could be a few pages or an entire chapter)
 2. Read the text to see what you are up to
@@ -199,11 +199,11 @@ The first step will be to pre-process our reference corpus and source books to g
 
 Nowadays, when processing texts, we often use text embeddings. They are fundamental building blocks of LLMs, but they can also be very useful on their own, and we will need them today.
 
-The high-level idea is training a neural network to map pieces of texts to vectors. This gets interesting when you train the network to cluster texts with similar meaning in vector space. 
+The high-level idea is training a neural network to map pieces of text to vectors. This gets interesting when you train the network to cluster texts with similar meaning in vector space. 
 
 For example, when working at the word level, words used in similar contexts produce similar vectors. You can then perform operations on the vectors directly like the famous `king - man + woman` where the resulting vector comes awfully close to the `queen` vector. [You can play yourself with word embeddings online](https://www.doc.ic.ac.uk/~nuric/word2vec_demo.html) if you are curious.
 
-Modern text-embeddings models apply the same concepts to sentences and entire passages.
+Modern text-embedding models apply the same concepts to sentences and entire passages.
 
 We won't be reinventing the wheel here either. Instead we will use an existing embedding model like the [BGE-M3 model](https://huggingface.co/BAAI/bge-m3). It performs well in multilingual contexts, which is exactly what we need. Good news, it's small enough to run locally even on CPU only.
 
@@ -215,7 +215,7 @@ The main challenge is returning the correct bilingual context for a given query.
 
 The first step is to divide each chapter into small units of roughly 500 Japanese characters while preserving complete paragraphs. The ratio between the Japanese and English section lengths helps us choose a comparable size for the English units, but at this point we could still have misalignment issues.
 
-We can then use our text embedding model on each of these units to get a corresponding vector. With all those vectors, we can find the best pairs by crawling the segments in reading order using vector similarity as the main confidence signal.
+We can then use our text embedding model on each of these units to get a corresponding vector. Then walking through both editions in reading order, we find the best overall sequence of matches using vector similarity as our main confidence signal.
 
 Now for search, a good starting point can be returning all segments containing the query. This will work well for character or place names.
 
@@ -262,7 +262,7 @@ Too short: the LLM might miss some long range dependencies that are needed to ma
 
 Like before, we will first split by chapters, then cut into segments. We will go with something bigger than the reference as we are not just querying for surrounding context, we want to make a consistent translation of the given passage.
 
-As a rough starting point, I went with a segment length of at least 2000 characters, and at most 6000 characters, while making sure we don't break inside paragraphs. For 200 pages, that's about 30 segments, so between 6/7 pages per segment.
+As a rough starting point, I went with a target segment length between 2000 and 6000 characters, while making sure we don't break inside paragraphs. For 200 pages, that's about 30 segments, so between 6/7 pages per segment.
 
 ## Incremental glossary
 
@@ -274,7 +274,7 @@ The translator can then make an informed decision that we can record in the glos
 
 The glossary then acts as a shared memory between translation sessions. Later sessions are very likely to reuse what they find in the glossary next time they encounter the name or expression (we can't be 100% sure, LLMs are inherently non-deterministic).
 
-I could not resist the temptation of making a vector index for the glossary as I did for the reference corpus, that way we can handle non exact matches as well.
+I could not resist the temptation of making a vector index for the glossary as I did for the reference corpus, that way we can handle non-exact matches as well.
 
 ## Review
 
@@ -318,13 +318,13 @@ Around $21, that's cheaper than what we estimated earlier, nice! But that also m
 
 You might notice the token count of about 390M and think: "hold on, our estimate was about 36M output tokens!". The number displayed on DeepSeek's usage board conflates input and output tokens. Here are the actual output tokens day by day:
 
-13th of july: 2.3M output tokens
+13th of July: 2.3M output tokens
 
-14th of july: 3.7M output tokens
+14th of July: 3.7M output tokens
 
-15th of july: 4.4M output tokens
+15th of July: 4.4M output tokens
 
-16th of july: 2.3M output tokens
+16th of July: 2.3M output tokens
 
 (fluctuation is caused by me scrambling to fix the pipeline as well as remaking the entire agent framework midway through).
 
@@ -332,13 +332,13 @@ Total is 12.7M tokens compared to our 36M estimate. This confirms the models did
 
 ### Quality
 
-Is the translation any good? How do you even measure something like that? Translation is a hard to verify domain after all.
+Is the translation any good? How do you even measure something like that? Translation is a hard-to-verify domain after all.
 
-I only have qualitative results to share with you. My partner and I read side-by-side some of the hardest passages of Tyran Grillo's translation with the newly machine translated one. It wasn't a blind experiment as we already had read those passages, so take this with a grain of salt.
+I only have qualitative results to share with you. My partner and I read side by side some of the hardest passages of Tyran Grillo's translation with the newly machine-translated one. It wasn't a blind experiment as we already had read those passages, so take this with a grain of salt.
 
 We found the machine translation to be significantly easier to read, and some of the sentences that had illogical meanings were making perfect sense in the new version. Fast forward a few days later, my partner feels less friction when reading the book (I don't know yet myself, I am still in the process of reading the 3rd book as I write these words).
 
-The only noticeable mistake she found was the translation for the character name "Caselnes", that was found to be "Cazerne". When asking Codex about it, **it innocently told me the glossary mechanism I proposed was not implemented at all!** That's what you get for trusting an AI agent too much.
+The only noticeable mistake she found was the translation for the character name "Caselnes", which had been rendered as "Cazerne". When asking Codex about it, **it innocently told me the glossary mechanism I proposed was not implemented at all!** That's what you get for trusting an AI agent too much.
 
 ![Be careful when trusting your AI agent](./trustAgent.png)
 
@@ -354,18 +354,18 @@ Looks like we've got an elephant in our room, we better address it.
 
 Was any of this legal or even moral? Let's take a step back.
 
-On the bright side, we made a system capable of producing translations good-enough for our personal reading, at a fraction of the previous cost. Translating books is akin to building bridges between cultures: it allows us to better understand each other. Looking at history, war often relies on stripping the designated enemy of their human qualities, through propaganda. Making translation accessible makes this process harder as we are allowed to see the world through the perspective of others. 
+On the bright side, we made a system capable of producing translations good enough for our personal reading, at a fraction of the previous cost. Translating books is akin to building bridges between cultures: it allows us to better understand each other. Looking at history, war often relies on stripping the designated enemy of their human qualities, through propaganda. Making translation accessible makes this process harder as we are allowed to see the world through the perspective of others. 
 
 But now on the dark side, we used an LLM to build a pipeline leveraging another LLM, both trained on stolen data, part of it authored by human translators. We used the work of Daniel Huddleston to ground the style of our output without prior authorization. The existence of such systems are bound to make the translation market more competitive, driving translator wages down, derailing many lives in the process. That's not fair, and it's already happening.
 
-I do not want a world where human translators are unable to live decently because their honest work no longer pays their bill when competing with LLMs.
+I do not want a world where human translators are unable to live decently because their honest work no longer pays their bills when competing with LLMs.
 
 I do not want a world where we refrain from using our technology to build bridges across cultures when the benefits will be enormous for humankind.
 
-Reflecting on this, it seems to me the primary issue is not that LLM compete with human translators, but that this competition leads to human misery. We should blame the society that lets translators be the victims of technical progress, the society which cannot let translator practice their art decently while LLMs bridge the gaps between cultures all around the world. And translators are not alone, what about drawing artists who now have to compete with image models? What about programmers who will have to compete soon with next generation coding agents?
+Reflecting on this, it seems to me the primary issue is not that LLMs compete with human translators, but that this competition leads to human misery. We should blame the society that lets translators be the victims of technical progress, the society which cannot let translator practice their art decently while LLMs bridge the gaps between cultures all around the world. And translators are not alone, what about visual artists who now have to compete with image models? What about programmers who will have to compete soon with next-generation coding agents?
 
-I won't pretend I know the solution to this problem. However I feel like it would be right to use the AI productivity gains to protect those who can no longer compete in the market. The harder question is how do we do that at the beginning of the AI transition, when the gains are not sufficient to support all those who already suffer from it?  
+I won't pretend I know the solution to this problem. However, I feel like it would be right to use the AI productivity gains to protect those who can no longer compete in the market. The harder question is: how do we do that at the beginning of the AI transition, when the gains are not sufficient to support all those who already suffer from it?  
 
 For my part, I will not be distributing copies of the newly translated books [to limit issues with French law](https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000006278911/2025-12-07). I will not profit by selling access to my pipeline either. However, if you need to translate a book for yourself, and can't afford a human translator, you should be able to. To that end, [I am open-sourcing this experiment](https://github.com/BarthPaleologue/TranslationExMachina) under the terms of [the copyleft license AGPL](https://www.gnu.org/licenses/agpl-3.0.fr.html#license-text), hoping that it will help someone someday.
 
-This article was as challenging as it was stimulating to write. I hope you found it interesting! Don't hesitate to leave a comment to tell me how you feel about all that. 
+This article was as challenging as it was stimulating to write. I hope you found it interesting! Don't hesitate to leave a comment to tell me how you feel about all this. 
