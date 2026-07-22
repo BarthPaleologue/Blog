@@ -106,7 +106,7 @@ For agentic workflows, most input tokens are cached (faster to access in memory 
 As a first guess, let's say a translator spends 99% of its cognitive effort thinking about how to translate, weighing tradeoffs, drafting and making decisions, while the remaining percent is used to produce the final result. Instead of paying for 360k tokens, we would be paying for 36M tokens!
 
 {{< callout note >}}
-Why 99% you may ask? Why not 99.999% or 98%? ~~It was revealed to me in a dream!~~ It just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself. You will see at the end that my estimate was not that far.
+Why 99% you may ask? Why not 99.999% or 98%? ~~It was revealed to me in a dream!~~ It just felt about right given my experience using coding agents at work where I estimate only 1% of my tokens are used to write the final result itself. You will see at the end that my estimate was not that far off.
 {{< /callout >}}
 
 Let's 100x the previous prices to account for reasoning:
@@ -298,6 +298,41 @@ On the cloud models side, after working on some coding tasks with DeepSeek V4 Fl
 Taking our original estimate of $10 using DeepSeek V4 flash, we can hope to land in O($30) territory, which is more than reasonable.
 
 Let's start the pipeline, shall we?
+
+Here are some screenshots of the entire translation process for one of the segments:
+
+{{< gallery caption-position="none" hover-effect="zoom" >}}
+{{< beautifulfigure src="demo/demo1.png" alt="Translation pipeline execution, step 1" >}}
+{{< beautifulfigure src="demo/demo2.png" alt="Translation pipeline execution, step 2" >}}
+{{< beautifulfigure src="demo/demo3.png" alt="Translation pipeline execution, step 3" >}}
+{{< beautifulfigure src="demo/demo4.png" alt="Translation pipeline execution, step 4" >}}
+{{< beautifulfigure src="demo/demo5.png" alt="Translation pipeline execution, step 5" >}}
+{{< beautifulfigure src="demo/demo6.png" alt="Translation pipeline execution, step 6" >}}
+{{< beautifulfigure src="demo/demo7.png" alt="Translation pipeline execution, step 7" >}}
+{{< beautifulfigure src="demo/demo8.png" alt="Translation pipeline execution, step 8" >}}
+{{< beautifulfigure src="demo/demo9.png" alt="Translation pipeline execution, step 9" >}}
+{{< beautifulfigure src="demo/demo10.png" alt="Translation pipeline execution, step 10" >}}
+{{< beautifulfigure src="demo/demo11.png" alt="Translation pipeline execution, step 11" >}}
+{{< beautifulfigure src="demo/demo12.png" alt="Translation pipeline execution, step 12" >}}
+{{< beautifulfigure src="demo/demo13.png" alt="Translation pipeline execution, step 13" >}}
+{{< beautifulfigure src="demo/demo14.png" alt="Translation pipeline execution, step 14" >}}
+{{< beautifulfigure src="demo/demo15.png" alt="Translation pipeline execution, step 15" >}}
+{{< beautifulfigure src="demo/demo16.png" alt="Translation pipeline execution, step 16" >}}
+{{< beautifulfigure src="demo/demo17.png" alt="Translation pipeline execution, step 17" >}}
+{{< beautifulfigure src="demo/demo18.png" alt="Translation pipeline execution, step 18" >}}
+{{< beautifulfigure src="demo/demo19.png" alt="Translation pipeline execution, step 19" >}}
+{{< beautifulfigure src="demo/demo20.png" alt="Translation pipeline execution, step 20" >}}
+{{< beautifulfigure src="demo/demo21.png" alt="Translation pipeline execution, step 21" >}}
+{{< beautifulfigure src="demo/demo22.png" alt="Translation pipeline execution, step 22" >}}
+{{< beautifulfigure src="demo/demo23.png" alt="Translation pipeline execution, step 23" >}}
+{{< beautifulfigure src="demo/demo24.png" alt="Translation pipeline execution, step 24" >}}
+{{< beautifulfigure src="demo/demo25.png" alt="Translation pipeline execution, step 25" >}}
+{{< beautifulfigure src="demo/demo26.png" alt="Translation pipeline execution, step 26" >}}
+{{< beautifulfigure src="demo/demo27.png" alt="Translation pipeline execution, step 27" >}}
+{{< beautifulfigure src="demo/demo28.png" alt="Translation pipeline execution, step 28" >}}
+{{< beautifulfigure src="demo/demo29.png" alt="Translation pipeline execution, step 29" >}}
+{{< beautifulfigure src="demo/demo30.png" alt="Translation pipeline execution, step 30" >}}
+{{< /gallery >}}
 
 ### Results
 
