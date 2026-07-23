@@ -285,6 +285,8 @@ Those 2 review dimensions are distinct, and as such they should be handled by 2 
 
 For this, we can use [the Pydantic agent framework](https://pydantic.dev/docs/ai/overview/) to expose tools for cross-checking with the reference material and get structured outputs from them, which is mandatory to make our pipeline reliable.
 
+A final adjudicator agent can then take the translation draft informed by the reviews to produce the final translation for the given segment.
+
 ### Model choice
 
 We now have a solid translation pipeline, but we still have to choose which LLM to use.
