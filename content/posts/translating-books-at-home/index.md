@@ -3,7 +3,7 @@ title: "Translating books at home"
 subtitle: "Technical & ethical overview of a modern machine translation project"
 date: 2026-07-19T13:57:46+02:00
 author: "Barthélemy Paléologue"
-description: ""
+description: "A technical and ethical exploration of translating japanese novels with modern machine translation."
 tags: ["automation"]
 bigimg: [{src: "banner2.png", desc: "Communication through translation in the modern age"}]
 image: "posts/translating-books-at-home/banner2.png"
