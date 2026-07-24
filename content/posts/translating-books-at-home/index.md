@@ -2,7 +2,6 @@
 title: "Translating books at home"
 subtitle: "Technical & ethical overview of a modern machine translation project"
 date: 2026-07-19T13:57:46+02:00
-draft: true
 author: "Barthélemy Paléologue"
 description: ""
 tags: ["automation"]
