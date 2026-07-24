@@ -7,7 +7,8 @@ author: "Barthélemy Paléologue"
 description: ""
 categories: []
 tags: []
-bigimg: []
+bigimg: [{src: "banner2.png", desc: "Communication through translation in the modern age"}]
+image: "posts/translating-books-at-home/banner2.png"
 comments: true
 ---
 
