@@ -5,8 +5,7 @@ date: 2026-07-19T13:57:46+02:00
 draft: true
 author: "Barthélemy Paléologue"
 description: ""
-categories: []
-tags: []
+tags: ["automation"]
 bigimg: [{src: "banner2.png", desc: "Communication through translation in the modern age"}]
 image: "posts/translating-books-at-home/banner2.png"
 comments: true
